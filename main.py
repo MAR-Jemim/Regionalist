@@ -12,10 +12,10 @@ I will store my solves of cf problems"""
 import sys
 
 # DELETE
-sys.stdin = open("../input.txt", 'r')
-sys.stdout = open("../output.txt", 'w')
-sys.stderr = open("../output.txt", 'a')
-# Delete
+sys.stdin = open("../../input.txt", 'r')
+sys.stdout = open("../../output.txt", 'w')
+sys.stderr = open("../../output.txt", 'a')
+# DELETE
 
 
 """

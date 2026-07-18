@@ -4,12 +4,6 @@
 
 import sys
 
-# DELETE
-# sys.stdin = open("../input.txt", 'r')
-# sys.stdout = open("../output.txt", 'w')
-# sys.stderr = open("../output.txt", 'a')
-# Delete
-
 input = sys.stdin.readline
 # Trial 1: could not all customer's price. WA at case 6, 11 (THIS IS DEFINITELY A TLE)
 # Trial 2: added else:print(-1) after the while loop. (THIS IS DEFINITELY A TLE)

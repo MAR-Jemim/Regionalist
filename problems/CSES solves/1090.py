@@ -4,12 +4,6 @@
 
 import sys
 
-# DELETE
-# sys.stdin = open("../input.txt", 'r')
-# sys.stdout = open("../output.txt", 'w')
-# sys.stderr = open("../output.txt", 'a')
-# Delete
-
 # Trial 1: WA at 4, 7, 8, 10
 n, x = map(int, input().split())
 l = sorted(map(int, input().split()))

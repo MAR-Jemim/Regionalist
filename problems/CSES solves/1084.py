@@ -4,13 +4,6 @@
 
 import sys
 
-# DELETE
-# sys.stdin = open("../input.txt", 'r')
-# sys.stdout = open("../output.txt", 'w')
-# sys.stderr = open("../output.txt", 'a')
-# Delete
-
-
 # i traverse a, j traverse b, sorted(a,b)
 
 # Trial 1: I accidentally output a and b
