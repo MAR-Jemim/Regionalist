@@ -4,11 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a21abd0f-93b0-4d31-af6d-4be3972a9058" name="Changes" comment=".">
+    <list default="true" id="a21abd0f-93b0-4d31-af6d-4be3972a9058" name="Changes" comment="Added a bunch of files, edited directory.">
+      <change afterPath="$PROJECT_DIR$/problems/CSES solves/1090.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CSES solves/1084.py" beforeDir="false" afterPath="$PROJECT_DIR$/CSES solves/1084.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/output.txt" beforeDir="false" afterPath="$PROJECT_DIR$/output.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notes/patterns.md" beforeDir="false" afterPath="$PROJECT_DIR$/notes/patterns.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/problems/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/problems/input.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/problems/output.txt" beforeDir="false" afterPath="$PROJECT_DIR$/problems/output.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,6 +51,7 @@
   "keyToString": {
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "Python.1084.executor": "Run",
+    "Python.1090.executor": "Run",
     "Python.279b.executor": "Run",
     "Python.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -64,6 +66,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/problems" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
@@ -122,25 +125,39 @@
       <option name="project" value="LOCAL" />
       <updated>1784345791268</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Added a bunch of files, edited directory.">
+      <option name="closed" value="true" />
+      <created>1784347402207</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1784347402207</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="." />
-    <option name="LAST_COMMIT_MESSAGE" value="." />
+    <MESSAGE value="Added a bunch of files, edited directory." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added a bunch of files, edited directory." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/CF solves/279b.py</url>
+          <url>file://$PROJECT_DIR$/problems/CF solves/279b.py</url>
           <line>17</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/CF solves/279b.py</url>
+          <url>file://$PROJECT_DIR$/problems/CF solves/279b.py</url>
           <line>18</line>
           <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/problems/CSES solves/1090.py</url>
+          <line>68</line>
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

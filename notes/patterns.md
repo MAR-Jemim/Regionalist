@@ -16,3 +16,38 @@ Elements before i and j are already decided.
 
 ### Example
 - CSES Apartments
+
+## CF 279B - Books
+
+Pattern:
+Sliding Window
+
+Recognition:
+Positive numbers + longest contiguous segment.
+
+Invariant:
+Window sum <= k.
+
+Mistake:
+Used if instead of while.
+
+Remember:
+Shrink until valid.
+
+## CSES - Ferris Wheel
+
+Pattern:
+Greedy + Two Pointers
+
+Recognition:
+Pair people to minimize gondolas.
+
+Invariant:
+The heaviest person is always assigned.
+
+Greedy Proof:
+If the lightest can't fit with the heaviest,
+nobody can.
+
+Mistake:
+Started pairing the lightest together.
