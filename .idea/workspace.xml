@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a21abd0f-93b0-4d31-af6d-4be3972a9058" name="Changes" comment="." />
+    <list default="true" id="a21abd0f-93b0-4d31-af6d-4be3972a9058" name="Changes" comment="Slight path change, Added contest directory.">
+      <change afterPath="$PROJECT_DIR$/notes/contest_logs.md" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -65,8 +67,8 @@
       <recent name="$PROJECT_DIR$/problems/CSES solves" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/problems" />
       <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/problems" />
     </key>
   </component>
   <component name="SharedIndexes">
@@ -148,13 +150,22 @@
       <option name="project" value="LOCAL" />
       <updated>1784368669424</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Slight path change, Added contest directory.">
+      <option name="closed" value="true" />
+      <created>1784369139104</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1784369139104</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added a bunch of files, edited directory." />
     <MESSAGE value="." />
-    <option name="LAST_COMMIT_MESSAGE" value="." />
+    <MESSAGE value="Slight path change, Added contest directory." />
+    <option name="LAST_COMMIT_MESSAGE" value="Slight path change, Added contest directory." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -171,7 +182,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/problems/CSES solves/1090.py</url>
-          <line>68</line>
+          <line>62</line>
           <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
