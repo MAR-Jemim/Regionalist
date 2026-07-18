@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a21abd0f-93b0-4d31-af6d-4be3972a9058" name="Changes" comment="Added a bunch of files, edited directory.">
-      <change afterPath="$PROJECT_DIR$/problems/CSES solves/1090.py" afterDir="false" />
+    <list default="true" id="a21abd0f-93b0-4d31-af6d-4be3972a9058" name="Changes" comment=".">
+      <change afterPath="$PROJECT_DIR$/problems/CSES solves/1091.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/notes/patterns.md" beforeDir="false" afterPath="$PROJECT_DIR$/notes/patterns.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notes/roadmap.md" beforeDir="false" afterPath="$PROJECT_DIR$/notes/roadmap.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/problems/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/problems/input.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/problems/output.txt" beforeDir="false" afterPath="$PROJECT_DIR$/problems/output.txt" afterDir="false" />
     </list>
@@ -52,6 +53,7 @@
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "Python.1084.executor": "Run",
     "Python.1090.executor": "Run",
+    "Python.1091.executor": "Run",
     "Python.279b.executor": "Run",
     "Python.main.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -61,10 +63,14 @@
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
     "git-widget-placeholder": "main",
     "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "/Users/macairm1/PycharmProjects/Regionalist/problems/CSES solves",
     "to.speed.mode.migration.done": "true"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/problems/CSES solves" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/problems" />
       <recent name="$PROJECT_DIR$" />
@@ -133,13 +139,21 @@
       <option name="project" value="LOCAL" />
       <updated>1784347402207</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary=".">
+      <option name="closed" value="true" />
+      <created>1784350119087</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1784350119087</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="." />
     <MESSAGE value="Added a bunch of files, edited directory." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added a bunch of files, edited directory." />
+    <MESSAGE value="." />
+    <option name="LAST_COMMIT_MESSAGE" value="." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -158,6 +172,11 @@
           <url>file://$PROJECT_DIR$/problems/CSES solves/1090.py</url>
           <line>68</line>
           <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/problems/CSES solves/1091.py</url>
+          <line>24</line>
+          <option name="timeStamp" value="5" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

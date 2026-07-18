@@ -51,3 +51,38 @@ nobody can.
 
 Mistake:
 Started pairing the lightest together.
+
+## Ordered Set / Multiset
+
+Recognition:
+Need to maintain sorted values while inserting/deleting.
+
+Operations:
+- Find largest value <= x
+- Find smallest value >= x
+- Delete chosen value
+
+C++:
+multiset + lower_bound/upper_bound
+
+Python:
+No built-in equivalent.
+
+Possible solutions:
+- Fenwick Tree (with coordinate compression)
+- Segment Tree
+- Custom balanced tree (rare)
+
+## Sliding Window
+Recognition:
+Positive numbers + contiguous segment.
+
+Invariant:
+Window always valid.
+
+Template:
+(my code)
+
+## Greedy Choice
+Always ask:
+Why is this greedy choice safe?
