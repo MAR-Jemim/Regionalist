@@ -17,6 +17,5 @@ sys.stdout = open("../output.txt", 'w')
 sys.stderr = open("../output.txt", 'a')
 # Delete
 
-print('hi')
 
 """
