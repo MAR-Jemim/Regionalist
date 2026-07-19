@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a21abd0f-93b0-4d31-af6d-4be3972a9058" name="Changes" comment="deleted contest directory :p, added contest_logs.md">
-      <change afterPath="$PROJECT_DIR$/problems/CF solves/2247a.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/problems/CF solves/2247b.py" afterDir="false" />
+    <list default="true" id="a21abd0f-93b0-4d31-af6d-4be3972a9058" name="Changes" comment="contest log">
+      <change afterPath="$PROJECT_DIR$/problems/CSES solves/1640.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/notes/contest_logs.md" beforeDir="false" afterPath="$PROJECT_DIR$/notes/contest_logs.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/problems/CSES solves/1090.py" beforeDir="false" afterPath="$PROJECT_DIR$/problems/CSES solves/1090.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input.txt" beforeDir="false" afterPath="$PROJECT_DIR$/input.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/output.txt" beforeDir="false" afterPath="$PROJECT_DIR$/output.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,25 +47,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;Python.1084.executor&quot;: &quot;Run&quot;,
-    &quot;Python.1090.executor&quot;: &quot;Run&quot;,
-    &quot;Python.1091.executor&quot;: &quot;Run&quot;,
-    &quot;Python.279b.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
-    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/macairm1/PycharmProjects/Regionalist/problems/CSES solves&quot;,
-    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Python.1084.executor": "Run",
+    "Python.1090.executor": "Run",
+    "Python.1091.executor": "Run",
+    "Python.1640.executor": "Run",
+    "Python.279b.executor": "Run",
+    "Python.main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "junie.onboarding.icon.badge.shown": "true",
+    "last_opened_file_path": "/Users/macairm1/PycharmProjects/Regionalist/problems/CSES solves",
+    "to.speed.mode.migration.done": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/problems/CSES solves" />
@@ -170,15 +171,35 @@
       <option name="project" value="LOCAL" />
       <updated>1784369467124</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="contest log">
+      <option name="closed" value="true" />
+      <created>1784419853142</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1784419853143</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added a bunch of files, edited directory." />
     <MESSAGE value="." />
     <MESSAGE value="Slight path change, Added contest directory." />
     <MESSAGE value="deleted contest directory :p, added contest_logs.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="deleted contest directory :p, added contest_logs.md" />
+    <MESSAGE value="contest log" />
+    <option name="LAST_COMMIT_MESSAGE" value="contest log" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
