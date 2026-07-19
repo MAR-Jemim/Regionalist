@@ -38,8 +38,8 @@ i = cnt = 0
 
 # Trial 3: WA for printing i, j
 # Trial 4: RE at 2, 3, 8, 9 (am i racing? 17 min passed.) IndexError
-# Trial 5: forgot comment stdin
-# Trial 6: Wa at 7, 8 (20 min passed)
+# Trial 5: forgot to comment stdin
+# Trial 6: WA at 7, 8 (20 min passed)
 # j = n-1
 #
 # while i <= j:
