@@ -31,7 +31,7 @@ CF Rating: (max. 1046)
 |:------|-------:|
 | July  |    882 |
 
-ICPC/IUPC Performance:
+ICPC / IUPC Performance:
 
 | ICPC / IUPC | Team Name          |   Rank    |     Solved      |
 |-------------|--------------------|:---------:|:---------------:|

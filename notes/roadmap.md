@@ -18,9 +18,9 @@ Dream: Top 30 Dhaka Regional
 
 # Phase 2: Python Toolkit
 
-- [ ] list
-- [ ] dict
-- [ ] set
+- [x] list
+- [x] dict
+- [x] set
 - [ ] Counter
 - [ ] defaultdict
 - [ ] deque
@@ -32,8 +32,9 @@ Dream: Top 30 Dhaka Regional
 
 - [ ] Coordinate Compression
 - [ ] Fenwick Tree (BIT)
-- [ ] Segment Tree (intro)
 - [ ] DSU (Union-Find)
+- [ ] BFS/DFS
+- [ ] Segment Tree (intro)
 
 # Phase 4: Graph Basics
 
