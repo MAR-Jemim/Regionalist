@@ -17,7 +17,7 @@ Elements before i and j are already decided.
 ### Example
 - CSES Apartments
 
-## CF 279B - Books
+### CF 279B - Books
 
 Pattern:
 Sliding Window
@@ -34,7 +34,7 @@ Used if instead of while.
 Remember:
 Shrink until valid.
 
-## CSES - Ferris Wheel
+### CSES - Ferris Wheel
 
 Pattern:
 Greedy + Two Pointers
@@ -75,7 +75,7 @@ Possible solutions:
 
 ## Sliding Window
 Recognition:
-Positive numbers + contiguous segment.
+**Positive numbers** + contiguous segment.
 
 Invariant:
 Window always valid.
