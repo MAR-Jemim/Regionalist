@@ -35,7 +35,7 @@ ICPC / IUPC Performance:
 
 | ICPC / IUPC | Team Name          |   Rank    |     Solved      |
 |-------------|--------------------|:---------:|:---------------:|
-| IUT 2026    | IIUSTB_ZeroBug     |     -     |        -        |
+| IUT 2026    | IIUSTB_ZeroBug     | 89 / 112  | 2 / ~~8 / 12~~  |
 | SUST 2026   | IIUSTB_ZeroBug     | 123 / 138 | 1 / ~~10 / 12~~ |
 | DUET 2026   | IIUSTB_ZeroBug     | 118 / 139 | 2 / ~~9 / 11~~  |
 | NDUB 2026   | IIUSTB_ZeroBug     |  61 / 86  | 2 / ~~6 / 10~~  |
