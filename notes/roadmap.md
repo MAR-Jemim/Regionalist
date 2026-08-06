@@ -15,6 +15,11 @@ Dream: Top 30 Dhaka Regional
     - [ ] bisect_right
     - [ ] Binary Search on answer
 - [ ] Greedy (basic proofs)
+- [ ] Stack 
+- [ ] Monotonic stack
+- [ ] BFS
+- [ ] DFS
+- [ ] Union Find
 
 # Phase 2: Python Toolkit
 

@@ -27,9 +27,10 @@ July 2026
 
 CF Rating: (max. 1046)
 
-| Date  | Rating |
-|:------|-------:|
-| July  |    882 |
+| Date    | Rating |
+|:--------|-------:|
+| August  |    903 |
+| July    |    882 |
 
 ICPC / IUPC Performance:
 
