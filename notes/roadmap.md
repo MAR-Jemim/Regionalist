@@ -94,5 +94,6 @@ Driven by the tag gaps above, easiest win first:
 7. **Basic DP** — coin change, knapsack, LIS
 
 Full topic tree, per-topic Python notes and auto-generated ladders:
-see the CP Roadmap app (`cp-roadmap` repo) — plug in `proBOT001` and it ticks
-solved problems automatically and shows which tags I am avoiding.
+the roadmap app in `docs/` (live at mar-jemim.github.io/Regionalist). Plug in
+`proBOT001` and it ticks solved problems automatically and shows which tags I
+am avoiding.

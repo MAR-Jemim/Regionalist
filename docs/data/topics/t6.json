@@ -1,0 +1,469 @@
+[
+ {
+  "id": "hld",
+  "title": "Heavy-Light Decomposition",
+  "tier": 6,
+  "prereqs": [
+   "binary-lifting-lca",
+   "segment-tree"
+  ],
+  "cfTags": [
+   "trees",
+   "data structures"
+  ],
+  "band": [
+   2200,
+   2600
+  ],
+  "icpc": "high",
+  "why": "Decompose a tree into chains so any path is O(log n) segment-tree ranges. Turns path queries into range queries.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can answer path-sum queries with path updates on a 10^5-node tree.",
+  "stub": true
+ },
+ {
+  "id": "centroid-decomposition",
+  "title": "Centroid Decomposition",
+  "tier": 6,
+  "prereqs": [
+   "trees-basics",
+   "dsu-on-tree"
+  ],
+  "cfTags": [
+   "trees",
+   "divide and conquer"
+  ],
+  "band": [
+   2200,
+   2600
+  ],
+  "icpc": "high",
+  "why": "Recursively split a tree at its centroid, giving an O(log n)-depth structure. The standard tool for counting paths with a property.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can count tree paths of length exactly k in O(n log n).",
+  "stub": true
+ },
+ {
+  "id": "persistent-ds",
+  "title": "Persistent Data Structures",
+  "tier": 6,
+  "prereqs": [
+   "segment-tree"
+  ],
+  "cfTags": [
+   "data structures"
+  ],
+  "band": [
+   2300,
+   2700
+  ],
+  "icpc": "med",
+  "why": "Keep every historical version by copying only the O(log n) nodes that change. Persistent segment trees answer k-th-smallest-in-range queries.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can answer k-th smallest in a range offline with a persistent segment tree.",
+  "stub": true
+ },
+ {
+  "id": "treap",
+  "title": "Balanced BSTs & Treaps",
+  "tier": 6,
+  "prereqs": [
+   "segment-tree",
+   "recursion"
+  ],
+  "cfTags": [
+   "data structures"
+  ],
+  "band": [
+   2400,
+   2800
+  ],
+  "icpc": "med",
+  "why": "Implicit treaps give O(log n) split, merge, insert-at-position, and reverse on a sequence — operations no segment tree can do.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can reverse an arbitrary subarray in O(log n).",
+  "stub": true
+ },
+ {
+  "id": "suffix-array",
+  "title": "Suffix Array & LCP",
+  "tier": 6,
+  "prereqs": [
+   "string-hashing",
+   "kmp-z"
+  ],
+  "cfTags": [
+   "string suffix structures",
+   "strings",
+   "sortings"
+  ],
+  "band": [
+   2300,
+   2700
+  ],
+  "icpc": "high",
+  "why": "All suffixes sorted, plus the longest-common-prefix array. Answers substring counting, distinct substrings, and longest repeated substring.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can count distinct substrings of a 10^5-length string.",
+  "stub": true
+ },
+ {
+  "id": "suffix-automaton",
+  "title": "Suffix Automaton",
+  "tier": 6,
+  "prereqs": [
+   "suffix-array"
+  ],
+  "cfTags": [
+   "string suffix structures",
+   "strings"
+  ],
+  "band": [
+   2500,
+   2900
+  ],
+  "icpc": "med",
+  "why": "A linear-size DFA accepting every substring. The most powerful single string structure, and the hardest to internalise.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can count occurrences of every distinct substring.",
+  "stub": true
+ },
+ {
+  "id": "aho-corasick",
+  "title": "Aho-Corasick",
+  "tier": 6,
+  "prereqs": [
+   "trie",
+   "kmp-z"
+  ],
+  "cfTags": [
+   "strings",
+   "data structures"
+  ],
+  "band": [
+   2200,
+   2600
+  ],
+  "icpc": "high",
+  "why": "A trie with KMP-style failure links: match many patterns against one text in linear time. Frequently combined with DP over automaton states.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can match 10^5 patterns against a 10^6-character text.",
+  "stub": true
+ },
+ {
+  "id": "max-flow",
+  "title": "Maximum Flow",
+  "tier": 6,
+  "prereqs": [
+   "bfs",
+   "graphs-repr"
+  ],
+  "cfTags": [
+   "flows",
+   "graphs"
+  ],
+  "band": [
+   2200,
+   2600
+  ],
+  "icpc": "high",
+  "why": "Dinic's algorithm, and — more important than the algorithm — recognising a problem as a flow problem. Max-flow min-cut is the modelling tool.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can model a problem as a flow network and justify the min cut.",
+  "stub": true
+ },
+ {
+  "id": "bipartite-matching",
+  "title": "Bipartite Matching",
+  "tier": 6,
+  "prereqs": [
+   "max-flow"
+  ],
+  "cfTags": [
+   "graph matchings",
+   "flows",
+   "graphs"
+  ],
+  "band": [
+   2100,
+   2500
+  ],
+  "icpc": "high",
+  "why": "Kuhn's algorithm and Hopcroft-Karp, plus Konig's theorem linking maximum matching to minimum vertex cover.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can find a maximum matching and read off the minimum vertex cover.",
+  "stub": true
+ },
+ {
+  "id": "mcmf",
+  "title": "Min-Cost Max-Flow",
+  "tier": 6,
+  "prereqs": [
+   "max-flow",
+   "bellman-ford"
+  ],
+  "cfTags": [
+   "flows",
+   "graphs",
+   "shortest paths"
+  ],
+  "band": [
+   2400,
+   2800
+  ],
+  "icpc": "high",
+  "why": "Flow where each edge also has a cost — the assignment problem and transportation problems in general.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can solve an assignment problem with MCMF.",
+  "stub": true
+ },
+ {
+  "id": "two-sat",
+  "title": "2-SAT",
+  "tier": 6,
+  "prereqs": [
+   "scc"
+  ],
+  "cfTags": [
+   "2-sat",
+   "graphs",
+   "dfs and similar"
+  ],
+  "band": [
+   2300,
+   2700
+  ],
+  "icpc": "high",
+  "why": "Boolean constraints with two literals per clause, solved via the implication graph and SCC in linear time.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can model constraints as implications and extract a satisfying assignment.",
+  "stub": true
+ },
+ {
+  "id": "geometry-basics",
+  "title": "Computational Geometry",
+  "tier": 6,
+  "prereqs": [
+   "math-basics"
+  ],
+  "cfTags": [
+   "geometry",
+   "math"
+  ],
+  "band": [
+   2000,
+   2400
+  ],
+  "icpc": "high",
+  "why": "Points and vectors, cross and dot products, orientation tests, and segment intersection — all done in integers where possible to avoid precision loss.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can test segment intersection with exact integer arithmetic.",
+  "stub": true
+ },
+ {
+  "id": "convex-hull",
+  "title": "Convex Hull",
+  "tier": 6,
+  "prereqs": [
+   "geometry-basics",
+   "sorting-custom"
+  ],
+  "cfTags": [
+   "geometry",
+   "sortings"
+  ],
+  "band": [
+   2100,
+   2500
+  ],
+  "icpc": "high",
+  "why": "Andrew's monotone chain in O(n log n), plus rotating calipers for diameter and width.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can build a convex hull and find the farthest pair of points.",
+  "stub": true
+ },
+ {
+  "id": "geometry-advanced",
+  "title": "Advanced Geometry",
+  "tier": 6,
+  "prereqs": [
+   "convex-hull"
+  ],
+  "cfTags": [
+   "geometry",
+   "divide and conquer"
+  ],
+  "band": [
+   2400,
+   2800
+  ],
+  "icpc": "high",
+  "why": "Half-plane intersection, closest pair by divide and conquer, Minkowski sums, and circle problems.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can compute a half-plane intersection.",
+  "stub": true
+ },
+ {
+  "id": "fft-ntt",
+  "title": "FFT & NTT",
+  "tier": 6,
+  "prereqs": [
+   "modular-arithmetic",
+   "divide-conquer"
+  ],
+  "cfTags": [
+   "fft",
+   "math",
+   "divide and conquer"
+  ],
+  "band": [
+   2300,
+   2700
+  ],
+  "icpc": "high",
+  "why": "Multiply polynomials in O(n log n), which also convolves arrays — counting pairs by sum, string matching with wildcards, and big-integer multiplication.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can convolve two 10^5-length arrays and apply it to a counting problem.",
+  "stub": true
+ },
+ {
+  "id": "dp-optimization",
+  "title": "DP Optimizations",
+  "tier": 6,
+  "prereqs": [
+   "dp-intervals",
+   "convex-hull"
+  ],
+  "cfTags": [
+   "dp",
+   "geometry",
+   "divide and conquer",
+   "data structures"
+  ],
+  "band": [
+   2400,
+   2800
+  ],
+  "icpc": "high",
+  "why": "Convex hull trick, Li Chao tree, divide-and-conquer optimisation, Knuth optimisation, and the aliens trick — turning O(n^2) DP into O(n log n).",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can recognise when a DP transition admits CHT and apply it.",
+  "stub": true
+ },
+ {
+  "id": "miller-rabin",
+  "title": "Miller-Rabin & Pollard's Rho",
+  "tier": 6,
+  "prereqs": [
+   "number-theory-2"
+  ],
+  "cfTags": [
+   "number theory",
+   "math",
+   "probabilities"
+  ],
+  "band": [
+   2200,
+   2600
+  ],
+  "icpc": "high",
+  "why": "Primality testing and factorisation for numbers up to 10^18, well past where a sieve can reach.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can factorise a 10^18 number in well under a second.",
+  "stub": true
+ },
+ {
+  "id": "bitset-optimization",
+  "title": "Bitset Optimizations",
+  "tier": 6,
+  "prereqs": [
+   "bitmask-basics"
+  ],
+  "cfTags": [
+   "bitmasks",
+   "data structures",
+   "brute force"
+  ],
+  "band": [
+   2100,
+   2500
+  ],
+  "icpc": "med",
+  "why": "A 64x constant-factor speedup that makes some O(n^3) and O(n*m) solutions pass. In Python, big integers serve the same role.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can convert a reachability or subset-sum DP into bitset operations.",
+  "stub": true
+ }
+]

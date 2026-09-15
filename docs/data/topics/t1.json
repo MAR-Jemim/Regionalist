@@ -1,0 +1,238 @@
+[
+ {
+  "id": "implementation-sim",
+  "title": "Implementation & Simulation",
+  "tier": 1,
+  "prereqs": [
+   "io-fast",
+   "containers"
+  ],
+  "cfTags": [
+   "implementation"
+  ],
+  "band": [
+   800,
+   1200
+  ],
+  "icpc": "high",
+  "why": "The largest tag on Codeforces. These problems have no clever idea — they test whether you can translate a fussy statement into correct code without a single off-by-one. Speed here directly buys you time for the hard problems later in a contest.",
+  "traps": [
+   "Reading the statement diagonally. Implementation problems punish skimming more than any other category.",
+   "1-indexed input vs 0-indexed arrays. Pick one convention and convert at read time, not scattered through the code.",
+   "Not handling n = 1 or an empty result. Almost every implementation failure is a boundary case.",
+   "Writing everything in main(). Split into small functions so you can test pieces."
+  ],
+  "template": {
+   "cpp": "// Read the statement TWICE. Write the steps as comments first,\n// then fill each one in. Do not start typing from the first sentence.\n\nint n; cin >> n;\nvector<int> a(n);\nfor (int &x : a) cin >> x;\n\n// 1. ...\n// 2. ...\n// 3. ...",
+   "py": "# Read the statement TWICE, outline as comments, then fill in.\n\nn = int(input())\na = list(map(int, input().split()))\n\n# 1. ...\n# 2. ...\n# 3. ..."
+  },
+  "checkpoint": "You can solve a Div2 A in under 10 minutes with no failed submissions, five contests in a row."
+ },
+ {
+  "id": "sorting-custom",
+  "title": "Sorting with Custom Keys",
+  "tier": 1,
+  "prereqs": [
+   "builtin-algos"
+  ],
+  "cfTags": [
+   "sortings",
+   "greedy"
+  ],
+  "band": [
+   800,
+   1300
+  ],
+  "icpc": "high",
+  "why": "An enormous number of problems become trivial once the data is in the right order. The real skill is spotting *which* order: sort by deadline, by ratio, by end time, by the difference between two fields.",
+  "traps": [
+   "Sorting pairs and forgetting that the default compares the second element too when firsts tie — sometimes that's what you want, often it isn't.",
+   "Losing original indices. If you need them, sort an array of (value, index) pairs.",
+   "Writing a comparator that isn't a strict weak ordering (returning true for equal elements). In C++ this is undefined behaviour and can crash.",
+   "Sorting when you only need the k largest — `nth_element` / `heapq.nlargest` is O(n)."
+  ],
+  "template": {
+   "cpp": "vector<pair<int,int>> a(n);          // (value, original index)\nfor (int i = 0; i < n; i++) { cin >> a[i].first; a[i].second = i; }\n\nsort(a.begin(), a.end());                                      // by value, then index\nsort(a.begin(), a.end(), [](auto &x, auto &y){                 // custom\n    if (x.first != y.first) return x.first > y.first;          // value desc\n    return x.second < y.second;                                // index asc\n});\n\n// k largest without a full sort\nnth_element(a.begin(), a.begin() + k, a.end(), greater<>());",
+   "py": "a = list(map(int, input().split()))\nidx = sorted(range(n), key=lambda i: a[i])          # indices in sorted order\n\npairs = sorted(zip(a, range(n)))                    # by value, then index\npairs.sort(key=lambda p: (-p[0], p[1]))             # value desc, index asc\n\nimport heapq\ntop_k = heapq.nlargest(k, a)                        # O(n log k)"
+  },
+  "pyNote": "`sorted(range(n), key=...)` is the clean Python way to sort indices without building pair tuples. Tuple keys `(-x, y)` handle mixed asc/desc without a comparator.",
+  "checkpoint": "Given a greedy problem, you can identify and justify the correct sort order before writing any code."
+ },
+ {
+  "id": "strings-basics",
+  "title": "String Fundamentals",
+  "tier": 1,
+  "prereqs": [
+   "containers"
+  ],
+  "cfTags": [
+   "strings",
+   "implementation"
+  ],
+  "band": [
+   800,
+   1300
+  ],
+  "icpc": "med",
+  "why": "Strings are just arrays of characters, but the character-arithmetic idioms (`c - 'a'`), frequency counting over the 26 letters, and the cost of concatenation are worth making automatic.",
+  "traps": [
+   "In C++, `s + t` inside a loop is O(n^2). Use `+=`, which is amortised O(1).",
+   "Python strings are immutable — building with `s += c` in a loop is O(n^2). Append to a list and `''.join()` at the end.",
+   "`s[i] - '0'` for digits vs `s[i] - 'a'` for letters — mixing these up silently produces garbage indices.",
+   "Comparing a `char` to a string literal: `s[i] == \"a\"` doesn't compile in C++; you need `'a'`."
+  ],
+  "template": {
+   "cpp": "string s; cin >> s;\nint n = s.size();\n\nvector<int> cnt(26, 0);\nfor (char c : s) cnt[c - 'a']++;\n\n// build efficiently\nstring out;\nfor (char c : s) if (c != 'x') out += c;\n\nbool isPalindrome = (s == string(s.rbegin(), s.rend()));\nstring sub = s.substr(i, len);          // len chars starting at i",
+   "py": "s = input().strip()\nn = len(s)\n\nfrom collections import Counter\ncnt = Counter(s)                        # or: [0]*26 with ord(c) - ord('a')\n\nout = ''.join(c for c in s if c != 'x') # NOT out += c in a loop\n\nis_pal = s == s[::-1]\nsub = s[i:i+length]"
+  },
+  "pyNote": "Python slicing makes reversal and substring extraction trivial, but each slice copies — a loop of O(n) slices is O(n^2). Use indices when you only need to compare.",
+  "checkpoint": "You can count character frequencies and test palindromes without thinking, in both languages."
+ },
+ {
+  "id": "math-basics",
+  "title": "Elementary Math",
+  "tier": 1,
+  "prereqs": [
+   "complexity"
+  ],
+  "cfTags": [
+   "math",
+   "number theory"
+  ],
+  "band": [
+   800,
+   1300
+  ],
+  "icpc": "high",
+  "why": "Integer overflow, parity arguments, and gcd show up constantly. Many Div2 A/B problems are pure observation: notice the answer depends only on n mod 2, and you're done in three lines.",
+  "traps": [
+   "**Overflow.** In C++, `int * int` overflows at ~2*10^9 even when assigned to a `long long`. Cast one operand: `(ll)a * b`.",
+   "C++ `%` on negative numbers returns a negative result; Python's `%` always returns non-negative. This difference bites when porting.",
+   "Integer division truncates toward zero in C++ but floors in Python. `-7/2` is -3 in C++ and -4 in Python.",
+   "Using floating point for exact comparisons. `sqrt(n)` can be off by one — verify with integer multiplication."
+  ],
+  "template": {
+   "cpp": "using ll = long long;\n\nll g = __gcd(a, b);\nll l = a / g * b;                  // divide first to avoid overflow\n\nll prod = (ll)a * b;               // cast BEFORE multiplying\n\n// ceiling division for positive ints\nll up = (a + b - 1) / b;\n\n// integer sqrt, corrected for float error\nll r = sqrtl(n);\nwhile (r * r > n) r--;\nwhile ((r+1) * (r+1) <= n) r++;",
+   "py": "from math import gcd, isqrt\n\ng = gcd(a, b)\nl = a // g * b\n\n# Python ints are arbitrary precision - overflow does not exist\nprod = a * b\n\nup = -(-a // b)          # ceiling division, works for negatives too\nr = isqrt(n)             # exact integer sqrt, no float error ever"
+  },
+  "pyNote": "This is where Python genuinely wins: arbitrary-precision integers mean no overflow bugs ever, and `math.isqrt` is exact. Problems involving huge factorials or 10^18 products are far easier in Python.",
+  "checkpoint": "You have been bitten by C++ overflow once, found it, and now cast reflexively."
+ },
+ {
+  "id": "brute-force",
+  "title": "Complete Search",
+  "tier": 1,
+  "prereqs": [
+   "complexity",
+   "implementation-sim"
+  ],
+  "cfTags": [
+   "brute force"
+  ],
+  "band": [
+   800,
+   1400
+  ],
+  "icpc": "high",
+  "why": "When constraints are small, the correct move is to try everything. Recognising that n <= 20 means 'enumerate all 2^n subsets' or n <= 100 means 'try all pairs' is a decision you make from the constraints, not from cleverness.",
+  "traps": [
+   "Not checking whether brute force actually fits. Compute the count first: C(100,3) is 161700 — fine. C(100,5) is 75 million — not fine.",
+   "Nested loops that redo work. Precompute anything loop-invariant outside the inner loop.",
+   "Forgetting that a brute force over *answers* is often smaller than over inputs — try each possible answer and verify it."
+  ],
+  "template": {
+   "cpp": "// all pairs\nfor (int i = 0; i < n; i++)\n    for (int j = i + 1; j < n; j++)\n        best = max(best, f(a[i], a[j]));\n\n// all subsets of n <= 20 elements\nfor (int mask = 0; mask < (1 << n); mask++) {\n    ll sum = 0;\n    for (int i = 0; i < n; i++)\n        if (mask >> i & 1) sum += a[i];\n}\n\n// all permutations\nsort(a.begin(), a.end());\ndo { check(a); } while (next_permutation(a.begin(), a.end()));",
+   "py": "from itertools import combinations, permutations, product\n\nfor x, y in combinations(a, 2):\n    best = max(best, f(x, y))\n\nfor mask in range(1 << n):\n    s = sum(a[i] for i in range(n) if mask >> i & 1)\n\nfor perm in permutations(a):\n    check(perm)\n\nfor combo in product(range(k), repeat=n):   # k^n tuples\n    check(combo)"
+  },
+  "pyNote": "`itertools` makes brute force shorter in Python than C++ — `combinations`, `permutations` and `product` cover nearly every enumeration you need, and they run at C speed.",
+  "checkpoint": "You can compute the exact operation count of a brute force and decide go/no-go in under 30 seconds."
+ },
+ {
+  "id": "greedy-intro",
+  "title": "Greedy Basics",
+  "tier": 1,
+  "prereqs": [
+   "sorting-custom"
+  ],
+  "cfTags": [
+   "greedy"
+  ],
+  "band": [
+   900,
+   1400
+  ],
+  "icpc": "high",
+  "why": "Greedy means: repeatedly take the locally best option and never reconsider. It's the most common Div2 A/B technique and also the most commonly *wrong* one — the discipline is proving (or at least stress-testing) that local optimality implies global optimality.",
+  "traps": [
+   "Assuming greedy works because it passes the samples. Samples are small and kind. Stress test against a brute force.",
+   "Not identifying what to be greedy *on*. Sort by the right key and the greedy is obvious; sort by the wrong one and it's simply incorrect.",
+   "Problems where greedy fails and DP is needed — the classic tell is that an early choice constrains later ones in a non-obvious way (e.g. 0/1 knapsack).",
+   "Forgetting ties. When two options look equally good, the tiebreak sometimes matters."
+  ],
+  "template": {
+   "cpp": "// classic: maximum non-overlapping intervals -> sort by END time\nsort(iv.begin(), iv.end(), [](auto &x, auto &y){ return x.second < y.second; });\nint cnt = 0, lastEnd = INT_MIN;\nfor (auto [s, e] : iv)\n    if (s >= lastEnd) { cnt++; lastEnd = e; }\n\n// classic: pair largest with smallest -> sort, two pointers\nsort(a.begin(), a.end());\nint lo = 0, hi = n - 1;\nwhile (lo < hi) { total += a[lo] + a[hi]; lo++; hi--; }",
+   "py": "# maximum non-overlapping intervals -> sort by END\niv.sort(key=lambda p: p[1])\ncnt, last_end = 0, float('-inf')\nfor s, e in iv:\n    if s >= last_end:\n        cnt += 1\n        last_end = e\n\n# pair largest with smallest\na.sort()\nlo, hi = 0, n - 1\nwhile lo < hi:\n    total += a[lo] + a[hi]\n    lo += 1\n    hi -= 1"
+  },
+  "checkpoint": "You can state, in one sentence, why your greedy is correct — an exchange argument, not 'it passed'."
+ },
+ {
+  "id": "maps-counting",
+  "title": "Frequency Counting & Hashing",
+  "tier": 1,
+  "prereqs": [
+   "containers"
+  ],
+  "cfTags": [
+   "data structures",
+   "implementation"
+  ],
+  "band": [
+   900,
+   1400
+  ],
+  "icpc": "med",
+  "why": "'How many times does X appear' and 'have I seen X before' underlie a huge fraction of easy problems. A hash map turns an O(n^2) scan into O(n).",
+  "traps": [
+   "In C++, `mp[key]` *inserts* a default-constructed value if the key is absent. Use `mp.count(key)` or `mp.find(key)` to test membership without inserting.",
+   "`unordered_map<int,int>` on Codeforces is hackable — an adversary can craft keys that all collide, making it O(n^2). Add a random hash or use `map` in hacked-prone problems.",
+   "Iterating an `unordered_map` gives unspecified order; if the answer depends on order, you'll get non-deterministic wrong answers.",
+   "Counting pairs: when you scan and ask 'how many previous elements satisfy X', add to the map *after* querying, not before."
+  ],
+  "template": {
+   "cpp": "map<int,int> cnt;                 // ordered; use unordered_map if order irrelevant\nfor (int x : a) cnt[x]++;\n\nif (cnt.count(x)) { /* present */ }\n\n// count pairs with a[i] + a[j] == k  (i < j)\nmap<int,int> seen;\nll pairs = 0;\nfor (int x : a) {\n    pairs += seen[k - x];         // query BEFORE inserting\n    seen[x]++;\n}\n\n// hack-resistant hash\nstruct H { size_t operator()(ll x) const {\n    x += 0x9e3779b97f4a7c15ULL; x = (x ^ (x>>30)) * 0xbf58476d1ce4e5b9ULL;\n    return x ^ (x>>31); } };\nunordered_map<ll,int,H> safe;",
+   "py": "from collections import Counter, defaultdict\n\ncnt = Counter(a)\nif x in cnt: pass                 # never inserts\n\nseen = defaultdict(int)\npairs = 0\nfor x in a:\n    pairs += seen[k - x]          # query BEFORE inserting\n    seen[x] += 1\n\n# most common elements\nfor val, c in cnt.most_common(3):\n    print(val, c)"
+  },
+  "pyNote": "`Counter` does in one line what takes four in C++, and `most_common()` is free. Python dicts are not hackable on Codeforces the way C++ `unordered_map` is, since the hash is randomised per run.",
+  "checkpoint": "You can count pairs summing to k in a single pass, and explain why querying before inserting matters."
+ },
+ {
+  "id": "grids",
+  "title": "2D Grids",
+  "tier": 1,
+  "prereqs": [
+   "implementation-sim"
+  ],
+  "cfTags": [
+   "implementation",
+   "brute force"
+  ],
+  "band": [
+   900,
+   1400
+  ],
+  "icpc": "med",
+  "why": "Grid problems are everywhere, and they all share the same skeleton: bounds checking and a direction array. Getting this idiom right once removes a whole class of off-by-one and out-of-bounds bugs.",
+  "traps": [
+   "Mixing up (row, col) and (x, y). Pick row-major and stay there.",
+   "Forgetting bounds checks before indexing — in C++ this is silent memory corruption, not a crash.",
+   "In Python, `grid = [[0]*m]*n` creates n references to the *same* row. Use a comprehension.",
+   "Diagonal moves: 4 directions vs 8. Read the statement carefully."
+  ],
+  "template": {
+   "cpp": "int n, m; cin >> n >> m;\nvector<string> g(n);\nfor (auto &row : g) cin >> row;\n\nconst int dr[] = {-1, 1, 0, 0};       // add {-1,-1,1,1} / {-1,1,-1,1} for 8-dir\nconst int dc[] = {0, 0, -1, 1};\n\nauto inside = [&](int r, int c) {\n    return r >= 0 && r < n && c >= 0 && c < m;\n};\n\nfor (int d = 0; d < 4; d++) {\n    int nr = r + dr[d], nc = c + dc[d];\n    if (!inside(nr, nc)) continue;\n    // ...\n}",
+   "py": "n, m = map(int, input().split())\ng = [input().strip() for _ in range(n)]\n\ngrid = [[0]*m for _ in range(n)]      # NOT [[0]*m]*n\n\nDIRS = ((-1,0), (1,0), (0,-1), (0,1))\n\nfor dr, dc in DIRS:\n    nr, nc = r + dr, c + dc\n    if 0 <= nr < n and 0 <= nc < m:\n        ...  # Python chained comparison makes bounds checks clean"
+  },
+  "pyNote": "`0 <= nr < n` chained comparison is both faster and clearer than two separate checks. Watch the `[[0]*m]*n` aliasing trap — it is the single most common Python grid bug.",
+  "checkpoint": "You can write a bounds-checked 4-direction grid traversal from memory in under a minute."
+ }
+]

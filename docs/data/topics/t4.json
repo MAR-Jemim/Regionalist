@@ -1,0 +1,623 @@
+[
+ {
+  "id": "dsu",
+  "title": "Disjoint Set Union",
+  "tier": 4,
+  "prereqs": [
+   "graphs-repr"
+  ],
+  "cfTags": [
+   "dsu",
+   "graphs",
+   "trees"
+  ],
+  "band": [
+   1500,
+   1900
+  ],
+  "icpc": "high",
+  "why": "Union-find answers 'are these two in the same group?' in near-O(1) with path compression plus union by size. It's 15 lines, and it underpins Kruskal's MST, offline connectivity, and a large class of 'merge these things' problems.",
+  "traps": [
+   "Implementing only one optimisation. Path compression alone gives O(log n); with union by size/rank you get inverse-Ackermann, effectively constant.",
+   "Union by *value* instead of by root: always `find` both endpoints first, then link the roots.",
+   "DSU cannot undo a union. If the problem needs deletions, you need rollback DSU (union by rank only, no path compression) or offline processing.",
+   "Recursive `find` in Python hitting the recursion limit on a degenerate chain — write it iteratively."
+  ],
+  "template": {
+   "cpp": "struct DSU {\n    vector<int> p, sz;\n    DSU(int n) : p(n), sz(n, 1) { iota(p.begin(), p.end(), 0); }\n    int find(int x) { return p[x] == x ? x : p[x] = find(p[x]); }\n    bool unite(int a, int b) {\n        a = find(a); b = find(b);\n        if (a == b) return false;\n        if (sz[a] < sz[b]) swap(a, b);\n        p[b] = a; sz[a] += sz[b];\n        return true;\n    }\n    bool same(int a, int b) { return find(a) == find(b); }\n};",
+   "py": "class DSU:\n    __slots__ = ('p', 'sz')\n    def __init__(self, n):\n        self.p = list(range(n))\n        self.sz = [1] * n\n    def find(self, x):\n        p = self.p\n        while p[x] != x:                 # ITERATIVE - no recursion limit\n            p[x] = p[p[x]]               # path halving\n            x = p[x]\n        return x\n    def unite(self, a, b):\n        a, b = self.find(a), self.find(b)\n        if a == b: return False\n        if self.sz[a] < self.sz[b]: a, b = b, a\n        self.p[b] = a\n        self.sz[a] += self.sz[b]\n        return True"
+  },
+  "pyNote": "Path *halving* (`p[x] = p[p[x]]` inside a while loop) gives the same amortised bound as recursive full compression while staying iterative — this is the right Python implementation.",
+  "checkpoint": "You can write DSU from memory in under two minutes and use it to count connected components after each of q edge additions."
+ },
+ {
+  "id": "trees-basics",
+  "title": "Tree Fundamentals",
+  "tier": 4,
+  "prereqs": [
+   "dfs-components"
+  ],
+  "cfTags": [
+   "trees",
+   "dfs and similar",
+   "graphs"
+  ],
+  "band": [
+   1500,
+   1900
+  ],
+  "icpc": "high",
+  "why": "A tree is a connected acyclic graph with n-1 edges and a unique path between any two vertices. Rooting it turns the structure into parent/child relations, and one DFS gives you depth, subtree size, and Euler tour times — the inputs to almost every tree algorithm above this point.",
+  "traps": [
+   "Not skipping the parent when recursing, causing infinite back-and-forth on undirected edges.",
+   "Assuming vertex 1 is the root. Some problems specify a root; others let you choose (pick 1, but say so).",
+   "Recursion depth again: a path graph of 10^5 nodes is a legal tree. Iterative DFS in Python, always.",
+   "Confusing depth (edges from root) with height (edges to the deepest descendant)."
+  ],
+  "template": {
+   "cpp": "vector<int> par(n+1), dep(n+1), sz(n+1), tin(n+1), tout(n+1);\nint timer = 0;\n\nvoid dfs(int u, int p) {\n    par[u] = p; sz[u] = 1;\n    tin[u] = timer++;\n    for (int v : adj[u]) {\n        if (v == p) continue;               // skip parent\n        dep[v] = dep[u] + 1;\n        dfs(v, u);\n        sz[u] += sz[v];\n    }\n    tout[u] = timer++;\n}\n\n// u is an ancestor of v  <=>  tin[u] <= tin[v] && tout[v] <= tout[u]",
+   "py": "par = [0]*(n+1); dep = [0]*(n+1); sz = [1]*(n+1)\n\n# iterative: build an order, then process it in reverse for subtree sums\norder, stack = [], [1]\npar[1] = 0\nseen = [False]*(n+1); seen[1] = True\nwhile stack:\n    u = stack.pop()\n    order.append(u)\n    for v in adj[u]:\n        if not seen[v]:\n            seen[v] = True\n            par[v] = u\n            dep[v] = dep[u] + 1\n            stack.append(v)\n\nfor u in reversed(order):                   # reverse BFS/DFS order = post-order\n    if par[u]: sz[par[u]] += sz[u]"
+  },
+  "pyNote": "The `reversed(order)` idiom is the cleanest iterative post-order in Python: collect vertices in DFS/BFS order, then walk backwards. Every child is processed before its parent, which is exactly what subtree aggregation needs.",
+  "checkpoint": "You can compute subtree sizes and answer 'is u an ancestor of v' in O(1) after one DFS."
+ },
+ {
+  "id": "tree-dp",
+  "title": "DP on Trees",
+  "tier": 4,
+  "prereqs": [
+   "trees-basics",
+   "dp-intro"
+  ],
+  "cfTags": [
+   "dp",
+   "trees",
+   "dfs and similar"
+  ],
+  "band": [
+   1600,
+   2000
+  ],
+  "icpc": "high",
+  "why": "Compute an answer for each subtree from its children's answers. The state is usually dp[u][something-small]; the transition combines children. Rerooting extends this to 'the answer for every possible root' in O(n) total rather than O(n^2).",
+  "traps": [
+   "Combining children in a way that double-counts a path through u. For path problems, combine children pairwise but count each pair once.",
+   "Leaf base cases forgotten, so leaves inherit garbage.",
+   "Recursion depth (Python) — use the reverse-order iterative pattern.",
+   "Rerooting without correctly 'removing' the current subtree's contribution from the parent's aggregate — especially painful when the combiner isn't invertible (use prefix/suffix aggregates instead)."
+  ],
+  "template": {
+   "cpp": "// classic: maximum independent set on a tree\n// dp[u][0] = best for subtree of u when u is NOT taken\n// dp[u][1] = best when u IS taken\nvector<array<ll,2>> dp(n + 1);\n\nvoid dfs(int u, int p) {\n    dp[u][0] = 0; dp[u][1] = val[u];\n    for (int v : adj[u]) {\n        if (v == p) continue;\n        dfs(v, u);\n        dp[u][0] += max(dp[v][0], dp[v][1]);\n        dp[u][1] += dp[v][0];\n    }\n}\nll answer = max(dp[root][0], dp[root][1]);\n\n// tree diameter: longest downward path through each node, combined pairwise\nll best = 0;\nll down(int u, int p) {\n    ll m1 = 0, m2 = 0;\n    for (int v : adj[u]) {\n        if (v == p) continue;\n        ll d = down(v, u) + 1;\n        if (d > m1) { m2 = m1; m1 = d; } else if (d > m2) m2 = d;\n    }\n    best = max(best, m1 + m2);\n    return m1;\n}",
+   "py": "# iterative tree DP using the reverse-order trick\ndp0 = [0]*(n+1)\ndp1 = val[:]                       # dp1[u] starts as val[u]\n\nfor u in reversed(order):          # children before parents\n    p = par[u]\n    if p:\n        dp0[p] += max(dp0[u], dp1[u])\n        dp1[p] += dp0[u]\n\nanswer = max(dp0[root], dp1[root])"
+  },
+  "pyNote": "Iterative tree DP in Python is genuinely pleasant with the reverse-order pattern: no recursion, and you push each child's finished value into its parent as you go.",
+  "checkpoint": "You can compute the tree diameter and solve maximum-independent-set-on-a-tree iteratively."
+ },
+ {
+  "id": "topological-sort",
+  "title": "Topological Sort & DAG DP",
+  "tier": 4,
+  "prereqs": [
+   "dfs-components",
+   "bfs"
+  ],
+  "cfTags": [
+   "graphs",
+   "dfs and similar",
+   "dp",
+   "sortings"
+  ],
+  "band": [
+   1500,
+   1900
+  ],
+  "icpc": "high",
+  "why": "Order a DAG so every edge points forward. That order is exactly the valid evaluation order for DP on a DAG — longest path, path counting, reachability — all of which are trivial once sorted and NP-hard on general graphs.",
+  "traps": [
+   "Not detecting cycles. If Kahn's algorithm outputs fewer than n vertices, a cycle exists — check this, many problems hinge on it.",
+   "Assuming the topological order is unique. It usually isn't; if the problem wants lexicographically smallest, use a priority queue instead of a plain queue.",
+   "Longest path on a DAG is easy, but on a graph with cycles it's NP-hard. Verify acyclicity first.",
+   "Forgetting that a DAG can be disconnected — seed the queue with every zero-indegree vertex."
+  ],
+  "template": {
+   "cpp": "vector<int> indeg(n + 1, 0);\nfor (int u = 1; u <= n; u++) for (int v : adj[u]) indeg[v]++;\n\nqueue<int> q;                          // priority_queue for lex-smallest\nfor (int i = 1; i <= n; i++) if (!indeg[i]) q.push(i);\n\nvector<int> order;\nwhile (!q.empty()) {\n    int u = q.front(); q.pop();\n    order.push_back(u);\n    for (int v : adj[u]) if (--indeg[v] == 0) q.push(v);\n}\nif ((int)order.size() < n) { /* cycle exists */ }\n\n// DAG DP: longest path\nvector<ll> dp(n + 1, 0);\nfor (int u : order)\n    for (int v : adj[u]) dp[v] = max(dp[v], dp[u] + 1);",
+   "py": "from collections import deque\nimport heapq\n\nindeg = [0]*(n+1)\nfor u in range(1, n+1):\n    for v in adj[u]: indeg[v] += 1\n\nq = deque(i for i in range(1, n+1) if indeg[i] == 0)\norder = []\nwhile q:\n    u = q.popleft()\n    order.append(u)\n    for v in adj[u]:\n        indeg[v] -= 1\n        if indeg[v] == 0: q.append(v)\n\nif len(order) < n:\n    pass                               # cycle\n\ndp = [0]*(n+1)\nfor u in order:\n    for v in adj[u]:\n        dp[v] = max(dp[v], dp[u] + 1)"
+  },
+  "checkpoint": "You can detect a cycle and compute the longest path on a DAG in one pass."
+ },
+ {
+  "id": "dijkstra",
+  "title": "Dijkstra's Algorithm",
+  "tier": 4,
+  "prereqs": [
+   "priority-queue",
+   "bfs"
+  ],
+  "cfTags": [
+   "shortest paths",
+   "graphs",
+   "data structures"
+  ],
+  "band": [
+   1500,
+   1900
+  ],
+  "icpc": "high",
+  "why": "Single-source shortest paths with **non-negative** weights in O((V+E) log V). The workhorse of shortest-path problems, and the base for layered-graph tricks where you add extra state to the node (e.g. 'shortest path using at most k free edges').",
+  "traps": [
+   "**Negative weights break it.** Dijkstra can finalise a node too early. Use Bellman-Ford or SPFA if any weight is negative.",
+   "Not using lazy deletion: pop a (d, u) pair and skip it if d > dist[u], otherwise you process stale entries.",
+   "`int` overflow on distances — sum of 2*10^5 edges of weight 10^9 is 2*10^14. Use `long long` / a large INF like 4e18 that won't overflow when added to.",
+   "Initialising INF to `INT_MAX` then computing `INF + w`, which overflows. Use a sentinel with headroom."
+  ],
+  "template": {
+   "cpp": "const ll INF = 4e18;\nvector<ll> dist(n + 1, INF);\npriority_queue<pair<ll,int>, vector<pair<ll,int>>, greater<>> pq;\n\ndist[src] = 0; pq.push({0, src});\nwhile (!pq.empty()) {\n    auto [d, u] = pq.top(); pq.pop();\n    if (d > dist[u]) continue;             // stale entry\n    for (auto [v, w] : wadj[u]) {\n        if (d + w < dist[v]) {\n            dist[v] = d + w;\n            pq.push({dist[v], v});\n        }\n    }\n}",
+   "py": "import heapq\nINF = float('inf')\n\ndist = [INF] * (n + 1)\ndist[src] = 0\npq = [(0, src)]\n\nwhile pq:\n    d, u = heapq.heappop(pq)\n    if d > dist[u]: continue               # stale\n    for v, w in wadj[u]:\n        nd = d + w\n        if nd < dist[v]:\n            dist[v] = nd\n            heapq.heappush(pq, (nd, v))"
+  },
+  "pyNote": "`float('inf')` compares correctly against ints and never overflows, so Python sidesteps the INF-overflow trap entirely. Dijkstra in CPython on a 2*10^5-edge graph is tight — submit as PyPy.",
+  "checkpoint": "You can solve a layered-graph Dijkstra (extra state per node) without rewriting the core loop."
+ },
+ {
+  "id": "bfs-01",
+  "title": "0-1 BFS & Deque Tricks",
+  "tier": 4,
+  "prereqs": [
+   "bfs",
+   "dijkstra"
+  ],
+  "cfTags": [
+   "shortest paths",
+   "graphs",
+   "dfs and similar"
+  ],
+  "band": [
+   1600,
+   2000
+  ],
+  "icpc": "med",
+  "why": "When every edge weight is 0 or 1, a deque replaces the heap: push weight-0 edges to the front and weight-1 edges to the back. You get O(V+E) instead of O(E log V), and the idea generalises to small integer weights via dial's algorithm.",
+  "traps": [
+   "Pushing to the wrong end. Zero-weight to the **front**, one-weight to the back — reversed, the distances are simply wrong.",
+   "Forgetting the staleness check. Nodes can enter the deque multiple times; skip if the popped distance is worse than the recorded one.",
+   "Applying it to weights other than 0 and 1.",
+   "Not recognising the pattern: 'minimum number of changes/flips/blocks removed' is very often 0-1 BFS in disguise."
+  ],
+  "template": {
+   "cpp": "vector<int> dist(n + 1, INT_MAX);\ndeque<int> dq;\ndist[src] = 0; dq.push_front(src);\n\nwhile (!dq.empty()) {\n    int u = dq.front(); dq.pop_front();\n    for (auto [v, w] : wadj[u]) {          // w is 0 or 1\n        if (dist[u] + w < dist[v]) {\n            dist[v] = dist[u] + w;\n            if (w == 0) dq.push_front(v);  // zero -> FRONT\n            else        dq.push_back(v);   // one  -> back\n        }\n    }\n}",
+   "py": "from collections import deque\n\ndist = [float('inf')] * (n + 1)\ndist[src] = 0\ndq = deque([src])\n\nwhile dq:\n    u = dq.popleft()\n    for v, w in wadj[u]:\n        if dist[u] + w < dist[v]:\n            dist[v] = dist[u] + w\n            if w == 0: dq.appendleft(v)\n            else:      dq.append(v)"
+  },
+  "checkpoint": "You can recognise a 'minimum obstacles removed' grid problem as 0-1 BFS and solve it without a heap."
+ },
+ {
+  "id": "dp-grids",
+  "title": "DP on Grids & Paths",
+  "tier": 4,
+  "prereqs": [
+   "dp-intro",
+   "grids"
+  ],
+  "cfTags": [
+   "dp",
+   "implementation"
+  ],
+  "band": [
+   1400,
+   1800
+  ],
+  "icpc": "med",
+  "why": "The gentlest 2D DP: dp[i][j] depends on dp[i-1][j] and dp[i][j-1]. It builds the habit of thinking about iteration order and rolling-array space optimisation, both of which transfer to every harder DP.",
+  "traps": [
+   "Wrong iteration order, using a cell before it's computed.",
+   "Blocked cells not excluded from transitions — they must contribute nothing, not zero-as-a-valid-value.",
+   "Memory: a 5000x5000 `long long` table is 200 MB. Roll to two rows, or one row if the transition allows.",
+   "Counting paths without a modulus when the count exceeds 64 bits."
+  ],
+  "template": {
+   "cpp": "vector<vector<ll>> dp(n, vector<ll>(m, 0));\ndp[0][0] = (g[0][0] == '.');\nfor (int i = 0; i < n; i++)\n    for (int j = 0; j < m; j++) {\n        if (g[i][j] == '#') { dp[i][j] = 0; continue; }\n        if (i) dp[i][j] = (dp[i][j] + dp[i-1][j]) % MOD;\n        if (j) dp[i][j] = (dp[i][j] + dp[i][j-1]) % MOD;\n    }\n\n// rolling array: O(m) memory\nvector<ll> cur(m, 0), prv(m, 0);\nfor (int i = 0; i < n; i++) { /* fill cur from prv */ swap(cur, prv); }",
+   "py": "dp = [[0]*m for _ in range(n)]\ndp[0][0] = 1 if g[0][0] == '.' else 0\nfor i in range(n):\n    for j in range(m):\n        if g[i][j] == '#':\n            dp[i][j] = 0\n            continue\n        if i: dp[i][j] += dp[i-1][j]\n        if j: dp[i][j] += dp[i][j-1]\n        dp[i][j] %= MOD\n\n# rolling array\nprev = [0]*m\nfor i in range(n):\n    cur = [0]*m\n    ...\n    prev = cur"
+  },
+  "checkpoint": "You can convert any 2D grid DP to O(m) memory with a rolling array."
+ },
+ {
+  "id": "dp-lis",
+  "title": "LIS & Sequence DP",
+  "tier": 4,
+  "prereqs": [
+   "dp-intro",
+   "binary-search-answer"
+  ],
+  "cfTags": [
+   "dp",
+   "binary search",
+   "data structures"
+  ],
+  "band": [
+   1500,
+   1900
+  ],
+  "icpc": "high",
+  "why": "Longest increasing subsequence in O(n log n) via the patience-sorting tail array — and more importantly, the realisation that many sequence problems reduce to LIS after a transformation (reverse one array, negate, map to positions).",
+  "traps": [
+   "Strictly vs non-strictly increasing changes `lower_bound` to `upper_bound`. This one character is the whole difference.",
+   "The tail array is **not** the actual LIS — its length is correct but its contents generally aren't a valid subsequence. Reconstruct with parent pointers if you need the sequence itself.",
+   "Applying the O(n log n) version to a problem needing LIS *counts* — that requires a Fenwick tree instead.",
+   "Not recognising a disguised LIS: 'maximum matching pairs between two permutations' is usually LIS after remapping."
+  ],
+  "template": {
+   "cpp": "// O(n log n) LIS length\nvector<int> tails;\nfor (int x : a) {\n    auto it = lower_bound(tails.begin(), tails.end(), x);   // upper_bound => non-strict\n    if (it == tails.end()) tails.push_back(x);\n    else *it = x;\n}\nint lis = tails.size();\n\n// O(n^2) with reconstruction\nvector<int> dp(n, 1), par(n, -1);\nfor (int i = 0; i < n; i++)\n    for (int j = 0; j < i; j++)\n        if (a[j] < a[i] && dp[j] + 1 > dp[i]) { dp[i] = dp[j] + 1; par[i] = j; }",
+   "py": "import bisect\n\ntails = []\nfor x in a:\n    i = bisect.bisect_left(tails, x)      # bisect_right for non-strict\n    if i == len(tails): tails.append(x)\n    else: tails[i] = x\nlis = len(tails)"
+  },
+  "pyNote": "`bisect_left` vs `bisect_right` maps exactly onto strict vs non-strict LIS, and the whole algorithm is six lines — this is one of the cases where the Python version is clearly cleaner than C++.",
+  "checkpoint": "You can write LIS in O(n log n), handle both strictness variants, and reconstruct the actual subsequence."
+ },
+ {
+  "id": "dp-bitmask",
+  "title": "Bitmask DP",
+  "tier": 4,
+  "prereqs": [
+   "dp-intro",
+   "bitmask-basics"
+  ],
+  "cfTags": [
+   "dp",
+   "bitmasks"
+  ],
+  "band": [
+   1700,
+   2100
+  ],
+  "icpc": "high",
+  "why": "When n <= 20, the subset itself can be the DP state. dp[mask] over 2^n subsets solves travelling salesman, assignment problems, and 'partition into groups' — all NP-hard in general but perfectly tractable at this size.",
+  "traps": [
+   "Misjudging the complexity: TSP is O(2^n * n^2), which at n = 20 is ~4*10^8 — too slow in Python, borderline in C++. Check before committing.",
+   "Iterating masks out of order. Process in increasing mask order so subsets are computed before supersets.",
+   "Memory: dp[1<<20][20] of `long long` is 168 MB. Use `int` where possible, or restructure.",
+   "Submask enumeration is O(3^n) total, not O(4^n) — but only if you use the `(sub-1) & mask` idiom."
+  ],
+  "template": {
+   "cpp": "// TSP: dp[mask][i] = min cost visiting `mask`, currently at i\nvector<vector<int>> dp(1 << n, vector<int>(n, INT_MAX));\ndp[1][0] = 0;\nfor (int mask = 1; mask < (1 << n); mask++)\n    for (int i = 0; i < n; i++) {\n        if (!(mask >> i & 1) || dp[mask][i] == INT_MAX) continue;\n        for (int j = 0; j < n; j++) {\n            if (mask >> j & 1) continue;\n            int nm = mask | (1 << j);\n            dp[nm][j] = min(dp[nm][j], dp[mask][i] + cost[i][j]);\n        }\n    }\n\n// partition into valid groups via submask enumeration, O(3^n)\nfor (int mask = 1; mask < (1 << n); mask++)\n    for (int sub = mask; sub; sub = (sub - 1) & mask)\n        if (ok[sub]) dp[mask] = min(dp[mask], dp[mask ^ sub] + 1);",
+   "py": "INF = float('inf')\ndp = [[INF]*n for _ in range(1 << n)]\ndp[1][0] = 0\nfor mask in range(1, 1 << n):\n    row = dp[mask]\n    for i in range(n):\n        if not (mask >> i & 1) or row[i] == INF: continue\n        for j in range(n):\n            if mask >> j & 1: continue\n            nm = mask | (1 << j)\n            nd = row[i] + cost[i][j]\n            if nd < dp[nm][j]: dp[nm][j] = nd"
+  },
+  "pyNote": "Bitmask DP is the clearest case where Python struggles: 2^20 * 20 * 20 Python-level operations will TLE even on PyPy. For n >= 18, write these in C++.",
+  "checkpoint": "You can solve TSP for n = 15 and explain why submask enumeration totals 3^n."
+ },
+ {
+  "id": "dp-digit",
+  "title": "Digit DP",
+  "tier": 4,
+  "prereqs": [
+   "dp-intro",
+   "recursion"
+  ],
+  "cfTags": [
+   "dp",
+   "combinatorics"
+  ],
+  "band": [
+   1800,
+   2200
+  ],
+  "icpc": "med",
+  "why": "Count numbers in [L, R] satisfying a digit-wise property, where R can be 10^18. You build the number digit by digit, carrying a 'tight' flag that says whether you're still hugging the upper bound. The count for [L, R] is f(R) - f(L-1).",
+  "traps": [
+   "Forgetting the leading-zero state. '007' and '7' differ for properties like 'number of distinct digits'.",
+   "Memoising across different tight values. Only cache states where tight is false — tight states are visited once each anyway.",
+   "Off-by-one on the range: f(R) - f(L-1), not f(R) - f(L).",
+   "Not resetting the memo table between test cases when the bound changes."
+  ],
+  "template": {
+   "cpp": "string S;\nvector<vector<vector<ll>>> memo;   // [pos][sum][started]\n\nll go(int pos, int sum, bool tight, bool started) {\n    if (pos == (int)S.size()) return started ? 1 : 0;\n    if (!tight && memo[pos][sum][started] != -1) return memo[pos][sum][started];\n\n    int hi = tight ? S[pos] - '0' : 9;\n    ll res = 0;\n    for (int d = 0; d <= hi; d++)\n        res += go(pos + 1, sum + d, tight && (d == hi), started || d > 0);\n\n    if (!tight) memo[pos][sum][started] = res;\n    return res;\n}\n// answer for [L, R] = f(R) - f(L - 1)",
+   "py": "from functools import lru_cache\n\ndef count(N):\n    S = str(N)\n    @lru_cache(maxsize=None)\n    def go(pos, sm, tight, started):\n        if pos == len(S):\n            return 1 if started else 0\n        hi = int(S[pos]) if tight else 9\n        res = 0\n        for d in range(hi + 1):\n            res += go(pos + 1, sm + d, tight and d == hi, started or d > 0)\n        return res\n    r = go(0, 0, True, False)\n    go.cache_clear()          # clear between different bounds\n    return r\n\nanswer = count(R) - count(L - 1)"
+  },
+  "pyNote": "`@lru_cache` handles the tight flag correctly as part of the key, so the Python version needs no manual 'only cache when not tight' logic — just remember `cache_clear()` between bounds. Digit DP has few states, so recursion depth (~19) is never a problem here.",
+  "checkpoint": "You can count numbers up to 10^18 with a given digit-sum property in under 40 lines."
+ },
+ {
+  "id": "mst",
+  "title": "Minimum Spanning Tree",
+  "tier": 4,
+  "prereqs": [
+   "dsu",
+   "priority-queue"
+  ],
+  "cfTags": [
+   "graphs",
+   "dsu",
+   "sortings",
+   "trees"
+  ],
+  "band": [
+   1600,
+   2000
+  ],
+  "icpc": "high",
+  "why": "Kruskal is 'sort edges, add if they connect two different components' — DSU plus five lines. Beyond the plain MST, the same sorted-edge sweep answers 'minimum bottleneck path' and powers offline connectivity problems.",
+  "traps": [
+   "Forgetting to check that the MST actually spans: if you added fewer than n-1 edges, the graph is disconnected.",
+   "Sorting by weight but comparing whole edge tuples, so equal weights break ties by endpoint in a way the problem didn't intend.",
+   "Using Prim with an adjacency matrix on a sparse graph — that's O(n^2) when Kruskal would be O(E log E).",
+   "Maximum spanning tree is the same algorithm with the sort reversed; don't rewrite it."
+  ],
+  "template": {
+   "cpp": "// Kruskal\nvector<tuple<ll,int,int>> edges;           // (w, u, v)\nsort(edges.begin(), edges.end());\n\nDSU d(n + 1);\nll total = 0; int used = 0;\nfor (auto [w, u, v] : edges)\n    if (d.unite(u, v)) { total += w; used++; }\n\nif (used != n - 1) { /* graph is disconnected */ }",
+   "py": "edges.sort()                               # (w, u, v)\nd = DSU(n + 1)\ntotal = used = 0\nfor w, u, v in edges:\n    if d.unite(u, v):\n        total += w\n        used += 1\n\nif used != n - 1:\n    pass                                   # disconnected"
+  },
+  "checkpoint": "You can build an MST with Kruskal and detect disconnected input."
+ },
+ {
+  "id": "floyd-warshall",
+  "title": "Floyd-Warshall",
+  "tier": 4,
+  "prereqs": [
+   "graphs-repr",
+   "dp-intro"
+  ],
+  "cfTags": [
+   "graphs",
+   "shortest paths",
+   "dp"
+  ],
+  "band": [
+   1500,
+   1900
+  ],
+  "icpc": "high",
+  "why": "All-pairs shortest paths in O(n^3), in three nested loops. For n <= 400 it's simply the easiest correct answer, it tolerates negative edges, and the same loop structure computes transitive closure and minimum-bottleneck paths.",
+  "traps": [
+   "**The k loop must be outermost.** Any other order is silently wrong. This is the single most common Floyd-Warshall bug.",
+   "Overflow from INF + INF. Guard with `if (d[i][k] == INF || d[k][j] == INF) continue;` or use a padded INF.",
+   "Not initialising `d[i][i] = 0`, and not handling multi-edges (keep the minimum).",
+   "Using it at n = 2000, which is 8*10^9 operations."
+  ],
+  "template": {
+   "cpp": "const ll INF = 1e18;\nvector<vector<ll>> d(n, vector<ll>(n, INF));\nfor (int i = 0; i < n; i++) d[i][i] = 0;\nfor (auto [u, v, w] : edges) d[u][v] = min(d[u][v], w);\n\nfor (int k = 0; k < n; k++)                    // k OUTERMOST\n    for (int i = 0; i < n; i++) {\n        if (d[i][k] == INF) continue;\n        for (int j = 0; j < n; j++) {\n            if (d[k][j] == INF) continue;\n            d[i][j] = min(d[i][j], d[i][k] + d[k][j]);\n        }\n    }\n\n// negative cycle reachable from i  <=>  d[i][i] < 0",
+   "py": "INF = float('inf')\nd = [[INF]*n for _ in range(n)]\nfor i in range(n): d[i][i] = 0\nfor u, v, w in edges: d[u][v] = min(d[u][v], w)\n\nfor k in range(n):                             # k OUTERMOST\n    dk = d[k]\n    for i in range(n):\n        di = d[i]\n        dik = di[k]\n        if dik == INF: continue\n        for j in range(n):\n            nd = dik + dk[j]\n            if nd < di[j]: di[j] = nd"
+  },
+  "pyNote": "Hoisting `d[i]` and `d[k]` into locals before the inner loop is the standard Python optimisation here — it removes two list index operations per iteration and can nearly halve the runtime. Still, n^3 in Python means n <= ~150 on CPython, ~400 on PyPy.",
+  "checkpoint": "You can write Floyd-Warshall with k outermost from memory and detect negative cycles."
+ },
+ {
+  "id": "bellman-ford",
+  "title": "Bellman-Ford & Negative Cycles",
+  "tier": 4,
+  "prereqs": [
+   "dijkstra"
+  ],
+  "cfTags": [
+   "graphs",
+   "shortest paths"
+  ],
+  "band": [
+   1600,
+   2000
+  ],
+  "icpc": "high",
+  "why": "The shortest-path algorithm that tolerates negative weights, in O(V*E). Its real value in contests is *detecting* negative cycles — if a distance still improves on the n-th round, a negative cycle is reachable.",
+  "traps": [
+   "Running n-1 rounds and concluding there's no negative cycle. You need an n-th round to detect one.",
+   "Reporting a negative cycle that isn't reachable from the source, when the problem only cares about reachable ones.",
+   "Not tracking predecessors when the problem asks you to output the cycle itself.",
+   "Using it when Dijkstra would do — O(V*E) is 2*10^10 at V=E=10^5."
+  ],
+  "template": {
+   "cpp": "vector<ll> dist(n, INF);\ndist[src] = 0;\nint last = -1;\nfor (int round = 0; round < n; round++) {\n    last = -1;\n    for (auto [u, v, w] : edges)\n        if (dist[u] < INF && dist[u] + w < dist[v]) {\n            dist[v] = dist[u] + w;\n            par[v] = u;\n            last = v;                       // relaxed on round n => neg cycle\n        }\n}\nif (last != -1) {\n    int x = last;\n    for (int i = 0; i < n; i++) x = par[x];   // walk into the cycle\n    // then follow par from x until returning to x\n}",
+   "py": "INF = float('inf')\ndist = [INF]*n\ndist[src] = 0\npar = [-1]*n\nlast = -1\nfor _ in range(n):\n    last = -1\n    for u, v, w in edges:\n        if dist[u] < INF and dist[u] + w < dist[v]:\n            dist[v] = dist[u] + w\n            par[v] = u\n            last = v\n\nhas_negative_cycle = last != -1"
+  },
+  "checkpoint": "You can detect a negative cycle and reconstruct the vertices on it."
+ },
+ {
+  "id": "sparse-table",
+  "title": "Sparse Table",
+  "tier": 4,
+  "prereqs": [
+   "dp-intro",
+   "bitmask-basics"
+  ],
+  "cfTags": [
+   "data structures"
+  ],
+  "band": [
+   1600,
+   2000
+  ],
+  "icpc": "high",
+  "why": "O(1) range minimum/maximum/gcd queries after O(n log n) preprocessing. It only works for **idempotent** operations and a **static** array — but when those hold, nothing beats it for simplicity and speed.",
+  "traps": [
+   "Using it for range *sum*. Sums aren't idempotent, so the overlapping-blocks trick double-counts. Use prefix sums or a Fenwick tree.",
+   "No updates allowed. Any modification means rebuilding the whole table.",
+   "Off-by-one in the level calculation: for range [l, r] the level is `log2(r - l + 1)`, and the two blocks are `[l, l+2^k-1]` and `[r-2^k+1, r]`.",
+   "Memory: n log n entries. At n = 10^6 that's 2*10^7 ints — 80 MB. Watch the limit."
+  ],
+  "template": {
+   "cpp": "int LOG = __lg(n) + 1;\nvector<vector<int>> sp(LOG, vector<int>(n));\nsp[0] = a;\nfor (int k = 1; k < LOG; k++)\n    for (int i = 0; i + (1 << k) <= n; i++)\n        sp[k][i] = min(sp[k-1][i], sp[k-1][i + (1 << (k-1))]);\n\nint query(int l, int r) {                   // inclusive\n    int k = __lg(r - l + 1);\n    return min(sp[k][l], sp[k][r - (1 << k) + 1]);\n}",
+   "py": "LOG = n.bit_length()\nsp = [a[:]]\nk = 1\nwhile (1 << k) <= n:\n    prev = sp[-1]\n    half = 1 << (k - 1)\n    sp.append([min(prev[i], prev[i + half]) for i in range(n - (1 << k) + 1)])\n    k += 1\n\ndef query(l, r):                            # inclusive\n    k = (r - l + 1).bit_length() - 1\n    return min(sp[k][l], sp[k][r - (1 << k) + 1])"
+  },
+  "pyNote": "Building each level with a list comprehension keeps the work in C. `int.bit_length()` replaces `__lg` exactly and is a built-in.",
+  "checkpoint": "You can answer 10^6 range-minimum queries in O(1) each, and explain why sums don't work."
+ },
+ {
+  "id": "binary-lifting-lca",
+  "title": "Binary Lifting & LCA",
+  "tier": 4,
+  "prereqs": [
+   "trees-basics",
+   "sparse-table"
+  ],
+  "cfTags": [
+   "trees",
+   "dp",
+   "graphs",
+   "data structures"
+  ],
+  "band": [
+   1700,
+   2100
+  ],
+  "icpc": "high",
+  "why": "Precompute the 2^k-th ancestor of every node, then jump to any ancestor in O(log n). That gives lowest common ancestor, distance between any two nodes, and 'the k-th node on a path' — the foundation of most tree query problems.",
+  "traps": [
+   "Not handling the case where one node is an ancestor of the other; lift the deeper node first, then check for equality before the second phase.",
+   "Sizing LOG too small. You need `LOG > log2(n)`; at n = 2*10^5 that's 18, so use 20.",
+   "Using a 0 sentinel for 'no ancestor' while also having a real node 0. Pick one convention.",
+   "Building the table with a recursive DFS in Python and blowing the stack."
+  ],
+  "template": {
+   "cpp": "const int LOG = 20;\nvector<array<int,LOG>> up(n + 1);\nvector<int> dep(n + 1);\n\n// after computing par[] and dep[] via DFS:\nfor (int v = 1; v <= n; v++) up[v][0] = par[v];\nfor (int k = 1; k < LOG; k++)\n    for (int v = 1; v <= n; v++) up[v][k] = up[ up[v][k-1] ][k-1];\n\nint lca(int u, int v) {\n    if (dep[u] < dep[v]) swap(u, v);\n    int diff = dep[u] - dep[v];\n    for (int k = 0; k < LOG; k++) if (diff >> k & 1) u = up[u][k];\n    if (u == v) return u;                        // one was an ancestor\n    for (int k = LOG - 1; k >= 0; k--)\n        if (up[u][k] != up[v][k]) { u = up[u][k]; v = up[v][k]; }\n    return up[u][0];\n}\nint distance(int u, int v) { return dep[u] + dep[v] - 2 * dep[lca(u,v)]; }",
+   "py": "LOG = 20\nup = [[0]*(n+1) for _ in range(LOG)]\nup[0] = par[:]                                  # par from the ITERATIVE dfs\nfor k in range(1, LOG):\n    prev, cur = up[k-1], up[k]\n    for v in range(1, n+1):\n        cur[v] = prev[prev[v]]\n\ndef lca(u, v):\n    if dep[u] < dep[v]: u, v = v, u\n    diff = dep[u] - dep[v]\n    k = 0\n    while diff:\n        if diff & 1: u = up[k][u]\n        diff >>= 1; k += 1\n    if u == v: return u\n    for k in range(LOG-1, -1, -1):\n        if up[k][u] != up[k][v]:\n            u, v = up[k][u], up[k][v]\n    return up[0][u]"
+  },
+  "pyNote": "Index the table as `up[k][v]`, not `up[v][k]` — it lets you hoist the whole level list into a local and keeps the build loop cache- and interpreter-friendly.",
+  "checkpoint": "You can answer 10^5 LCA and path-distance queries on a 10^5-node tree."
+ },
+ {
+  "id": "number-theory-2",
+  "title": "Extended Euclid, Euler & CRT",
+  "tier": 4,
+  "prereqs": [
+   "sieve-divisors",
+   "modular-arithmetic"
+  ],
+  "cfTags": [
+   "number theory",
+   "math"
+  ],
+  "band": [
+   1700,
+   2100
+  ],
+  "icpc": "high",
+  "why": "Extended Euclid gives modular inverses for *any* coprime modulus, not just primes. Euler's totient counts coprimes and generalises Fermat. Together they solve linear congruences and the Chinese Remainder Theorem — staples of ICPC math problems.",
+  "traps": [
+   "Assuming the modulus is prime and reaching for Fermat when it isn't. Extended Euclid is the general tool.",
+   "ax ≡ b (mod m) has a solution only when gcd(a, m) divides b — check before dividing.",
+   "Overflow in CRT: combining two moduli near 10^9 gives a product near 10^18, and intermediate multiplications overflow. Use __int128 in C++.",
+   "Computing phi(n) by trial division per query when a sieve would give all values up to n at once."
+  ],
+  "template": {
+   "cpp": "// extended Euclid: returns g = gcd(a,b), sets x,y with ax + by = g\nll egcd(ll a, ll b, ll &x, ll &y) {\n    if (!b) { x = 1; y = 0; return a; }\n    ll x1, y1, g = egcd(b, a % b, x1, y1);\n    x = y1; y = x1 - (a / b) * y1;\n    return g;\n}\n\nll inverse(ll a, ll m) {                  // m need NOT be prime\n    ll x, y;\n    if (egcd(a, m, x, y) != 1) return -1; // no inverse\n    return (x % m + m) % m;\n}\n\n// totient sieve\nvector<int> phi(N);\niota(phi.begin(), phi.end(), 0);\nfor (int i = 2; i < N; i++)\n    if (phi[i] == i)                       // i is prime\n        for (int j = i; j < N; j += i) phi[j] -= phi[j] / i;",
+   "py": "from math import gcd\n\ndef egcd(a, b):\n    if b == 0: return a, 1, 0\n    g, x1, y1 = egcd(b, a % b)\n    return g, y1, x1 - (a // b) * y1\n\n# built-in, no modulus-is-prime requirement:\ninv = pow(a, -1, m)                        # raises ValueError if not coprime\n\n# totient sieve\nphi = list(range(N))\nfor i in range(2, N):\n    if phi[i] == i:\n        for j in range(i, N, i):\n            phi[j] -= phi[j] // i\n\n# CRT - no overflow ever, thanks to big ints\ndef crt(r1, m1, r2, m2):\n    g, p, q = egcd(m1, m2)\n    if (r2 - r1) % g: return None\n    lcm = m1 // g * m2\n    x = (r1 + (r2 - r1) // g * p % (m2 // g) * m1) % lcm\n    return x % lcm, lcm"
+  },
+  "pyNote": "CRT is a place where Python's arbitrary-precision ints are a genuine advantage — the C++ version needs `__int128` to avoid overflow when combining moduli, while Python just works.",
+  "checkpoint": "You can solve ax ≡ b (mod m) for non-prime m and combine two congruences with CRT."
+ },
+ {
+  "id": "meet-in-middle",
+  "title": "Meet in the Middle",
+  "tier": 4,
+  "prereqs": [
+   "brute-force",
+   "bitmask-basics",
+   "builtin-algos"
+  ],
+  "cfTags": [
+   "meet-in-the-middle",
+   "bitmasks",
+   "brute force",
+   "binary search"
+  ],
+  "band": [
+   1800,
+   2200
+  ],
+  "icpc": "high",
+  "why": "Turns 2^n into 2^(n/2). Split the input in half, enumerate all subsets of each half, then combine with sorting plus binary search. At n = 40 this converts an impossible 10^12 into a very comfortable 10^6.",
+  "traps": [
+   "Forgetting the combine step is itself O(2^(n/2) log(2^(n/2))) — sort one half once, don't re-sort per query.",
+   "Splitting unevenly. Halves should differ by at most one element.",
+   "Not deduplicating or not using prefix maxima when the combine needs 'best value with sum <= x'.",
+   "Memory: 2^20 entries per half is 10^6 — fine — but 2^25 is not."
+  ],
+  "template": {
+   "cpp": "int h1 = n / 2, h2 = n - h1;\nvector<ll> A, B;\nfor (int m = 0; m < (1 << h1); m++) { ll s = 0; for (int i=0;i<h1;i++) if (m>>i&1) s += a[i];       A.push_back(s); }\nfor (int m = 0; m < (1 << h2); m++) { ll s = 0; for (int i=0;i<h2;i++) if (m>>i&1) s += a[h1 + i]; B.push_back(s); }\n\nsort(B.begin(), B.end());\nll best = 0;\nfor (ll x : A) {\n    auto it = upper_bound(B.begin(), B.end(), K - x);\n    if (it != B.begin()) best = max(best, x + *prev(it));\n}",
+   "py": "from itertools import combinations\nimport bisect\n\nh1 = n // 2\nleft, right = a[:h1], a[h1:]\n\ndef all_sums(arr):\n    res = []\n    for m in range(1 << len(arr)):\n        res.append(sum(arr[i] for i in range(len(arr)) if m >> i & 1))\n    return res\n\nA, B = all_sums(left), sorted(all_sums(right))\n\nbest = 0\nfor x in A:\n    i = bisect.bisect_right(B, K - x)\n    if i: best = max(best, x + B[i-1])"
+  },
+  "checkpoint": "You can solve subset-sum for n = 40 within the time limit."
+ },
+ {
+  "id": "interactive",
+  "title": "Interactive Problems",
+  "tier": 4,
+  "prereqs": [
+   "binary-search-answer",
+   "debug-stress"
+  ],
+  "cfTags": [
+   "interactive",
+   "binary search"
+  ],
+  "band": [
+   1500,
+   1900
+  ],
+  "icpc": "med",
+  "why": "You query a judge and adapt. Nearly all of them are binary search, ternary search, or an adaptive guessing strategy under a strict query budget. The mechanics — flushing after every query — are trivial but unforgiving.",
+  "traps": [
+   "**Not flushing.** Your query sits in the buffer, the judge waits, you get an idleness-limit verdict. Flush after every single output.",
+   "Exceeding the query budget by one. Compute the worst case: binary search on [1, 10^9] needs 30 queries, so a limit of 30 is exactly tight and an off-by-one kills you.",
+   "Not reading the judge's response before sending the next query.",
+   "Assuming the judge is static. Many are adaptive and will choose the answer that makes your strategy worst-case — so your solution must be correct against an adversary, not just against a fixed hidden value."
+  ],
+  "template": {
+   "cpp": "auto ask = [&](int x) {\n    cout << \"? \" << x << endl;        // endl flushes\n    int r; cin >> r;\n    if (r == -1) exit(0);             // judge signalled an error\n    return r;\n};\n\nint lo = 1, hi = 1e9;\nwhile (lo < hi) {\n    int mid = lo + (hi - lo) / 2;\n    if (ask(mid) >= 0) hi = mid; else lo = mid + 1;\n}\ncout << \"! \" << lo << endl;",
+   "py": "import sys\n\ndef ask(x):\n    print('?', x, flush=True)          # flush=True is MANDATORY\n    r = int(input())\n    if r == -1: sys.exit(0)\n    return r\n\nlo, hi = 1, 10**9\nwhile lo < hi:\n    mid = (lo + hi) // 2\n    if ask(mid) >= 0: hi = mid\n    else: lo = mid + 1\n\nprint('!', lo, flush=True)"
+  },
+  "pyNote": "Do **not** use the `input = sys.stdin.readline` speed-up trick in interactive problems without care, and always pass `flush=True` to `print`. Buffered output is the number-one cause of failed interactive submissions in Python.",
+  "checkpoint": "You can solve a 30-query binary-search interactive problem with no idleness-limit verdicts."
+ },
+ {
+  "id": "icpc-team-strategy",
+  "title": "ICPC: Team Strategy",
+  "tier": 4,
+  "prereqs": [
+   "debug-stress"
+  ],
+  "cfTags": [],
+  "band": [
+   1400,
+   2400
+  ],
+  "icpc": "high",
+  "why": "ICPC is three people, one computer, five hours, and a penalty for every wrong submission. The team that reads all problems early and schedules the machine well beats the team with the strongest individual coder. This is a skill you practise, not one you improvise on contest day.",
+  "traps": [
+   "All three reading problems in the same order. Split the problem set immediately — one takes the front, one the back, one the middle.",
+   "Debugging at the keyboard. If a submission fails, move off the machine, debug on paper, and let a teammate code the next problem.",
+   "Not tracking which problems are solved by how many teams. The scoreboard is your difficulty oracle — always work on the problem most other teams have solved.",
+   "Ignoring the penalty. A wrong submission costs 20 minutes; test against the samples and think once more before submitting.",
+   "No plan for the last hour: decide in advance when to stop starting new problems and start finishing partial ones."
+  ],
+  "template": {
+   "cpp": "/*  A workable five-hour shape:\n\n    0:00-0:15   All three read. Split A-D / E-H / I-L. Rank by\n                \"looks easy\" and by scoreboard once it opens.\n    0:15-1:30   Strongest implementer takes the easiest problems and\n                clears them fast. Others think on paper.\n    1:30-4:00   Rotate the machine. Rule: you only sit down when your\n                solution is fully designed. Thinking happens on paper.\n    4:00-4:45   Finish what is close. Stop starting new problems.\n    4:45-5:00   Last submissions. Do not risk a penalty on a guess.\n\n    Standing rules:\n    - Code on paper first for anything non-trivial.\n    - A second person reads the statement before any submission.\n    - Failed submission => leave the keyboard, debug on paper.\n    - Keep a printed team notebook; do not re-derive templates.      */",
+   "py": "#  Language split is a real team asset:\n#  - Python for big-integer math, string manipulation, quick brute\n#    forces, and generating test data while a teammate codes.\n#  - C++ for anything with tight time limits or heavy data structures.\n#\n#  Decide the language per problem in the first 60 seconds, not after\n#  a TLE. If n is large and the loop is hot, it is a C++ problem."
+  },
+  "pyNote": "In a team contest, Python's value is disproportionately in the *support* role: writing the brute force to stress-test a teammate's C++ solution, and handling the one problem with 10^1000-digit arithmetic.",
+  "checkpoint": "You have run at least one five-hour practice contest as a team with an explicit machine-rotation plan."
+ },
+ {
+  "id": "icpc-notebook",
+  "title": "ICPC: The Team Notebook",
+  "tier": 4,
+  "prereqs": [
+   "dsu",
+   "dijkstra",
+   "modular-arithmetic"
+  ],
+  "cfTags": [],
+  "band": [
+   1600,
+   2600
+  ],
+  "icpc": "high",
+  "why": "ICPC allows a printed reference. A good notebook means you never re-derive a segment tree under time pressure — you type it from a page you've already tested. Building it is also the best possible revision: you cannot write a clean template for something you don't understand.",
+  "traps": [
+   "Copying templates you've never run. Every entry must have been used to solve at least one real problem.",
+   "Making it too long. 25 dense pages you know beats 60 you have to search. Include a table of contents.",
+   "Templates with external dependencies or non-obvious calling conventions. Each entry needs a one-line usage comment.",
+   "Leaving it until the week before. Build it incrementally as you learn each topic — that's the point.",
+   "Not testing the printed version. Typing from paper reveals ambiguous formatting, wrapped lines, and lost indentation."
+  ],
+  "template": {
+   "cpp": "/*  Suggested contents, roughly in priority order:\n\n    Graphs        DSU, Dijkstra, Bellman-Ford, Floyd-Warshall, MST,\n                  topological sort, SCC, bridges/articulation, 2-SAT,\n                  max flow (Dinic), min-cost max-flow, bipartite matching\n    Trees         LCA (binary lifting), HLD, centroid decomposition,\n                  Euler tour + BIT\n    Structures    Fenwick (1D/2D), segment tree, lazy segment tree,\n                  sparse table, DSU with rollback, Mo's algorithm\n    Strings       KMP, Z-function, hashing (double mod), trie,\n                  suffix array + LCP, Aho-Corasick\n    Math          sieve, extended Euclid, CRT, nCr mod p, Miller-Rabin,\n                  Pollard's rho, matrix power, FFT/NTT\n    Geometry      point struct, cross/dot, segment intersection,\n                  convex hull, polygon area, closest pair\n    Misc          fast I/O, random, bitset tricks, ternary search\n\n    Format rule: every entry gets a one-line description, the\n    complexity, and a usage example. Nothing else.                  */",
+   "py": "#  Keep a parallel Python section for the handful of things Python\n#  does better under time pressure:\n#\n#    - big-integer arithmetic (factorials, 10^1000 inputs)\n#    - fractions.Fraction for exact rational geometry\n#    - itertools brute forces for stress testing\n#    - decimal.Decimal with high precision\n#    - the big-int-as-bitset subset-sum trick\n#\n#  Everything else should be C++ in a team contest."
+  },
+  "checkpoint": "You have a printed, table-of-contents'd notebook where every template has solved a real problem."
+ }
+]

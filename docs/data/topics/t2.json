@@ -1,0 +1,300 @@
+[
+ {
+  "id": "prefix-sums",
+  "title": "Prefix Sums & Difference Arrays",
+  "tier": 2,
+  "prereqs": [
+   "math-basics"
+  ],
+  "cfTags": [
+   "data structures",
+   "implementation"
+  ],
+  "band": [
+   1100,
+   1500
+  ],
+  "icpc": "high",
+  "why": "Answer 'sum of a[l..r]' in O(1) after O(n) preprocessing. The inverse trick — difference arrays — applies 'add x to every element in [l, r]' in O(1) per update. Together they turn many O(nq) solutions into O(n + q).",
+  "traps": [
+   "Off-by-one in the range formula. With 1-indexed `pref[i] = a[1..i]`, the sum of [l, r] is `pref[r] - pref[l-1]`. Build the array with a leading zero and this stops hurting.",
+   "Overflow: prefix sums of 2*10^5 values up to 10^9 reach 2*10^14. Use `long long`.",
+   "Difference arrays need one final pass to convert back to actual values — forgetting it gives you deltas, not answers.",
+   "Applying prefix sums to a non-associative operation. Works for +, xor, and min-over-prefix; does not work for arbitrary range min."
+  ],
+  "template": {
+   "cpp": "// 1D prefix sums (0-indexed array, 1-indexed prefix)\nvector<ll> pref(n + 1, 0);\nfor (int i = 0; i < n; i++) pref[i+1] = pref[i] + a[i];\nll sum_lr = pref[r+1] - pref[l];          // inclusive [l, r]\n\n// difference array: range update O(1), then one pass to finalise\nvector<ll> diff(n + 1, 0);\ndiff[l] += x; diff[r+1] -= x;             // add x to [l, r]\nll cur = 0;\nfor (int i = 0; i < n; i++) { cur += diff[i]; a[i] = cur; }\n\n// 2D prefix sums\npre[i+1][j+1] = g[i][j] + pre[i][j+1] + pre[i+1][j] - pre[i][j];\nll rect = pre[r2+1][c2+1] - pre[r1][c2+1] - pre[r2+1][c1] + pre[r1][c1];",
+   "py": "from itertools import accumulate\n\npref = list(accumulate(a, initial=0))     # pref[i] = sum of a[:i]\nsum_lr = pref[r+1] - pref[l]              # inclusive [l, r]\n\n# difference array\ndiff = [0] * (n + 1)\ndiff[l] += x\ndiff[r+1] -= x\na = list(accumulate(diff))[:n]\n\n# 2D prefix sums\npre = [[0]*(m+1) for _ in range(n+1)]\nfor i in range(n):\n    for j in range(m):\n        pre[i+1][j+1] = g[i][j] + pre[i][j+1] + pre[i+1][j] - pre[i][j]"
+  },
+  "pyNote": "`accumulate(a, initial=0)` builds the prefix array at C speed in one call — much faster than a manual loop, and it makes the difference-array finalisation a one-liner too.",
+  "checkpoint": "You can answer 10^5 range-sum queries on a 10^5 array within the time limit, 1D and 2D."
+ },
+ {
+  "id": "two-pointers",
+  "title": "Two Pointers",
+  "tier": 2,
+  "prereqs": [
+   "sorting-custom",
+   "prefix-sums"
+  ],
+  "cfTags": [
+   "two pointers"
+  ],
+  "band": [
+   1200,
+   1600
+  ],
+  "icpc": "high",
+  "why": "When a window's validity is *monotone* — extending the right end never makes it valid again once broken, and shrinking from the left can restore it — you can scan with two indices in O(n) instead of checking O(n^2) pairs.",
+  "traps": [
+   "Using two pointers when the property isn't monotone. If array values can be negative, 'sum <= k' is not monotone in window length and the technique silently fails.",
+   "Moving the left pointer with `if` instead of `while`. You often need to shrink several steps to restore validity.",
+   "Forgetting to count windows correctly: when [l, r] is valid, it usually contributes `r - l + 1` subarrays ending at r, not 1.",
+   "Resetting pointers inside the loop, which reintroduces O(n^2)."
+  ],
+  "template": {
+   "cpp": "// longest subarray with sum <= k  (all values non-negative)\nll sum = 0; int l = 0, best = 0;\nfor (int r = 0; r < n; r++) {\n    sum += a[r];\n    while (sum > k) sum -= a[l++];        // while, not if\n    best = max(best, r - l + 1);\n}\n\n// opposite-ends: does a sorted array contain a pair summing to k?\nint lo = 0, hi = n - 1;\nwhile (lo < hi) {\n    ll s = a[lo] + a[hi];\n    if (s == k) { found = true; break; }\n    if (s < k) lo++; else hi--;\n}",
+   "py": "# longest subarray with sum <= k (non-negative values)\ns = l = best = 0\nfor r in range(n):\n    s += a[r]\n    while s > k:\n        s -= a[l]\n        l += 1\n    best = max(best, r - l + 1)\n\n# opposite ends on a sorted array\nlo, hi = 0, n - 1\nwhile lo < hi:\n    cur = a[lo] + a[hi]\n    if cur == k: break\n    if cur < k: lo += 1\n    else:       hi -= 1"
+  },
+  "checkpoint": "You can state the monotonicity property your two-pointer solution relies on, and name a case where it breaks."
+ },
+ {
+  "id": "binary-search-answer",
+  "title": "Binary Search on the Answer",
+  "tier": 2,
+  "prereqs": [
+   "builtin-algos",
+   "complexity"
+  ],
+  "cfTags": [
+   "binary search"
+  ],
+  "band": [
+   1300,
+   1700
+  ],
+  "icpc": "high",
+  "why": "The single highest-value technique at this level. If you can *check* whether a candidate answer is achievable in O(n), and achievability is monotone in the answer, you can find the optimum in O(n log(range)) — even when computing it directly is hopeless. The mental move is: stop trying to compute the answer, start trying to verify one.",
+  "traps": [
+   "Not verifying monotonicity. The predicate must be false-false-...-false-true-...-true. If it oscillates, binary search returns nonsense.",
+   "Infinite loops from the wrong mid/update combination. Memorise one template and never improvise.",
+   "`(lo + hi) / 2` overflows for large ints in C++. Use `lo + (hi - lo) / 2`.",
+   "Binary searching on floating point without a fixed iteration count — use 100 iterations rather than a while-epsilon loop."
+  ],
+  "template": {
+   "cpp": "// find the SMALLEST x in [lo, hi] with ok(x) == true\nauto ok = [&](ll x) -> bool {\n    // greedy/simulation check in O(n)\n    return true;\n};\n\nll lo = 1, hi = 1e18, ans = -1;\nwhile (lo <= hi) {\n    ll mid = lo + (hi - lo) / 2;\n    if (ok(mid)) { ans = mid; hi = mid - 1; }\n    else          lo = mid + 1;\n}\n\n// floating point: fixed iteration count, never while(hi-lo>eps)\ndouble L = 0, R = 1e9;\nfor (int it = 0; it < 100; it++) {\n    double M = (L + R) / 2;\n    if (ok(M)) R = M; else L = M;\n}",
+   "py": "def ok(x):\n    # O(n) feasibility check\n    return True\n\nlo, hi, ans = 1, 10**18, -1\nwhile lo <= hi:\n    mid = (lo + hi) // 2          # no overflow in Python, ever\n    if ok(mid):\n        ans = mid\n        hi = mid - 1\n    else:\n        lo = mid + 1\n\n# or use the stdlib when ok() is a simple key:\nimport bisect\n# bisect.bisect_left(range(hi), True, key=ok)   # Python 3.10+\n\nL, R = 0.0, 1e9\nfor _ in range(100):\n    M = (L + R) / 2\n    if ok(M): R = M\n    else:     L = M"
+  },
+  "pyNote": "Python's `//` on positive ints never overflows, so `(lo + hi) // 2` is always safe — one fewer thing to remember than in C++.",
+  "checkpoint": "Given 'minimise the maximum X', you reflexively reach for binary search on the answer and can write the predicate first."
+ },
+ {
+  "id": "sieve-divisors",
+  "title": "Sieve & Divisors",
+  "tier": 2,
+  "prereqs": [
+   "math-basics"
+  ],
+  "cfTags": [
+   "number theory",
+   "math"
+  ],
+  "band": [
+   1200,
+   1600
+  ],
+  "icpc": "high",
+  "why": "Precompute all primes up to 10^6 in O(n log log n), or the smallest prime factor of every number so you can factorise any of them in O(log n). Divisor enumeration in O(sqrt n) rounds out the toolkit.",
+  "traps": [
+   "Looping `j` from `i*i` — for `i` near 10^6, `i*i` overflows a 32-bit int. Use `long long` or bound `i <= n/i`.",
+   "Trial division per query when you have many queries. Sieve once, answer all.",
+   "Forgetting that divisor enumeration to sqrt(n) must handle the perfect-square case so you don't count the root twice.",
+   "Building a boolean sieve of size 10^7 in Python as a list of bools — use a `bytearray`, which is 1 byte per entry and far faster."
+  ],
+  "template": {
+   "cpp": "const int N = 1e6 + 5;\nvector<int> spf(N);                       // smallest prime factor\nfor (int i = 2; i < N; i++) {\n    if (!spf[i])\n        for (ll j = (ll)i * i; j < N; j += i)\n            if (!spf[j]) spf[j] = i;\n    if (!spf[i]) spf[i] = i;\n}\n\n// factorise in O(log n)\nvector<pair<int,int>> fac;\nwhile (x > 1) {\n    int p = spf[x], e = 0;\n    while (x % p == 0) { x /= p; e++; }\n    fac.push_back({p, e});\n}\n\n// all divisors of n in O(sqrt n)\nvector<ll> divs;\nfor (ll d = 1; d * d <= n; d++)\n    if (n % d == 0) { divs.push_back(d); if (d != n / d) divs.push_back(n / d); }",
+   "py": "N = 10**6 + 5\nspf = list(range(N))\ni = 2\nwhile i * i < N:\n    if spf[i] == i:\n        for j in range(i*i, N, i):\n            if spf[j] == j: spf[j] = i\n    i += 1\n\ndef factorise(x):\n    f = {}\n    while x > 1:\n        p = spf[x]\n        while x % p == 0:\n            x //= p\n            f[p] = f.get(p, 0) + 1\n    return f\n\n# boolean sieve: bytearray, not a list of bools\nsieve = bytearray([1]) * N\nsieve[0:2] = b'\\x00\\x00'\nfor i in range(2, int(N**0.5) + 1):\n    if sieve[i]:\n        sieve[i*i::i] = bytearray(len(sieve[i*i::i]))   # slice assign = C speed\n\ndef divisors(n):\n    d = []\n    i = 1\n    while i * i <= n:\n        if n % i == 0:\n            d.append(i)\n            if i != n // i: d.append(n // i)\n        i += 1\n    return d"
+  },
+  "pyNote": "The slice-assignment trick `sieve[i*i::i] = bytearray(...)` runs the inner loop in C and makes a 10^6 sieve take milliseconds instead of seconds. Never write the inner sieve loop in pure Python.",
+  "checkpoint": "You can sieve to 10^6 and factorise 10^5 queries inside the time limit in both languages."
+ },
+ {
+  "id": "modular-arithmetic",
+  "title": "Modular Arithmetic",
+  "tier": 2,
+  "prereqs": [
+   "math-basics"
+  ],
+  "cfTags": [
+   "math",
+   "number theory"
+  ],
+  "band": [
+   1200,
+   1600
+  ],
+  "icpc": "high",
+  "why": "Answers 'modulo 10^9+7' are everywhere. You need fast exponentiation, and — since you can't just divide under a modulus — modular inverse via Fermat's little theorem.",
+  "traps": [
+   "Multiplying two values already reduced mod 10^9+7 still overflows 32-bit. Everything must be `long long` in C++.",
+   "Subtraction can go negative: use `(a - b % M + M) % M`.",
+   "Fermat's inverse requires M to be **prime**. For composite moduli you need the extended Euclidean algorithm.",
+   "Computing an inverse inside a loop. If you need many, batch-compute them or precompute factorial inverses."
+  ],
+  "template": {
+   "cpp": "const ll MOD = 1e9 + 7;\n\nll pw(ll b, ll e, ll m = MOD) {\n    ll r = 1; b %= m;\n    while (e > 0) {\n        if (e & 1) r = r * b % m;\n        b = b * b % m;\n        e >>= 1;\n    }\n    return r;\n}\n\nll inv(ll a) { return pw(a, MOD - 2); }        // MOD must be prime\n\nll add(ll a, ll b) { return (a + b) % MOD; }\nll sub(ll a, ll b) { return (a - b % MOD + MOD) % MOD; }\nll mul(ll a, ll b) { return a % MOD * (b % MOD) % MOD; }",
+   "py": "MOD = 10**9 + 7\n\nr = pow(b, e, MOD)            # built-in, C-speed modular exponentiation\ni = pow(a, MOD - 2, MOD)      # modular inverse (MOD prime)\ni = pow(a, -1, MOD)           # Python 3.8+: works for ANY coprime modulus\n\n# negatives are already non-negative under Python's %\nd = (a - b) % MOD             # no +MOD fix-up needed"
+  },
+  "pyNote": "Python's three-argument `pow(b, e, m)` is built in and written in C — you never implement fast exponentiation yourself. `pow(a, -1, m)` (3.8+) gives a modular inverse for any coprime modulus, not just prime ones, which is strictly more general than Fermat.",
+  "checkpoint": "You can compute nCr mod 10^9+7 for n up to 10^6 with O(n) precomputation."
+ },
+ {
+  "id": "recursion",
+  "title": "Recursion & Backtracking",
+  "tier": 2,
+  "prereqs": [
+   "brute-force"
+  ],
+  "cfTags": [
+   "dfs and similar",
+   "brute force"
+  ],
+  "band": [
+   1100,
+   1500
+  ],
+  "icpc": "high",
+  "why": "Recursion is the foundation of DFS, DP, and divide-and-conquer. Backtracking adds the 'undo' step: make a choice, recurse, then unmake it — which lets you explore a whole decision tree with one array.",
+  "traps": [
+   "**Python's default recursion limit is 1000.** Any DFS deeper than that crashes. Call `sys.setrecursionlimit(300000)` — and be aware CPython may still segfault on very deep stacks, so prefer an explicit stack for depth > ~10^5.",
+   "Forgetting to undo state after the recursive call — the classic backtracking bug.",
+   "Passing large containers by value in C++, making each call O(n). Pass by reference.",
+   "No base case, or a base case that's unreachable."
+  ],
+  "template": {
+   "cpp": "vector<int> cur;\nvector<bool> used;\n\nvoid backtrack(int depth) {\n    if (depth == n) { process(cur); return; }\n    for (int i = 0; i < n; i++) {\n        if (used[i]) continue;\n        used[i] = true;  cur.push_back(a[i]);      // choose\n        backtrack(depth + 1);                       // explore\n        cur.pop_back();  used[i] = false;           // UNDO\n    }\n}",
+   "py": "import sys\nsys.setrecursionlimit(300000)        # do this in EVERY recursive solution\n\ncur, used = [], [False] * n\n\ndef backtrack(depth):\n    if depth == n:\n        process(cur)\n        return\n    for i in range(n):\n        if used[i]: continue\n        used[i] = True;  cur.append(a[i])      # choose\n        backtrack(depth + 1)                    # explore\n        cur.pop();       used[i] = False        # UNDO\n\n# For depth > ~10^5, convert to an explicit stack instead:\nstack = [start]\nwhile stack:\n    node = stack.pop()\n    ..."
+  },
+  "pyNote": "This is Python's sharpest edge in CP. `sys.setrecursionlimit` raises the Python-level limit but not the C stack, so deep recursion can still crash the interpreter. On PyPy, deep recursion is additionally slow. For any tree or graph with 10^5+ nodes, write the DFS iteratively.",
+  "checkpoint": "You have converted at least one recursive DFS into an iterative one using an explicit stack."
+ },
+ {
+  "id": "bitmask-basics",
+  "title": "Bit Manipulation",
+  "tier": 2,
+  "prereqs": [
+   "math-basics"
+  ],
+  "cfTags": [
+   "bitmasks"
+  ],
+  "band": [
+   1200,
+   1600
+  ],
+  "icpc": "high",
+  "why": "Bits give you O(1) set operations on small universes and constant-factor speedups everywhere. Subset enumeration over n <= 20 is the standard answer to tiny-n problems, and XOR properties (self-inverse, associative) power a whole genre of problems.",
+  "traps": [
+   "`1 << 31` overflows a signed 32-bit int in C++. Use `1LL << k` whenever k can reach 31 or more.",
+   "Operator precedence: `mask & 1 << i` parses as `mask & (1 << i)` — correct here, but `a & b == c` parses as `a & (b == c)`. Parenthesise.",
+   "Right-shifting a negative number in C++ is implementation-defined; in Python it's an arithmetic shift on a conceptually infinite-width int.",
+   "Assuming `__builtin_popcount` works on a `long long` — that's `__builtin_popcountll`."
+  ],
+  "template": {
+   "cpp": "bool on   = mask >> i & 1;\nint  set_ = mask |  (1 << i);\nint  clr  = mask & ~(1 << i);\nint  flip = mask ^  (1 << i);\n\nint bits = __builtin_popcount(mask);        // popcountll for long long\nint lowestSetBit = mask & -mask;\nint highestBitIdx = 31 - __builtin_clz(mask);\n\n// enumerate every subset of a fixed mask, in O(3^n) total over all masks\nfor (int sub = mask; sub > 0; sub = (sub - 1) & mask) { /* ... */ }",
+   "py": "on   = mask >> i & 1\nset_ = mask |  (1 << i)\nclr  = mask & ~(1 << i)\nflip = mask ^  (1 << i)\n\nbits = bin(mask).count('1')      # or mask.bit_count() in Python 3.10+\nlowest = mask & -mask\nhighest_idx = mask.bit_length() - 1\n\nsub = mask\nwhile sub > 0:\n    ...\n    sub = (sub - 1) & mask"
+  },
+  "pyNote": "`int.bit_count()` (3.10+) and `int.bit_length()` are C-speed built-ins. Python ints have no width limit, so `1 << 100` is perfectly valid — sometimes useful for representing huge bitsets directly as integers, with `&`, `|` and shifts running at C speed.",
+  "checkpoint": "You can iterate over all submasks of a mask and explain why the total over all masks is 3^n."
+ },
+ {
+  "id": "stack-queue",
+  "title": "Stacks, Queues & Monotonic Stacks",
+  "tier": 2,
+  "prereqs": [
+   "containers"
+  ],
+  "cfTags": [
+   "data structures",
+   "two pointers"
+  ],
+  "band": [
+   1300,
+   1700
+  ],
+  "icpc": "high",
+  "why": "Beyond bracket matching, the monotonic stack answers 'for each element, what's the next greater element to its right?' for all elements in O(n) total. That primitive solves largest-rectangle-in-histogram and a whole family of subarray-minimum problems.",
+  "traps": [
+   "Popping from an empty stack. Always guard with a size check.",
+   "Getting the monotonic direction backwards. 'Next greater' pops while the top is <= current; 'next smaller' pops while the top is >= current.",
+   "Storing values when you need indices. Store indices — you can always look up the value, but not the reverse.",
+   "Forgetting elements left on the stack at the end; they have no next-greater and need a sentinel or a final cleanup pass."
+  ],
+  "template": {
+   "cpp": "// next greater element to the right, -1 if none\nvector<int> nge(n, -1);\nstack<int> st;                             // holds INDICES\nfor (int i = 0; i < n; i++) {\n    while (!st.empty() && a[st.top()] < a[i]) {\n        nge[st.top()] = i;\n        st.pop();\n    }\n    st.push(i);\n}\n\n// sliding window maximum in O(n)\ndeque<int> dq;\nfor (int i = 0; i < n; i++) {\n    while (!dq.empty() && a[dq.back()] <= a[i]) dq.pop_back();\n    dq.push_back(i);\n    if (dq.front() <= i - k) dq.pop_front();\n    if (i >= k - 1) ans.push_back(a[dq.front()]);\n}",
+   "py": "# next greater to the right\nnge = [-1] * n\nst = []                                    # indices\nfor i in range(n):\n    while st and a[st[-1]] < a[i]:\n        nge[st.pop()] = i\n    st.append(i)\n\n# sliding window maximum\nfrom collections import deque\ndq, ans = deque(), []\nfor i in range(n):\n    while dq and a[dq[-1]] <= a[i]: dq.pop()\n    dq.append(i)\n    if dq[0] <= i - k: dq.popleft()\n    if i >= k - 1: ans.append(a[dq[0]])"
+  },
+  "pyNote": "A plain Python `list` is a perfect stack (`append`/`pop` are both O(1) at the end). Only reach for `deque` when you need the *front*.",
+  "checkpoint": "You can solve largest-rectangle-in-histogram in O(n) with a monotonic stack."
+ },
+ {
+  "id": "sliding-window",
+  "title": "Sliding Window",
+  "tier": 2,
+  "prereqs": [
+   "two-pointers",
+   "maps-counting"
+  ],
+  "cfTags": [
+   "two pointers",
+   "data structures"
+  ],
+  "band": [
+   1300,
+   1700
+  ],
+  "icpc": "med",
+  "why": "A two-pointer window carrying auxiliary state — a frequency map, a sum, a distinct count. The pattern handles 'longest substring with at most k distinct characters' and its many relatives in O(n).",
+  "traps": [
+   "Not removing the key from the map when its count hits zero, so your 'distinct count' never decreases.",
+   "Fixed-size vs variable-size windows have different skeletons. Decide which you need before writing.",
+   "Updating the answer in the wrong place — for 'longest valid', update after shrinking; for 'shortest valid', update inside the shrink loop.",
+   "Using a window when the property isn't monotone (see two-pointers)."
+  ],
+  "template": {
+   "cpp": "// longest substring with at most k distinct characters\nmap<char,int> cnt;\nint l = 0, best = 0;\nfor (int r = 0; r < n; r++) {\n    cnt[s[r]]++;\n    while ((int)cnt.size() > k) {\n        if (--cnt[s[l]] == 0) cnt.erase(s[l]);   // ERASE, don't leave zeros\n        l++;\n    }\n    best = max(best, r - l + 1);\n}",
+   "py": "from collections import defaultdict\n\ncnt = defaultdict(int)\nl = best = 0\nfor r in range(n):\n    cnt[s[r]] += 1\n    while len(cnt) > k:\n        cnt[s[l]] -= 1\n        if cnt[s[l]] == 0:\n            del cnt[s[l]]         # delete, don't leave zero entries\n        l += 1\n    best = max(best, r - l + 1)"
+  },
+  "checkpoint": "You can write both the 'longest valid' and 'shortest valid' window skeletons without confusing where the answer updates."
+ },
+ {
+  "id": "constructive-intro",
+  "title": "Constructive Algorithms",
+  "tier": 2,
+  "prereqs": [
+   "greedy-intro",
+   "math-basics"
+  ],
+  "cfTags": [
+   "constructive algorithms"
+  ],
+  "band": [
+   1200,
+   1600
+  ],
+  "icpc": "med",
+  "why": "'Output any valid configuration.' There's no search — you invent a pattern that provably works. These reward experimenting on small cases by hand until the structure appears, and they're extremely common in Div2 B/C.",
+  "traps": [
+   "Jumping to code. Solve n = 1, 2, 3, 4 on paper first; the pattern is usually visible by n = 4.",
+   "Missing the impossible case. Most constructive problems have a small set of inputs with no answer — find them before submitting.",
+   "Not verifying your construction satisfies *every* stated condition, including the easy-to-miss one in the last sentence.",
+   "Over-complicating. The intended construction is almost always simple — alternate, pair up ends, or handle parity."
+  ],
+  "template": {
+   "cpp": "/*  Method, not code:\n    1. Brute-force n = 1..5 by hand or with a script; print all valid answers.\n    2. Look for structure: alternating, sorted, paired ends, parity split.\n    3. Identify the impossible cases explicitly.\n    4. Prove the construction meets every condition.\n    5. Only then write it — it's usually under 10 lines.            */\n\n// common shapes\nfor (int i = 0; i < n; i++) cout << (i % 2 ? 1 : -1) << ' ';   // alternate\nfor (int i = 0; i < n/2; i++) cout << a[i] << ' ' << a[n-1-i] << ' ';  // pair ends",
+   "py": "# Use Python + itertools to brute-force small cases and SEE the pattern.\nfrom itertools import permutations\n\nfor n in range(1, 6):\n    valid = [p for p in permutations(range(1, n+1)) if is_valid(p)]\n    print(n, valid[:5])      # stare at this until the structure appears"
+  },
+  "pyNote": "Python is the better language for the exploration phase — a five-line `itertools` brute force that prints all valid small answers is the fastest path to spotting the pattern.",
+  "checkpoint": "Your first move on a constructive problem is writing a small brute force, not guessing."
+ }
+]

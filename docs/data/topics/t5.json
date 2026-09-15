@@ -1,0 +1,488 @@
+[
+ {
+  "id": "fenwick",
+  "title": "Fenwick Tree (BIT)",
+  "tier": 5,
+  "prereqs": [
+   "prefix-sums",
+   "bitmask-basics"
+  ],
+  "cfTags": [
+   "data structures"
+  ],
+  "band": [
+   1600,
+   2000
+  ],
+  "icpc": "high",
+  "why": "Prefix sums that support point updates, in O(log n) each and about 10 lines. The go-to inversion counter and the cheapest way to get ordered-set rank queries.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can count inversions in an array of 10^5 elements in O(n log n).",
+  "stub": true
+ },
+ {
+  "id": "segment-tree",
+  "title": "Segment Tree",
+  "tier": 5,
+  "prereqs": [
+   "fenwick",
+   "recursion"
+  ],
+  "cfTags": [
+   "data structures"
+  ],
+  "band": [
+   1700,
+   2100
+  ],
+  "icpc": "high",
+  "why": "Range query plus point update for any associative operation. More general than a Fenwick tree and the base for every advanced range structure above it.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can build a segment tree for range-min and point-assign from memory.",
+  "stub": true
+ },
+ {
+  "id": "segment-tree-lazy",
+  "title": "Lazy Propagation",
+  "tier": 5,
+  "prereqs": [
+   "segment-tree"
+  ],
+  "cfTags": [
+   "data structures"
+  ],
+  "band": [
+   1900,
+   2300
+  ],
+  "icpc": "high",
+  "why": "Range *update* plus range query, by deferring updates until a node is visited. The hard part is composing two pending updates correctly.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can support range-add and range-sum on 10^5 elements with 10^5 queries.",
+  "stub": true
+ },
+ {
+  "id": "sqrt-decomposition",
+  "title": "Sqrt Decomposition",
+  "tier": 5,
+  "prereqs": [
+   "prefix-sums"
+  ],
+  "cfTags": [
+   "data structures",
+   "brute force"
+  ],
+  "band": [
+   1800,
+   2200
+  ],
+  "icpc": "med",
+  "why": "Split the array into sqrt(n) blocks for O(sqrt n) queries. Less powerful than a segment tree but far easier to adapt to strange operations.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can answer range queries an operation that has no easy segment-tree merge.",
+  "stub": true
+ },
+ {
+  "id": "mo-algorithm",
+  "title": "Mo's Algorithm",
+  "tier": 5,
+  "prereqs": [
+   "sqrt-decomposition",
+   "coordinate-compression"
+  ],
+  "cfTags": [
+   "data structures",
+   "sortings"
+  ],
+  "band": [
+   2000,
+   2400
+  ],
+  "icpc": "high",
+  "why": "Reorder offline queries so a moving window answers them all in O((n+q) sqrt n). The standard answer to 'count distinct in a range' with no updates.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can answer 10^5 distinct-count range queries offline.",
+  "stub": true
+ },
+ {
+  "id": "string-hashing",
+  "title": "String Hashing",
+  "tier": 5,
+  "prereqs": [
+   "modular-arithmetic",
+   "prefix-sums"
+  ],
+  "cfTags": [
+   "hashing",
+   "strings"
+  ],
+  "band": [
+   1700,
+   2100
+  ],
+  "icpc": "high",
+  "why": "Compare any two substrings in O(1) with polynomial hashing. Use double hashing and a random base — single-mod hashes get hacked on Codeforces.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can compare arbitrary substrings in O(1) and explain why you need two moduli.",
+  "stub": true
+ },
+ {
+  "id": "kmp-z",
+  "title": "KMP & Z-Function",
+  "tier": 5,
+  "prereqs": [
+   "strings-basics"
+  ],
+  "cfTags": [
+   "strings"
+  ],
+  "band": [
+   1700,
+   2100
+  ],
+  "icpc": "high",
+  "why": "Linear-time pattern matching, plus the prefix-function and Z-array as objects in their own right — they answer border, period, and occurrence-counting questions directly.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can find all occurrences of a pattern in O(n+m) and compute all borders.",
+  "stub": true
+ },
+ {
+  "id": "trie",
+  "title": "Trie",
+  "tier": 5,
+  "prereqs": [
+   "strings-basics",
+   "bitmask-basics"
+  ],
+  "cfTags": [
+   "strings",
+   "data structures",
+   "bitmasks"
+  ],
+  "band": [
+   1700,
+   2100
+  ],
+  "icpc": "high",
+  "why": "A prefix tree over strings — or over the bits of integers, which is how you solve maximum-XOR-pair problems.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can find the maximum XOR pair in an array in O(n log C).",
+  "stub": true
+ },
+ {
+  "id": "scc",
+  "title": "Strongly Connected Components",
+  "tier": 5,
+  "prereqs": [
+   "dfs-components",
+   "topological-sort"
+  ],
+  "cfTags": [
+   "graphs",
+   "dfs and similar"
+  ],
+  "band": [
+   1900,
+   2300
+  ],
+  "icpc": "high",
+  "why": "Condense a directed graph into a DAG of mutually reachable groups. Tarjan or Kosaraju; the condensation is what most problems actually want.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can build the condensation DAG and run DP on it.",
+  "stub": true
+ },
+ {
+  "id": "bridges-articulation",
+  "title": "Bridges & Articulation Points",
+  "tier": 5,
+  "prereqs": [
+   "dfs-components"
+  ],
+  "cfTags": [
+   "graphs",
+   "dfs and similar"
+  ],
+  "band": [
+   1900,
+   2300
+  ],
+  "icpc": "high",
+  "why": "Edges and vertices whose removal disconnects the graph, via DFS entry times and low-links. Leads to bridge trees and biconnected components.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can find all bridges in O(V+E) and build the bridge tree.",
+  "stub": true
+ },
+ {
+  "id": "dsu-on-tree",
+  "title": "Small-to-Large & DSU on Tree",
+  "tier": 5,
+  "prereqs": [
+   "tree-dp",
+   "dsu"
+  ],
+  "cfTags": [
+   "trees",
+   "data structures",
+   "dfs and similar"
+  ],
+  "band": [
+   2000,
+   2400
+  ],
+  "icpc": "high",
+  "why": "Answer subtree queries for every vertex in O(n log n) by always merging the smaller child's data into the larger. Deceptively simple, very powerful.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can count distinct colours in every subtree in O(n log n).",
+  "stub": true
+ },
+ {
+  "id": "combinatorics-2",
+  "title": "Advanced Counting",
+  "tier": 5,
+  "prereqs": [
+   "combinatorics-basic"
+  ],
+  "cfTags": [
+   "combinatorics",
+   "math",
+   "dp"
+  ],
+  "band": [
+   1900,
+   2300
+  ],
+  "icpc": "high",
+  "why": "Inclusion-exclusion, stars and bars, Catalan numbers, derangements, and the Burnside lemma — the vocabulary of harder counting problems.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can apply inclusion-exclusion to a counting problem with 2^k terms.",
+  "stub": true
+ },
+ {
+  "id": "probability-ev",
+  "title": "Probability & Expected Value",
+  "tier": 5,
+  "prereqs": [
+   "dp-intro",
+   "modular-arithmetic"
+  ],
+  "cfTags": [
+   "probabilities",
+   "dp",
+   "math"
+  ],
+  "band": [
+   1900,
+   2300
+  ],
+  "icpc": "med",
+  "why": "Linearity of expectation is the key tool: sum per-element contributions instead of reasoning about whole outcomes. Expected values are usually output mod p as a fraction.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can use linearity of expectation to avoid a state explosion.",
+  "stub": true
+ },
+ {
+  "id": "game-theory",
+  "title": "Game Theory & Sprague-Grundy",
+  "tier": 5,
+  "prereqs": [
+   "dp-intro"
+  ],
+  "cfTags": [
+   "games",
+   "dp"
+  ],
+  "band": [
+   1900,
+   2300
+  ],
+  "icpc": "med",
+  "why": "Win/lose states, Nim, and the Grundy number that reduces any sum of independent games to a single XOR.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can compute Grundy numbers for a game and solve its sum.",
+  "stub": true
+ },
+ {
+  "id": "divide-conquer",
+  "title": "Divide & Conquer",
+  "tier": 5,
+  "prereqs": [
+   "recursion",
+   "sorting-custom"
+  ],
+  "cfTags": [
+   "divide and conquer",
+   "sortings"
+  ],
+  "band": [
+   1800,
+   2200
+  ],
+  "icpc": "med",
+  "why": "Split, solve, and combine — merge-sort inversion counting, D&C over answer contributions, and the CDQ family.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can count inversions with merge sort and explain the combine step.",
+  "stub": true
+ },
+ {
+  "id": "ternary-search",
+  "title": "Ternary Search",
+  "tier": 5,
+  "prereqs": [
+   "binary-search-answer"
+  ],
+  "cfTags": [
+   "ternary search",
+   "math",
+   "binary search"
+  ],
+  "band": [
+   1800,
+   2200
+  ],
+  "icpc": "med",
+  "why": "Find the extremum of a unimodal function. On integers, prefer binary search on the difference to avoid precision issues.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can optimise a convex function and prove unimodality first.",
+  "stub": true
+ },
+ {
+  "id": "matrix-expo",
+  "title": "Matrix Exponentiation",
+  "tier": 5,
+  "prereqs": [
+   "modular-arithmetic",
+   "dp-intro"
+  ],
+  "cfTags": [
+   "matrices",
+   "math",
+   "dp"
+  ],
+  "band": [
+   1900,
+   2300
+  ],
+  "icpc": "high",
+  "why": "Any linear recurrence evaluated at index 10^18 in O(k^3 log n). Also computes path counts of fixed length in a graph.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can compute the 10^18-th Fibonacci number mod p.",
+  "stub": true
+ },
+ {
+  "id": "dp-intervals",
+  "title": "Interval DP",
+  "tier": 5,
+  "prereqs": [
+   "dp-intro"
+  ],
+  "cfTags": [
+   "dp"
+  ],
+  "band": [
+   1800,
+   2200
+  ],
+  "icpc": "high",
+  "why": "dp[l][r] over subintervals, combined at a split point — matrix chain multiplication, optimal BST, and the burst-balloons family. O(n^3) with an O(n^2) optimisation available via Knuth.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can solve a matrix-chain-style problem in O(n^3).",
+  "stub": true
+ },
+ {
+  "id": "constructive-2",
+  "title": "Advanced Constructive",
+  "tier": 5,
+  "prereqs": [
+   "constructive-intro"
+  ],
+  "cfTags": [
+   "constructive algorithms",
+   "math"
+  ],
+  "band": [
+   1800,
+   2200
+  ],
+  "icpc": "med",
+  "why": "Harder invention problems: parity and invariant arguments, explicit constructions on graphs and grids, and proving impossibility.",
+  "traps": [],
+  "template": {
+   "cpp": "",
+   "py": ""
+  },
+  "checkpoint": "You can identify an invariant that proves a case impossible.",
+  "stub": true
+ }
+]

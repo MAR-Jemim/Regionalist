@@ -52,6 +52,7 @@ ICPC / IUPC Performance:
 
 ```
 Regionalist/
+├── docs/                the roadmap app (GitHub Pages serves this folder)
 ├── template.py          starting point for every solve
 ├── tools/
 │   └── cfstats.py       pulls my CF record: difficulty mix, tag gaps, WA rate
@@ -64,6 +65,17 @@ Regionalist/
     ├── mistakes.md      every WA, written down once
     └── contest_logs.md  per-contest post-mortems
 ```
+
+## The roadmap app
+
+`docs/` is a small web app: 91 topics from setup to ICPC, Python and C++ templates,
+and live sync with my Codeforces handle. It auto-ticks what I have solved, ranks
+the tags I am avoiding, and generates the next problems for each topic.
+
+Live: <https://mar-jemim.github.io/Regionalist/>
+Locally: `python3 -m http.server 8000 --directory docs`
+
+See `docs/README.md` for how it works and how to edit topics.
 
 ## Where I actually stand
 

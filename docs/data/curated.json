@@ -1,0 +1,1646 @@
+{
+ "implementation-sim": [
+  {
+   "name": "Weird Algorithm",
+   "url": "https://cses.fi/problemset/task/1068",
+   "src": "CSES"
+  },
+  {
+   "name": "Repetitions",
+   "url": "https://cses.fi/problemset/task/1069",
+   "src": "CSES"
+  },
+  {
+   "name": "Number Spiral",
+   "url": "https://cses.fi/problemset/task/1071",
+   "src": "CSES"
+  },
+  {
+   "name": "Palindrome Reorder",
+   "url": "https://cses.fi/problemset/task/1755",
+   "src": "CSES"
+  },
+  {
+   "name": "String Reorder",
+   "url": "https://cses.fi/problemset/task/1743",
+   "src": "CSES"
+  }
+ ],
+ "math-basics": [
+  {
+   "name": "Missing Number",
+   "url": "https://cses.fi/problemset/task/1083",
+   "src": "CSES"
+  },
+  {
+   "name": "Trailing Zeros",
+   "url": "https://cses.fi/problemset/task/1618",
+   "src": "CSES"
+  },
+  {
+   "name": "Two Knights",
+   "url": "https://cses.fi/problemset/task/1072",
+   "src": "CSES"
+  },
+  {
+   "name": "Coin Piles",
+   "url": "https://cses.fi/problemset/task/1754",
+   "src": "CSES"
+  },
+  {
+   "name": "Bit Strings",
+   "url": "https://cses.fi/problemset/task/1617",
+   "src": "CSES"
+  }
+ ],
+ "greedy-intro": [
+  {
+   "name": "Increasing Array",
+   "url": "https://cses.fi/problemset/task/1094",
+   "src": "CSES"
+  },
+  {
+   "name": "Two Sets",
+   "url": "https://cses.fi/problemset/task/1092",
+   "src": "CSES"
+  },
+  {
+   "name": "Ferris Wheel",
+   "url": "https://cses.fi/problemset/task/1090",
+   "src": "CSES"
+  },
+  {
+   "name": "Apartments",
+   "url": "https://cses.fi/problemset/task/1084",
+   "src": "CSES"
+  },
+  {
+   "name": "Stick Lengths",
+   "url": "https://cses.fi/problemset/task/1074",
+   "src": "CSES"
+  }
+ ],
+ "brute-force": [
+  {
+   "name": "Permutations",
+   "url": "https://cses.fi/problemset/task/1070",
+   "src": "CSES"
+  },
+  {
+   "name": "Creating Strings",
+   "url": "https://cses.fi/problemset/task/1622",
+   "src": "CSES"
+  },
+  {
+   "name": "Apple Division",
+   "url": "https://cses.fi/problemset/task/1623",
+   "src": "CSES"
+  },
+  {
+   "name": "Chessboard and Queens",
+   "url": "https://cses.fi/problemset/task/1624",
+   "src": "CSES"
+  },
+  {
+   "name": "Gray Code",
+   "url": "https://cses.fi/problemset/task/2205",
+   "src": "CSES"
+  },
+  {
+   "name": "Tower of Hanoi",
+   "url": "https://cses.fi/problemset/task/2165",
+   "src": "CSES"
+  }
+ ],
+ "grids": [
+  {
+   "name": "Grid Path Description",
+   "url": "https://cses.fi/problemset/task/1625",
+   "src": "CSES"
+  },
+  {
+   "name": "Knight Moves Grid",
+   "url": "https://cses.fi/problemset/task/3217",
+   "src": "CSES"
+  },
+  {
+   "name": "Grid Coloring I",
+   "url": "https://cses.fi/problemset/task/3311",
+   "src": "CSES"
+  },
+  {
+   "name": "Mex Grid Construction",
+   "url": "https://cses.fi/problemset/task/3419",
+   "src": "CSES"
+  }
+ ],
+ "sorting-custom": [
+  {
+   "name": "Distinct Numbers",
+   "url": "https://cses.fi/problemset/task/1621",
+   "src": "CSES"
+  },
+  {
+   "name": "Concert Tickets",
+   "url": "https://cses.fi/problemset/task/1091",
+   "src": "CSES"
+  },
+  {
+   "name": "Towers",
+   "url": "https://cses.fi/problemset/task/1073",
+   "src": "CSES"
+  },
+  {
+   "name": "Restaurant Customers",
+   "url": "https://cses.fi/problemset/task/1619",
+   "src": "CSES"
+  }
+ ],
+ "maps-counting": [
+  {
+   "name": "Sum of Two Values",
+   "url": "https://cses.fi/problemset/task/1640",
+   "src": "CSES"
+  },
+  {
+   "name": "Sum of Four Values",
+   "url": "https://cses.fi/problemset/task/1642",
+   "src": "CSES"
+  },
+  {
+   "name": "Subarray Divisibility",
+   "url": "https://cses.fi/problemset/task/1662",
+   "src": "CSES"
+  },
+  {
+   "name": "Subarray Sums II",
+   "url": "https://cses.fi/problemset/task/1661",
+   "src": "CSES"
+  }
+ ],
+ "strings-basics": [
+  {
+   "name": "Palindrome Reorder",
+   "url": "https://cses.fi/problemset/task/1755",
+   "src": "CSES"
+  },
+  {
+   "name": "Longest Palindrome",
+   "url": "https://cses.fi/problemset/task/1111",
+   "src": "CSES"
+  },
+  {
+   "name": "Word Combinations",
+   "url": "https://cses.fi/problemset/task/1731",
+   "src": "CSES"
+  }
+ ],
+ "prefix-sums": [
+  {
+   "name": "Subarray Sums I",
+   "url": "https://cses.fi/problemset/task/1660",
+   "src": "CSES"
+  },
+  {
+   "name": "Maximum Subarray Sum",
+   "url": "https://cses.fi/problemset/task/1643",
+   "src": "CSES"
+  },
+  {
+   "name": "Static Range Sum Queries",
+   "url": "https://cses.fi/problemset/task/1646",
+   "src": "CSES"
+  },
+  {
+   "name": "Range Xor Queries",
+   "url": "https://cses.fi/problemset/task/1650",
+   "src": "CSES"
+  },
+  {
+   "name": "Forest Queries",
+   "url": "https://cses.fi/problemset/task/1652",
+   "src": "CSES"
+  }
+ ],
+ "two-pointers": [
+  {
+   "name": "Sum of Three Values",
+   "url": "https://cses.fi/problemset/task/1641",
+   "src": "CSES"
+  },
+  {
+   "name": "Playlist",
+   "url": "https://cses.fi/problemset/task/1141",
+   "src": "CSES"
+  },
+  {
+   "name": "Distinct Values Subarrays",
+   "url": "https://cses.fi/problemset/task/3420",
+   "src": "CSES"
+  },
+  {
+   "name": "Subarray Sums I",
+   "url": "https://cses.fi/problemset/task/1660",
+   "src": "CSES"
+  }
+ ],
+ "binary-search-answer": [
+  {
+   "name": "Array Division",
+   "url": "https://cses.fi/problemset/task/1085",
+   "src": "CSES"
+  },
+  {
+   "name": "Factory Machines",
+   "url": "https://cses.fi/problemset/task/1620",
+   "src": "CSES"
+  },
+  {
+   "name": "Reading Books",
+   "url": "https://cses.fi/problemset/task/1631",
+   "src": "CSES"
+  },
+  {
+   "name": "Concert Tickets",
+   "url": "https://cses.fi/problemset/task/1091",
+   "src": "CSES"
+  }
+ ],
+ "sliding-window": [
+  {
+   "name": "Sliding Window Sum",
+   "url": "https://cses.fi/problemset/task/3220",
+   "src": "CSES"
+  },
+  {
+   "name": "Sliding Window Minimum",
+   "url": "https://cses.fi/problemset/task/3221",
+   "src": "CSES"
+  },
+  {
+   "name": "Sliding Window Distinct Values",
+   "url": "https://cses.fi/problemset/task/3222",
+   "src": "CSES"
+  },
+  {
+   "name": "Sliding Window Median",
+   "url": "https://cses.fi/problemset/task/1076",
+   "src": "CSES"
+  },
+  {
+   "name": "Maximum Subarray Sum II",
+   "url": "https://cses.fi/problemset/task/1644",
+   "src": "CSES"
+  }
+ ],
+ "intervals": [
+  {
+   "name": "Movie Festival",
+   "url": "https://cses.fi/problemset/task/1629",
+   "src": "CSES"
+  },
+  {
+   "name": "Nested Ranges Check",
+   "url": "https://cses.fi/problemset/task/2168",
+   "src": "CSES"
+  },
+  {
+   "name": "Nested Ranges Count",
+   "url": "https://cses.fi/problemset/task/2169",
+   "src": "CSES"
+  },
+  {
+   "name": "Room Allocation",
+   "url": "https://cses.fi/problemset/task/1164",
+   "src": "CSES"
+  },
+  {
+   "name": "Movie Festival II",
+   "url": "https://cses.fi/problemset/task/1632",
+   "src": "CSES"
+  }
+ ],
+ "greedy-exchange": [
+  {
+   "name": "Tasks and Deadlines",
+   "url": "https://cses.fi/problemset/task/1630",
+   "src": "CSES"
+  },
+  {
+   "name": "Missing Coin Sum",
+   "url": "https://cses.fi/problemset/task/2183",
+   "src": "CSES"
+  },
+  {
+   "name": "Reading Books",
+   "url": "https://cses.fi/problemset/task/1631",
+   "src": "CSES"
+  },
+  {
+   "name": "Traffic Lights",
+   "url": "https://cses.fi/problemset/task/1163",
+   "src": "CSES"
+  }
+ ],
+ "priority-queue": [
+  {
+   "name": "Room Allocation",
+   "url": "https://cses.fi/problemset/task/1164",
+   "src": "CSES"
+  },
+  {
+   "name": "Josephus Problem I",
+   "url": "https://cses.fi/problemset/task/2162",
+   "src": "CSES"
+  },
+  {
+   "name": "Sliding Window Median",
+   "url": "https://cses.fi/problemset/task/1076",
+   "src": "CSES"
+  }
+ ],
+ "stack-queue": [
+  {
+   "name": "Nearest Smaller Values",
+   "url": "https://cses.fi/problemset/task/1645",
+   "src": "CSES"
+  },
+  {
+   "name": "Visible Buildings Queries",
+   "url": "https://cses.fi/problemset/task/3304",
+   "src": "CSES"
+  },
+  {
+   "name": "Sliding Window Minimum",
+   "url": "https://cses.fi/problemset/task/3221",
+   "src": "CSES"
+  }
+ ],
+ "recursion": [
+  {
+   "name": "Creating Strings",
+   "url": "https://cses.fi/problemset/task/1622",
+   "src": "CSES"
+  },
+  {
+   "name": "Apple Division",
+   "url": "https://cses.fi/problemset/task/1623",
+   "src": "CSES"
+  },
+  {
+   "name": "Chessboard and Queens",
+   "url": "https://cses.fi/problemset/task/1624",
+   "src": "CSES"
+  },
+  {
+   "name": "Tower of Hanoi",
+   "url": "https://cses.fi/problemset/task/2165",
+   "src": "CSES"
+  }
+ ],
+ "bitmask-basics": [
+  {
+   "name": "Counting Bits",
+   "url": "https://cses.fi/problemset/task/1146",
+   "src": "CSES"
+  },
+  {
+   "name": "Maximum Xor Subset",
+   "url": "https://cses.fi/problemset/task/3191",
+   "src": "CSES"
+  },
+  {
+   "name": "Bit Strings",
+   "url": "https://cses.fi/problemset/task/1617",
+   "src": "CSES"
+  },
+  {
+   "name": "One Bit Positions",
+   "url": "https://cses.fi/problemset/task/2112",
+   "src": "CSES"
+  }
+ ],
+ "modular-arithmetic": [
+  {
+   "name": "Exponentiation",
+   "url": "https://cses.fi/problemset/task/1095",
+   "src": "CSES"
+  },
+  {
+   "name": "Exponentiation II",
+   "url": "https://cses.fi/problemset/task/1712",
+   "src": "CSES"
+  },
+  {
+   "name": "Binomial Coefficients",
+   "url": "https://cses.fi/problemset/task/1079",
+   "src": "CSES"
+  }
+ ],
+ "sieve-divisors": [
+  {
+   "name": "Counting Divisors",
+   "url": "https://cses.fi/problemset/task/1713",
+   "src": "CSES"
+  },
+  {
+   "name": "Common Divisors",
+   "url": "https://cses.fi/problemset/task/1081",
+   "src": "CSES"
+  },
+  {
+   "name": "Sum of Divisors",
+   "url": "https://cses.fi/problemset/task/1082",
+   "src": "CSES"
+  },
+  {
+   "name": "Next Prime",
+   "url": "https://cses.fi/problemset/task/3396",
+   "src": "CSES"
+  },
+  {
+   "name": "Prime Multiples",
+   "url": "https://cses.fi/problemset/task/2185",
+   "src": "CSES"
+  }
+ ],
+ "coordinate-compression": [
+  {
+   "name": "Salary Queries",
+   "url": "https://cses.fi/problemset/task/1144",
+   "src": "CSES"
+  },
+  {
+   "name": "Nested Ranges Count",
+   "url": "https://cses.fi/problemset/task/2169",
+   "src": "CSES"
+  },
+  {
+   "name": "Distinct Values Queries",
+   "url": "https://cses.fi/problemset/task/1734",
+   "src": "CSES"
+  }
+ ],
+ "combinatorics-basic": [
+  {
+   "name": "Binomial Coefficients",
+   "url": "https://cses.fi/problemset/task/1079",
+   "src": "CSES"
+  },
+  {
+   "name": "Distributing Apples",
+   "url": "https://cses.fi/problemset/task/1716",
+   "src": "CSES"
+  },
+  {
+   "name": "Christmas Party",
+   "url": "https://cses.fi/problemset/task/1717",
+   "src": "CSES"
+  },
+  {
+   "name": "Creating Strings II",
+   "url": "https://cses.fi/problemset/task/1715",
+   "src": "CSES"
+  },
+  {
+   "name": "Bracket Sequences I",
+   "url": "https://cses.fi/problemset/task/2064",
+   "src": "CSES"
+  }
+ ],
+ "graphs-repr": [
+  {
+   "name": "Counting Rooms",
+   "url": "https://cses.fi/problemset/task/1192",
+   "src": "CSES"
+  },
+  {
+   "name": "Building Roads",
+   "url": "https://cses.fi/problemset/task/1666",
+   "src": "CSES"
+  },
+  {
+   "name": "Message Route",
+   "url": "https://cses.fi/problemset/task/1667",
+   "src": "CSES"
+  }
+ ],
+ "bfs": [
+  {
+   "name": "Labyrinth",
+   "url": "https://cses.fi/problemset/task/1193",
+   "src": "CSES"
+  },
+  {
+   "name": "Message Route",
+   "url": "https://cses.fi/problemset/task/1667",
+   "src": "CSES"
+  },
+  {
+   "name": "Monsters",
+   "url": "https://cses.fi/problemset/task/1194",
+   "src": "CSES"
+  },
+  {
+   "name": "Counting Rooms",
+   "url": "https://cses.fi/problemset/task/1192",
+   "src": "CSES"
+  }
+ ],
+ "dfs-components": [
+  {
+   "name": "Counting Rooms",
+   "url": "https://cses.fi/problemset/task/1192",
+   "src": "CSES"
+  },
+  {
+   "name": "Building Roads",
+   "url": "https://cses.fi/problemset/task/1666",
+   "src": "CSES"
+  },
+  {
+   "name": "Building Teams",
+   "url": "https://cses.fi/problemset/task/1668",
+   "src": "CSES"
+  },
+  {
+   "name": "Round Trip",
+   "url": "https://cses.fi/problemset/task/1669",
+   "src": "CSES"
+  },
+  {
+   "name": "Round Trip II",
+   "url": "https://cses.fi/problemset/task/1678",
+   "src": "CSES"
+  }
+ ],
+ "dijkstra": [
+  {
+   "name": "Shortest Routes I",
+   "url": "https://cses.fi/problemset/task/1671",
+   "src": "CSES"
+  },
+  {
+   "name": "Flight Discount",
+   "url": "https://cses.fi/problemset/task/1195",
+   "src": "CSES"
+  },
+  {
+   "name": "Flight Routes",
+   "url": "https://cses.fi/problemset/task/1196",
+   "src": "CSES"
+  },
+  {
+   "name": "Investigation",
+   "url": "https://cses.fi/problemset/task/1202",
+   "src": "CSES"
+  }
+ ],
+ "bfs-01": [
+  {
+   "name": "Flight Discount",
+   "url": "https://cses.fi/problemset/task/1195",
+   "src": "CSES"
+  },
+  {
+   "name": "Monsters",
+   "url": "https://cses.fi/problemset/task/1194",
+   "src": "CSES"
+  }
+ ],
+ "floyd-warshall": [
+  {
+   "name": "Shortest Routes II",
+   "url": "https://cses.fi/problemset/task/1672",
+   "src": "CSES"
+  }
+ ],
+ "bellman-ford": [
+  {
+   "name": "High Score",
+   "url": "https://cses.fi/problemset/task/1673",
+   "src": "CSES"
+  },
+  {
+   "name": "Cycle Finding",
+   "url": "https://cses.fi/problemset/task/1197",
+   "src": "CSES"
+  }
+ ],
+ "topological-sort": [
+  {
+   "name": "Course Schedule",
+   "url": "https://cses.fi/problemset/task/1679",
+   "src": "CSES"
+  },
+  {
+   "name": "Longest Flight Route",
+   "url": "https://cses.fi/problemset/task/1680",
+   "src": "CSES"
+  },
+  {
+   "name": "Game Routes",
+   "url": "https://cses.fi/problemset/task/1681",
+   "src": "CSES"
+  },
+  {
+   "name": "Longest Path",
+   "url": "https://atcoder.jp/contests/dp/tasks/dp_g",
+   "src": "AtCoder DP"
+  }
+ ],
+ "mst": [
+  {
+   "name": "Road Reparation",
+   "url": "https://cses.fi/problemset/task/1675",
+   "src": "CSES"
+  },
+  {
+   "name": "Road Construction",
+   "url": "https://cses.fi/problemset/task/1676",
+   "src": "CSES"
+  }
+ ],
+ "dsu": [
+  {
+   "name": "Road Construction",
+   "url": "https://cses.fi/problemset/task/1676",
+   "src": "CSES"
+  },
+  {
+   "name": "Building Roads",
+   "url": "https://cses.fi/problemset/task/1666",
+   "src": "CSES"
+  },
+  {
+   "name": "New Roads Queries",
+   "url": "https://cses.fi/problemset/task/2101",
+   "src": "CSES"
+  }
+ ],
+ "trees-basics": [
+  {
+   "name": "Subordinates",
+   "url": "https://cses.fi/problemset/task/1674",
+   "src": "CSES"
+  },
+  {
+   "name": "Tree Diameter",
+   "url": "https://cses.fi/problemset/task/1131",
+   "src": "CSES"
+  },
+  {
+   "name": "Tree Distances I",
+   "url": "https://cses.fi/problemset/task/1132",
+   "src": "CSES"
+  }
+ ],
+ "tree-dp": [
+  {
+   "name": "Tree Matching",
+   "url": "https://cses.fi/problemset/task/1130",
+   "src": "CSES"
+  },
+  {
+   "name": "Tree Distances II",
+   "url": "https://cses.fi/problemset/task/1133",
+   "src": "CSES"
+  },
+  {
+   "name": "Counting Paths",
+   "url": "https://cses.fi/problemset/task/1136",
+   "src": "CSES"
+  },
+  {
+   "name": "Subtree Queries",
+   "url": "https://cses.fi/problemset/task/1137",
+   "src": "CSES"
+  },
+  {
+   "name": "Independent Set",
+   "url": "https://atcoder.jp/contests/dp/tasks/dp_p",
+   "src": "AtCoder DP"
+  },
+  {
+   "name": "Subtree",
+   "url": "https://atcoder.jp/contests/dp/tasks/dp_v",
+   "src": "AtCoder DP"
+  }
+ ],
+ "binary-lifting-lca": [
+  {
+   "name": "Company Queries I",
+   "url": "https://cses.fi/problemset/task/1687",
+   "src": "CSES"
+  },
+  {
+   "name": "Company Queries II",
+   "url": "https://cses.fi/problemset/task/1688",
+   "src": "CSES"
+  },
+  {
+   "name": "Distance Queries",
+   "url": "https://cses.fi/problemset/task/1135",
+   "src": "CSES"
+  },
+  {
+   "name": "Planets Queries I",
+   "url": "https://cses.fi/problemset/task/1750",
+   "src": "CSES"
+  }
+ ],
+ "dp-intro": [
+  {
+   "name": "Dice Combinations",
+   "url": "https://cses.fi/problemset/task/1633",
+   "src": "CSES"
+  },
+  {
+   "name": "Minimizing Coins",
+   "url": "https://cses.fi/problemset/task/1634",
+   "src": "CSES"
+  },
+  {
+   "name": "Coin Combinations I",
+   "url": "https://cses.fi/problemset/task/1635",
+   "src": "CSES"
+  },
+  {
+   "name": "Coin Combinations II",
+   "url": "https://cses.fi/problemset/task/1636",
+   "src": "CSES"
+  },
+  {
+   "name": "Removing Digits",
+   "url": "https://cses.fi/problemset/task/1637",
+   "src": "CSES"
+  },
+  {
+   "name": "Frog 1",
+   "url": "https://atcoder.jp/contests/dp/tasks/dp_a",
+   "src": "AtCoder DP"
+  },
+  {
+   "name": "Frog 2",
+   "url": "https://atcoder.jp/contests/dp/tasks/dp_b",
+   "src": "AtCoder DP"
+  },
+  {
+   "name": "Vacation",
+   "url": "https://atcoder.jp/contests/dp/tasks/dp_c",
+   "src": "AtCoder DP"
+  }
+ ],
+ "dp-knapsack": [
+  {
+   "name": "Book Shop",
+   "url": "https://cses.fi/problemset/task/1158",
+   "src": "CSES"
+  },
+  {
+   "name": "Money Sums",
+   "url": "https://cses.fi/problemset/task/1745",
+   "src": "CSES"
+  },
+  {
+   "name": "Two Sets II",
+   "url": "https://cses.fi/problemset/task/1093",
+   "src": "CSES"
+  },
+  {
+   "name": "Knapsack 1",
+   "url": "https://atcoder.jp/contests/dp/tasks/dp_d",
+   "src": "AtCoder DP"
+  },
+  {
+   "name": "Knapsack 2",
+   "url": "https://atcoder.jp/contests/dp/tasks/dp_e",
+   "src": "AtCoder DP"
+  },
+  {
+   "name": "Coins",
+   "url": "https://atcoder.jp/contests/dp/tasks/dp_i",
+   "src": "AtCoder DP"
+  }
+ ],
+ "dp-grids": [
+  {
+   "name": "Grid Paths I",
+   "url": "https://cses.fi/problemset/task/1638",
+   "src": "CSES"
+  },
+  {
+   "name": "Minimal Grid Path",
+   "url": "https://cses.fi/problemset/task/3359",
+   "src": "CSES"
+  },
+  {
+   "name": "Counting Towers",
+   "url": "https://cses.fi/problemset/task/2413",
+   "src": "CSES"
+  },
+  {
+   "name": "Array Description",
+   "url": "https://cses.fi/problemset/task/1746",
+   "src": "CSES"
+  },
+  {
+   "name": "Rectangle Cutting",
+   "url": "https://cses.fi/problemset/task/1744",
+   "src": "CSES"
+  },
+  {
+   "name": "Grid 1",
+   "url": "https://atcoder.jp/contests/dp/tasks/dp_h",
+   "src": "AtCoder DP"
+  },
+  {
+   "name": "Grid 2",
+   "url": "https://atcoder.jp/contests/dp/tasks/dp_y",
+   "src": "AtCoder DP"
+  }
+ ],
+ "dp-lis": [
+  {
+   "name": "Increasing Subsequence",
+   "url": "https://cses.fi/problemset/task/1145",
+   "src": "CSES"
+  },
+  {
+   "name": "Increasing Subsequence II",
+   "url": "https://cses.fi/problemset/task/1748",
+   "src": "CSES"
+  },
+  {
+   "name": "Longest Common Subsequence",
+   "url": "https://cses.fi/problemset/task/3403",
+   "src": "CSES"
+  },
+  {
+   "name": "LCS",
+   "url": "https://atcoder.jp/contests/dp/tasks/dp_f",
+   "src": "AtCoder DP"
+  }
+ ],
+ "dp-bitmask": [
+  {
+   "name": "Elevator Rides",
+   "url": "https://cses.fi/problemset/task/1653",
+   "src": "CSES"
+  },
+  {
+   "name": "Counting Tilings",
+   "url": "https://cses.fi/problemset/task/2181",
+   "src": "CSES"
+  },
+  {
+   "name": "Hamiltonian Flights",
+   "url": "https://cses.fi/problemset/task/1690",
+   "src": "CSES"
+  },
+  {
+   "name": "Matching",
+   "url": "https://atcoder.jp/contests/dp/tasks/dp_o",
+   "src": "AtCoder DP"
+  },
+  {
+   "name": "Grouping",
+   "url": "https://atcoder.jp/contests/dp/tasks/dp_u",
+   "src": "AtCoder DP"
+  }
+ ],
+ "dp-digit": [
+  {
+   "name": "Counting Numbers",
+   "url": "https://cses.fi/problemset/task/2220",
+   "src": "CSES"
+  },
+  {
+   "name": "Digit Sum",
+   "url": "https://atcoder.jp/contests/dp/tasks/dp_s",
+   "src": "AtCoder DP"
+  }
+ ],
+ "dp-intervals": [
+  {
+   "name": "Removal Game",
+   "url": "https://cses.fi/problemset/task/1097",
+   "src": "CSES"
+  },
+  {
+   "name": "Rectangle Cutting",
+   "url": "https://cses.fi/problemset/task/1744",
+   "src": "CSES"
+  },
+  {
+   "name": "Deque",
+   "url": "https://atcoder.jp/contests/dp/tasks/dp_l",
+   "src": "AtCoder DP"
+  },
+  {
+   "name": "Slimes",
+   "url": "https://atcoder.jp/contests/dp/tasks/dp_n",
+   "src": "AtCoder DP"
+  }
+ ],
+ "meet-in-middle": [
+  {
+   "name": "Meet in the Middle",
+   "url": "https://cses.fi/problemset/task/1628",
+   "src": "CSES"
+  },
+  {
+   "name": "Maximum Xor Subset",
+   "url": "https://cses.fi/problemset/task/3191",
+   "src": "CSES"
+  }
+ ],
+ "number-theory-2": [
+  {
+   "name": "Josephus Queries",
+   "url": "https://cses.fi/problemset/task/2164",
+   "src": "CSES"
+  },
+  {
+   "name": "Counting Coprime Pairs",
+   "url": "https://cses.fi/problemset/task/2417",
+   "src": "CSES"
+  },
+  {
+   "name": "Divisor Analysis",
+   "url": "https://cses.fi/problemset/task/2182",
+   "src": "CSES"
+  }
+ ],
+ "matrix-expo": [
+  {
+   "name": "Fibonacci Numbers",
+   "url": "https://cses.fi/problemset/task/1722",
+   "src": "CSES"
+  },
+  {
+   "name": "Throwing Dice",
+   "url": "https://cses.fi/problemset/task/1096",
+   "src": "CSES"
+  },
+  {
+   "name": "Graph Paths I",
+   "url": "https://cses.fi/problemset/task/1723",
+   "src": "CSES"
+  },
+  {
+   "name": "Graph Paths II",
+   "url": "https://cses.fi/problemset/task/1724",
+   "src": "CSES"
+  },
+  {
+   "name": "Walk",
+   "url": "https://atcoder.jp/contests/dp/tasks/dp_r",
+   "src": "AtCoder DP"
+  }
+ ],
+ "interactive": [
+  {
+   "name": "Next Prime",
+   "url": "https://cses.fi/problemset/task/3396",
+   "src": "CSES"
+  }
+ ],
+ "fenwick": [
+  {
+   "name": "Dynamic Range Sum Queries",
+   "url": "https://cses.fi/problemset/task/1648",
+   "src": "CSES"
+  },
+  {
+   "name": "Range Update Queries",
+   "url": "https://cses.fi/problemset/task/1651",
+   "src": "CSES"
+  },
+  {
+   "name": "List Removals",
+   "url": "https://cses.fi/problemset/task/1749",
+   "src": "CSES"
+  },
+  {
+   "name": "Salary Queries",
+   "url": "https://cses.fi/problemset/task/1144",
+   "src": "CSES"
+  },
+  {
+   "name": "Permutation Inversions",
+   "url": "https://cses.fi/problemset/task/2229",
+   "src": "CSES"
+  }
+ ],
+ "segment-tree": [
+  {
+   "name": "Dynamic Range Minimum Queries",
+   "url": "https://cses.fi/problemset/task/1649",
+   "src": "CSES"
+  },
+  {
+   "name": "Subarray Sum Queries",
+   "url": "https://cses.fi/problemset/task/1190",
+   "src": "CSES"
+  },
+  {
+   "name": "Prefix Sum Queries",
+   "url": "https://cses.fi/problemset/task/2166",
+   "src": "CSES"
+  },
+  {
+   "name": "Hotel Queries",
+   "url": "https://cses.fi/problemset/task/1143",
+   "src": "CSES"
+  },
+  {
+   "name": "Flowers",
+   "url": "https://atcoder.jp/contests/dp/tasks/dp_q",
+   "src": "AtCoder DP"
+  }
+ ],
+ "segment-tree-lazy": [
+  {
+   "name": "Range Updates and Sums",
+   "url": "https://cses.fi/problemset/task/1735",
+   "src": "CSES"
+  },
+  {
+   "name": "Polynomial Queries",
+   "url": "https://cses.fi/problemset/task/1736",
+   "src": "CSES"
+  },
+  {
+   "name": "Increasing Array Queries",
+   "url": "https://cses.fi/problemset/task/2416",
+   "src": "CSES"
+  },
+  {
+   "name": "Forest Queries II",
+   "url": "https://cses.fi/problemset/task/1739",
+   "src": "CSES"
+  }
+ ],
+ "sparse-table": [
+  {
+   "name": "Static Range Minimum Queries",
+   "url": "https://cses.fi/problemset/task/1647",
+   "src": "CSES"
+  }
+ ],
+ "sqrt-decomposition": [
+  {
+   "name": "Subarray Sum Queries",
+   "url": "https://cses.fi/problemset/task/1190",
+   "src": "CSES"
+  },
+  {
+   "name": "Distinct Values Queries",
+   "url": "https://cses.fi/problemset/task/1734",
+   "src": "CSES"
+  }
+ ],
+ "mo-algorithm": [
+  {
+   "name": "Distinct Values Queries",
+   "url": "https://cses.fi/problemset/task/1734",
+   "src": "CSES"
+  },
+  {
+   "name": "Range Interval Queries",
+   "url": "https://cses.fi/problemset/task/3163",
+   "src": "CSES"
+  }
+ ],
+ "string-hashing": [
+  {
+   "name": "String Matching",
+   "url": "https://cses.fi/problemset/task/1753",
+   "src": "CSES"
+  },
+  {
+   "name": "Finding Patterns",
+   "url": "https://cses.fi/problemset/task/2102",
+   "src": "CSES"
+  },
+  {
+   "name": "Repeating Substring",
+   "url": "https://cses.fi/problemset/task/2106",
+   "src": "CSES"
+  },
+  {
+   "name": "Palindrome Queries",
+   "url": "https://cses.fi/problemset/task/2420",
+   "src": "CSES"
+  }
+ ],
+ "kmp-z": [
+  {
+   "name": "String Matching",
+   "url": "https://cses.fi/problemset/task/1753",
+   "src": "CSES"
+  },
+  {
+   "name": "Finding Borders",
+   "url": "https://cses.fi/problemset/task/1732",
+   "src": "CSES"
+  },
+  {
+   "name": "Finding Periods",
+   "url": "https://cses.fi/problemset/task/1733",
+   "src": "CSES"
+  },
+  {
+   "name": "Required Substring",
+   "url": "https://cses.fi/problemset/task/1112",
+   "src": "CSES"
+  }
+ ],
+ "trie": [
+  {
+   "name": "Word Combinations",
+   "url": "https://cses.fi/problemset/task/1731",
+   "src": "CSES"
+  },
+  {
+   "name": "Maximum Xor Subarray",
+   "url": "https://cses.fi/problemset/task/1655",
+   "src": "CSES"
+  }
+ ],
+ "scc": [
+  {
+   "name": "Planets and Kingdoms",
+   "url": "https://cses.fi/problemset/task/1683",
+   "src": "CSES"
+  },
+  {
+   "name": "Flight Routes Check",
+   "url": "https://cses.fi/problemset/task/1682",
+   "src": "CSES"
+  },
+  {
+   "name": "Strongly Connected Edges",
+   "url": "https://cses.fi/problemset/task/2177",
+   "src": "CSES"
+  }
+ ],
+ "two-sat": [
+  {
+   "name": "Giant Pizza",
+   "url": "https://cses.fi/problemset/task/1684",
+   "src": "CSES"
+  }
+ ],
+ "bridges-articulation": [
+  {
+   "name": "Necessary Roads",
+   "url": "https://cses.fi/problemset/task/2076",
+   "src": "CSES"
+  },
+  {
+   "name": "Necessary Cities",
+   "url": "https://cses.fi/problemset/task/2077",
+   "src": "CSES"
+  },
+  {
+   "name": "Critical Cities",
+   "url": "https://cses.fi/problemset/task/1703",
+   "src": "CSES"
+  }
+ ],
+ "dsu-on-tree": [
+  {
+   "name": "Distinct Colors",
+   "url": "https://cses.fi/problemset/task/1139",
+   "src": "CSES"
+  }
+ ],
+ "centroid-decomposition": [
+  {
+   "name": "Finding a Centroid",
+   "url": "https://cses.fi/problemset/task/2079",
+   "src": "CSES"
+  },
+  {
+   "name": "Fixed-Length Paths I",
+   "url": "https://cses.fi/problemset/task/2080",
+   "src": "CSES"
+  },
+  {
+   "name": "Fixed-Length Paths II",
+   "url": "https://cses.fi/problemset/task/2081",
+   "src": "CSES"
+  }
+ ],
+ "hld": [
+  {
+   "name": "Path Queries",
+   "url": "https://cses.fi/problemset/task/1138",
+   "src": "CSES"
+  },
+  {
+   "name": "Path Queries II",
+   "url": "https://cses.fi/problemset/task/2134",
+   "src": "CSES"
+  },
+  {
+   "name": "Subtree Queries",
+   "url": "https://cses.fi/problemset/task/1137",
+   "src": "CSES"
+  }
+ ],
+ "persistent-ds": [
+  {
+   "name": "Range Queries and Copies",
+   "url": "https://cses.fi/problemset/task/1737",
+   "src": "CSES"
+  },
+  {
+   "name": "Reachability Queries",
+   "url": "https://cses.fi/problemset/task/2143",
+   "src": "CSES"
+  }
+ ],
+ "treap": [
+  {
+   "name": "Cut and Paste",
+   "url": "https://cses.fi/problemset/task/2072",
+   "src": "CSES"
+  },
+  {
+   "name": "Substring Reversals",
+   "url": "https://cses.fi/problemset/task/2073",
+   "src": "CSES"
+  },
+  {
+   "name": "Reversals and Sums",
+   "url": "https://cses.fi/problemset/task/2074",
+   "src": "CSES"
+  }
+ ],
+ "suffix-array": [
+  {
+   "name": "Distinct Substrings",
+   "url": "https://cses.fi/problemset/task/2105",
+   "src": "CSES"
+  },
+  {
+   "name": "Substring Order I",
+   "url": "https://cses.fi/problemset/task/2108",
+   "src": "CSES"
+  },
+  {
+   "name": "String Functions",
+   "url": "https://cses.fi/problemset/task/2107",
+   "src": "CSES"
+  },
+  {
+   "name": "Inverse Suffix Array",
+   "url": "https://cses.fi/problemset/task/3225",
+   "src": "CSES"
+  }
+ ],
+ "suffix-automaton": [
+  {
+   "name": "Substring Order II",
+   "url": "https://cses.fi/problemset/task/2109",
+   "src": "CSES"
+  },
+  {
+   "name": "Substring Distribution",
+   "url": "https://cses.fi/problemset/task/2110",
+   "src": "CSES"
+  },
+  {
+   "name": "Distinct Subsequences",
+   "url": "https://cses.fi/problemset/task/1149",
+   "src": "CSES"
+  }
+ ],
+ "aho-corasick": [
+  {
+   "name": "Counting Patterns",
+   "url": "https://cses.fi/problemset/task/2103",
+   "src": "CSES"
+  },
+  {
+   "name": "Pattern Positions",
+   "url": "https://cses.fi/problemset/task/2104",
+   "src": "CSES"
+  }
+ ],
+ "max-flow": [
+  {
+   "name": "Download Speed",
+   "url": "https://cses.fi/problemset/task/1694",
+   "src": "CSES"
+  },
+  {
+   "name": "Police Chase",
+   "url": "https://cses.fi/problemset/task/1695",
+   "src": "CSES"
+  },
+  {
+   "name": "Distinct Routes",
+   "url": "https://cses.fi/problemset/task/1711",
+   "src": "CSES"
+  }
+ ],
+ "bipartite-matching": [
+  {
+   "name": "School Dance",
+   "url": "https://cses.fi/problemset/task/1696",
+   "src": "CSES"
+  },
+  {
+   "name": "Police Chase",
+   "url": "https://cses.fi/problemset/task/1695",
+   "src": "CSES"
+  }
+ ],
+ "mcmf": [
+  {
+   "name": "Parcel Delivery",
+   "url": "https://cses.fi/problemset/task/2121",
+   "src": "CSES"
+  },
+  {
+   "name": "Task Assignment",
+   "url": "https://cses.fi/problemset/task/2129",
+   "src": "CSES"
+  }
+ ],
+ "game-theory": [
+  {
+   "name": "Nim Game I",
+   "url": "https://cses.fi/problemset/task/1730",
+   "src": "CSES"
+  },
+  {
+   "name": "Nim Game II",
+   "url": "https://cses.fi/problemset/task/1098",
+   "src": "CSES"
+  },
+  {
+   "name": "Stair Game",
+   "url": "https://cses.fi/problemset/task/1099",
+   "src": "CSES"
+  },
+  {
+   "name": "Grundy's Game",
+   "url": "https://cses.fi/problemset/task/2207",
+   "src": "CSES"
+  },
+  {
+   "name": "Stick Game",
+   "url": "https://cses.fi/problemset/task/1729",
+   "src": "CSES"
+  }
+ ],
+ "probability-ev": [
+  {
+   "name": "Dice Probability",
+   "url": "https://cses.fi/problemset/task/1725",
+   "src": "CSES"
+  },
+  {
+   "name": "Moving Robots",
+   "url": "https://cses.fi/problemset/task/1726",
+   "src": "CSES"
+  },
+  {
+   "name": "Candy Lottery",
+   "url": "https://cses.fi/problemset/task/1727",
+   "src": "CSES"
+  },
+  {
+   "name": "Inversion Probability",
+   "url": "https://cses.fi/problemset/task/1728",
+   "src": "CSES"
+  },
+  {
+   "name": "Sushi",
+   "url": "https://atcoder.jp/contests/dp/tasks/dp_j",
+   "src": "AtCoder DP"
+  }
+ ],
+ "combinatorics-2": [
+  {
+   "name": "Counting Necklaces",
+   "url": "https://cses.fi/problemset/task/2209",
+   "src": "CSES"
+  },
+  {
+   "name": "Counting Grids",
+   "url": "https://cses.fi/problemset/task/2210",
+   "src": "CSES"
+  },
+  {
+   "name": "Counting Bishops",
+   "url": "https://cses.fi/problemset/task/2176",
+   "src": "CSES"
+  },
+  {
+   "name": "Grid Completion",
+   "url": "https://cses.fi/problemset/task/2429",
+   "src": "CSES"
+  },
+  {
+   "name": "Permutation",
+   "url": "https://atcoder.jp/contests/dp/tasks/dp_t",
+   "src": "AtCoder DP"
+  }
+ ],
+ "divide-conquer": [
+  {
+   "name": "Permutation Inversions",
+   "url": "https://cses.fi/problemset/task/2229",
+   "src": "CSES"
+  },
+  {
+   "name": "Sliding Window Inversions",
+   "url": "https://cses.fi/problemset/task/3223",
+   "src": "CSES"
+  }
+ ],
+ "geometry-basics": [
+  {
+   "name": "Point Location Test",
+   "url": "https://cses.fi/problemset/task/2189",
+   "src": "CSES"
+  },
+  {
+   "name": "Line Segment Intersection",
+   "url": "https://cses.fi/problemset/task/2190",
+   "src": "CSES"
+  },
+  {
+   "name": "Polygon Area",
+   "url": "https://cses.fi/problemset/task/2191",
+   "src": "CSES"
+  },
+  {
+   "name": "Point in Polygon",
+   "url": "https://cses.fi/problemset/task/2192",
+   "src": "CSES"
+  }
+ ],
+ "convex-hull": [
+  {
+   "name": "Convex Hull",
+   "url": "https://cses.fi/problemset/task/2195",
+   "src": "CSES"
+  },
+  {
+   "name": "Minimum Euclidean Distance",
+   "url": "https://cses.fi/problemset/task/2194",
+   "src": "CSES"
+  },
+  {
+   "name": "Maximum Manhattan Distances",
+   "url": "https://cses.fi/problemset/task/3410",
+   "src": "CSES"
+  }
+ ],
+ "geometry-advanced": [
+  {
+   "name": "Area of Rectangles",
+   "url": "https://cses.fi/problemset/task/1741",
+   "src": "CSES"
+  },
+  {
+   "name": "Intersection Points",
+   "url": "https://cses.fi/problemset/task/1740",
+   "src": "CSES"
+  },
+  {
+   "name": "Robot Path",
+   "url": "https://cses.fi/problemset/task/1742",
+   "src": "CSES"
+  }
+ ],
+ "fft-ntt": [
+  {
+   "name": "Apples and Bananas",
+   "url": "https://cses.fi/problemset/task/2111",
+   "src": "CSES"
+  },
+  {
+   "name": "Signal Processing",
+   "url": "https://cses.fi/problemset/task/2113",
+   "src": "CSES"
+  }
+ ],
+ "dp-optimization": [
+  {
+   "name": "Subarray Squares",
+   "url": "https://cses.fi/problemset/task/2086",
+   "src": "CSES"
+  },
+  {
+   "name": "Houses and Schools",
+   "url": "https://cses.fi/problemset/task/2087",
+   "src": "CSES"
+  },
+  {
+   "name": "Knuth Division",
+   "url": "https://cses.fi/problemset/task/2088",
+   "src": "CSES"
+  },
+  {
+   "name": "Monster Game I",
+   "url": "https://cses.fi/problemset/task/2084",
+   "src": "CSES"
+  },
+  {
+   "name": "Monster Game II",
+   "url": "https://cses.fi/problemset/task/2085",
+   "src": "CSES"
+  },
+  {
+   "name": "Frog 3",
+   "url": "https://atcoder.jp/contests/dp/tasks/dp_z",
+   "src": "AtCoder DP"
+  },
+  {
+   "name": "Intervals",
+   "url": "https://atcoder.jp/contests/dp/tasks/dp_w",
+   "src": "AtCoder DP"
+  }
+ ],
+ "bitset-optimization": [
+  {
+   "name": "Hamming Distance",
+   "url": "https://cses.fi/problemset/task/2136",
+   "src": "CSES"
+  },
+  {
+   "name": "Corner Subgrid Count",
+   "url": "https://cses.fi/problemset/task/2137",
+   "src": "CSES"
+  },
+  {
+   "name": "Reachable Nodes",
+   "url": "https://cses.fi/problemset/task/2138",
+   "src": "CSES"
+  }
+ ],
+ "miller-rabin": [
+  {
+   "name": "Next Prime",
+   "url": "https://cses.fi/problemset/task/3396",
+   "src": "CSES"
+  },
+  {
+   "name": "Counting Divisors",
+   "url": "https://cses.fi/problemset/task/1713",
+   "src": "CSES"
+  }
+ ],
+ "constructive-intro": [
+  {
+   "name": "Gray Code",
+   "url": "https://cses.fi/problemset/task/2205",
+   "src": "CSES"
+  },
+  {
+   "name": "Palindrome Reorder",
+   "url": "https://cses.fi/problemset/task/1755",
+   "src": "CSES"
+  },
+  {
+   "name": "Mex Grid Construction",
+   "url": "https://cses.fi/problemset/task/3419",
+   "src": "CSES"
+  },
+  {
+   "name": "Raab Game I",
+   "url": "https://cses.fi/problemset/task/3399",
+   "src": "CSES"
+  }
+ ],
+ "constructive-2": [
+  {
+   "name": "De Bruijn Sequence",
+   "url": "https://cses.fi/problemset/task/1692",
+   "src": "CSES"
+  },
+  {
+   "name": "Teleporters Path",
+   "url": "https://cses.fi/problemset/task/1693",
+   "src": "CSES"
+  },
+  {
+   "name": "Mail Delivery",
+   "url": "https://cses.fi/problemset/task/1691",
+   "src": "CSES"
+  },
+  {
+   "name": "Knight's Tour",
+   "url": "https://cses.fi/problemset/task/1689",
+   "src": "CSES"
+  }
+ ]
+}

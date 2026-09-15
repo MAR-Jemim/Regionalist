@@ -1,0 +1,309 @@
+[
+ {
+  "id": "graphs-repr",
+  "title": "Graph Representation",
+  "tier": 3,
+  "prereqs": [
+   "containers",
+   "recursion"
+  ],
+  "cfTags": [
+   "graphs"
+  ],
+  "band": [
+   1200,
+   1600
+  ],
+  "icpc": "high",
+  "why": "Every graph algorithm starts here. Adjacency lists are the CP default: O(V+E) memory and O(deg) neighbour iteration. Getting the input-reading boilerplate automatic means graph problems start at the algorithm, not at plumbing.",
+  "traps": [
+   "Input is almost always 1-indexed. Either size your arrays n+1 or subtract 1 at read time — and be consistent.",
+   "Forgetting to add the reverse edge for undirected graphs. Half your BFS silently doesn't traverse.",
+   "Using an adjacency *matrix* for n = 10^5 — that's 10^10 cells. Matrices are only for n <= ~2000.",
+   "Assuming the graph is connected. Many problems hand you a forest, and you must loop over all start vertices."
+  ],
+  "template": {
+   "cpp": "int n, m; cin >> n >> m;\nvector<vector<int>> adj(n + 1);            // 1-indexed\nfor (int i = 0; i < m; i++) {\n    int u, v; cin >> u >> v;\n    adj[u].push_back(v);\n    adj[v].push_back(u);                   // omit for directed\n}\n\n// weighted\nvector<vector<pair<int,ll>>> wadj(n + 1);\nwadj[u].push_back({v, w});\n\nfor (int nxt : adj[cur]) { /* ... */ }",
+   "py": "import sys\ninput = sys.stdin.readline\n\nn, m = map(int, input().split())\nadj = [[] for _ in range(n + 1)]           # 1-indexed\nfor _ in range(m):\n    u, v = map(int, input().split())\n    adj[u].append(v)\n    adj[v].append(u)                        # omit for directed\n\nwadj = [[] for _ in range(n + 1)]\nwadj[u].append((v, w))"
+  },
+  "pyNote": "Build with `[[] for _ in range(n+1)]` — never `[[]]*(n+1)`, which aliases one list n+1 times and is the most destructive Python graph bug there is.",
+  "checkpoint": "You can read a weighted undirected graph and iterate neighbours from memory, 1-indexed, in both languages."
+ },
+ {
+  "id": "bfs",
+  "title": "Breadth-First Search",
+  "tier": 3,
+  "prereqs": [
+   "graphs-repr",
+   "stack-queue"
+  ],
+  "cfTags": [
+   "graphs",
+   "dfs and similar",
+   "shortest paths"
+  ],
+  "band": [
+   1300,
+   1700
+  ],
+  "icpc": "high",
+  "why": "BFS gives shortest paths on **unweighted** graphs — the first time you reach a vertex is via a minimum-edge-count path. Multi-source BFS (seed the queue with every source at distance 0) answers 'distance to the nearest X' for the whole grid in one pass.",
+  "traps": [
+   "Marking visited when *popping* instead of when *pushing*. That lets a vertex enter the queue many times and degrades to O(V*E).",
+   "Using BFS on a weighted graph. It's only correct when all edge weights are equal (use Dijkstra or 0-1 BFS otherwise).",
+   "Forgetting to initialise distances to -1 / infinity so you can distinguish 'unreachable' from 'distance 0'.",
+   "In grids, not converting (r, c) to a single index — or doing it inconsistently."
+  ],
+  "template": {
+   "cpp": "vector<int> dist(n + 1, -1);\nqueue<int> q;\ndist[src] = 0; q.push(src);\n\nwhile (!q.empty()) {\n    int u = q.front(); q.pop();\n    for (int v : adj[u]) {\n        if (dist[v] != -1) continue;       // mark on PUSH, not on pop\n        dist[v] = dist[u] + 1;\n        q.push(v);\n    }\n}\n\n// multi-source: push every source at distance 0 before the loop\nfor (int s : sources) { dist[s] = 0; q.push(s); }",
+   "py": "from collections import deque\n\ndist = [-1] * (n + 1)\nq = deque([src])\ndist[src] = 0\n\nwhile q:\n    u = q.popleft()\n    for v in adj[u]:\n        if dist[v] != -1: continue\n        dist[v] = dist[u] + 1\n        q.append(v)\n\n# multi-source\nq = deque(sources)\nfor s in sources: dist[s] = 0"
+  },
+  "pyNote": "`collections.deque` is mandatory — `list.pop(0)` is O(n) and turns your BFS into O(V^2). BFS is also the safe way to traverse big graphs in Python, since it avoids the recursion limit entirely.",
+  "checkpoint": "You can solve a multi-source grid BFS (e.g. distance to the nearest exit) in one pass."
+ },
+ {
+  "id": "dfs-components",
+  "title": "DFS & Connected Components",
+  "tier": 3,
+  "prereqs": [
+   "graphs-repr",
+   "recursion"
+  ],
+  "cfTags": [
+   "dfs and similar",
+   "graphs",
+   "trees"
+  ],
+  "band": [
+   1300,
+   1700
+  ],
+  "icpc": "high",
+  "why": "DFS explores depth-first, which makes it the natural fit for component labelling, cycle detection, and anything needing entry/exit times. Most tree algorithms are DFS with extra bookkeeping.",
+  "traps": [
+   "**Python recursion depth.** A path graph with 10^5 nodes recurses 10^5 deep and crashes. Write DFS iteratively in Python for anything beyond small inputs.",
+   "Cycle detection differs by graph type: undirected needs a 'skip the parent' check; directed needs three colours (white/grey/black), because seeing a visited node isn't enough.",
+   "Not resetting state between test cases, so component IDs leak across cases.",
+   "In C++, deep recursion can blow the 256 MB stack too — it's rarer, but real at 10^6 depth."
+  ],
+  "template": {
+   "cpp": "vector<int> comp(n + 1, -1);\nvoid dfs(int u, int c) {\n    comp[u] = c;\n    for (int v : adj[u]) if (comp[v] == -1) dfs(v, c);\n}\nint c = 0;\nfor (int i = 1; i <= n; i++) if (comp[i] == -1) dfs(i, c++);\n\n// directed cycle detection: 0=unvisited 1=in-stack 2=done\nvector<int> state(n + 1, 0);\nbool hasCycle(int u) {\n    state[u] = 1;\n    for (int v : adj[u]) {\n        if (state[v] == 1) return true;            // back edge\n        if (state[v] == 0 && hasCycle(v)) return true;\n    }\n    state[u] = 2;\n    return false;\n}",
+   "py": "# ITERATIVE dfs - the default in Python\ncomp = [-1] * (n + 1)\n\ndef dfs(src, c):\n    stack = [src]\n    comp[src] = c\n    while stack:\n        u = stack.pop()\n        for v in adj[u]:\n            if comp[v] == -1:\n                comp[v] = c\n                stack.append(v)\n\nc = 0\nfor i in range(1, n + 1):\n    if comp[i] == -1:\n        dfs(i, c); c += 1\n\n# when you need post-order (subtree work), push (node, visited_flag):\nstack = [(src, False)]\nwhile stack:\n    u, done = stack.pop()\n    if done:\n        ...                       # post-order work here\n        continue\n    stack.append((u, True))\n    for v in adj[u]:\n        if not seen[v]: seen[v] = True; stack.append((v, False))"
+  },
+  "pyNote": "The `(node, is_post_order)` stack trick is the standard way to get post-order work — subtree sizes, tree DP — out of an iterative DFS. Learn this pattern now; you will reuse it for every tree problem.",
+  "checkpoint": "You can write an iterative DFS with post-order processing, and detect cycles in both directed and undirected graphs."
+ },
+ {
+  "id": "dp-intro",
+  "title": "Dynamic Programming: Foundations",
+  "tier": 3,
+  "prereqs": [
+   "recursion",
+   "complexity"
+  ],
+  "cfTags": [
+   "dp"
+  ],
+  "band": [
+   1300,
+   1700
+  ],
+  "icpc": "high",
+  "why": "DP is brute force plus memoisation: define a state that captures everything you need about the past, write the transition, and each state is computed once. The whole skill is choosing the state — the transition usually writes itself.",
+  "traps": [
+   "A state that doesn't capture enough information, so the same state gives different answers depending on how you got there. If that happens, your state is incomplete.",
+   "Wrong iteration order in bottom-up: every dependency must be computed before it's used.",
+   "Not initialising the base case, or using 0 as 'unset' when 0 is a legitimate answer. Use -1 or -infinity.",
+   "Recursive memoisation in Python hitting the recursion limit — convert to bottom-up for large states."
+  ],
+  "template": {
+   "cpp": "// top-down\nvector<ll> memo(n + 1, -1);\nll f(int i) {\n    if (i < 0) return 0;\n    if (memo[i] != -1) return memo[i];\n    return memo[i] = max(f(i - 1), f(i - 2) + a[i]);\n}\n\n// bottom-up (preferred: no stack limit, easier to optimise space)\nvector<ll> dp(n + 1, 0);\ndp[0] = 0; dp[1] = a[0];\nfor (int i = 2; i <= n; i++)\n    dp[i] = max(dp[i-1], dp[i-2] + a[i-1]);\n\n/*  Checklist:\n    1. State:      what does dp[i] mean, in one English sentence?\n    2. Transition: how does dp[i] follow from smaller states?\n    3. Base case:  the smallest state, set directly.\n    4. Order:      dependencies computed first.\n    5. Answer:     which state (or max over states) is the result?   */",
+   "py": "from functools import lru_cache\nimport sys\nsys.setrecursionlimit(300000)\n\n@lru_cache(maxsize=None)          # memoisation in one line\ndef f(i):\n    if i < 0: return 0\n    return max(f(i - 1), f(i - 2) + a[i])\n\n# bottom-up - preferred in Python (no recursion limit, much faster)\ndp = [0] * (n + 1)\ndp[1] = a[0]\nfor i in range(2, n + 1):\n    dp[i] = max(dp[i-1], dp[i-2] + a[i-1])"
+  },
+  "pyNote": "`@lru_cache` (or `@cache` in 3.9+) turns any pure recursive function into a memoised one for free — unbeatable for prototyping. But it is slow and recursion-limited, so convert hot DP to bottom-up loops before submitting.",
+  "checkpoint": "You can state any DP's state definition as one English sentence before writing code."
+ },
+ {
+  "id": "dp-knapsack",
+  "title": "Knapsack & Subset DP",
+  "tier": 3,
+  "prereqs": [
+   "dp-intro"
+  ],
+  "cfTags": [
+   "dp"
+  ],
+  "band": [
+   1400,
+   1800
+  ],
+  "icpc": "high",
+  "why": "The canonical 'choose a subset under a constraint' family. 0/1 knapsack, unbounded knapsack, subset-sum, and coin change are one idea with four transition shapes — and the space-optimised 1D rolling array is a template you'll reuse for years.",
+  "traps": [
+   "The loop direction in the 1D version is the whole trick: **descending** weight for 0/1 (each item once), **ascending** for unbounded (items reusable). Get it backwards and you silently solve the other problem.",
+   "Counting vs optimising: counting the number of ways needs `dp[w] += dp[w - wt]`, not `max`.",
+   "Capacity too large for a DP table. If W is 10^9, knapsack is the wrong tool — look for meet-in-the-middle or a greedy structure.",
+   "Forgetting that the 2D version needs the previous row, so you can't overwrite in place without the direction trick."
+  ],
+  "template": {
+   "cpp": "// 0/1 knapsack, space-optimised\nvector<ll> dp(W + 1, 0);\nfor (int i = 0; i < n; i++)\n    for (int w = W; w >= wt[i]; w--)               // DESCENDING\n        dp[w] = max(dp[w], dp[w - wt[i]] + val[i]);\n\n// unbounded knapsack\nfor (int i = 0; i < n; i++)\n    for (int w = wt[i]; w <= W; w++)               // ASCENDING\n        dp[w] = max(dp[w], dp[w - wt[i]] + val[i]);\n\n// subset-sum reachability with a bitset: 64x faster\nbitset<100001> can; can[0] = 1;\nfor (int x : a) can |= can << x;",
+   "py": "# 0/1 knapsack\ndp = [0] * (W + 1)\nfor i in range(n):\n    for w in range(W, wt[i] - 1, -1):              # DESCENDING\n        dp[w] = max(dp[w], dp[w - wt[i]] + val[i])\n\n# unbounded\nfor i in range(n):\n    for w in range(wt[i], W + 1):                  # ASCENDING\n        dp[w] = max(dp[w], dp[w - wt[i]] + val[i])\n\n# subset-sum with a big int as a bitset - C-speed, enormously faster\ncan = 1\nfor x in a:\n    can |= can << x\nreachable = (can >> target) & 1"
+  },
+  "pyNote": "The big-int bitset trick is Python's secret weapon for subset-sum: `can |= can << x` shifts an arbitrary-precision integer at C speed, matching C++'s `bitset` without any of the size-must-be-constant restrictions. This single idiom rescues many otherwise-TLE knapsack problems.",
+  "checkpoint": "You can explain why 0/1 knapsack iterates weight descending, and derive it rather than memorise it."
+ },
+ {
+  "id": "combinatorics-basic",
+  "title": "Counting & Binomials",
+  "tier": 3,
+  "prereqs": [
+   "modular-arithmetic"
+  ],
+  "cfTags": [
+   "combinatorics",
+   "math"
+  ],
+  "band": [
+   1300,
+   1700
+  ],
+  "icpc": "high",
+  "why": "Factorials and inverse factorials precomputed once give nCr mod p in O(1) per query. Beyond that, the core skill is modelling: recognising a count as arrangements, combinations, or stars-and-bars.",
+  "traps": [
+   "Recomputing an inverse per query. Precompute the whole inverse-factorial array in O(n) using the backwards recurrence.",
+   "nCr with r < 0 or r > n must return 0, not crash or wrap around.",
+   "Confusing permutations (order matters) with combinations (it doesn't). Write down a tiny case and count by hand to check.",
+   "Overflow before the modulus is applied — reduce at every multiplication."
+  ],
+  "template": {
+   "cpp": "const int N = 2e5 + 5;\nll fact[N], invf[N];\n\nvoid init() {\n    fact[0] = 1;\n    for (int i = 1; i < N; i++) fact[i] = fact[i-1] * i % MOD;\n    invf[N-1] = pw(fact[N-1], MOD - 2);\n    for (int i = N-1; i > 0; i--) invf[i-1] = invf[i] * i % MOD;   // O(n) total\n}\n\nll C(int n, int r) {\n    if (r < 0 || r > n) return 0;\n    return fact[n] * invf[r] % MOD * invf[n-r] % MOD;\n}",
+   "py": "MOD = 10**9 + 7\nN = 2 * 10**5 + 5\n\nfact = [1] * N\nfor i in range(1, N): fact[i] = fact[i-1] * i % MOD\ninvf = [1] * N\ninvf[N-1] = pow(fact[N-1], MOD - 2, MOD)\nfor i in range(N-1, 0, -1): invf[i-1] = invf[i] * i % MOD\n\ndef C(n, r):\n    if r < 0 or r > n: return 0\n    return fact[n] * invf[r] % MOD * invf[n-r] % MOD\n\n# exact small values without a modulus:\nfrom math import comb, perm, factorial\ncomb(10, 3)     # 120, arbitrary precision"
+  },
+  "pyNote": "`math.comb(n, r)` gives exact binomials with no modulus and no overflow — perfect when the problem doesn't ask for a modulus, or for checking your modular implementation against ground truth.",
+  "checkpoint": "You can answer 10^5 nCr-mod-p queries in O(n + q) total."
+ },
+ {
+  "id": "greedy-exchange",
+  "title": "Greedy with Exchange Arguments",
+  "tier": 3,
+  "prereqs": [
+   "greedy-intro",
+   "sorting-custom"
+  ],
+  "cfTags": [
+   "greedy",
+   "sortings"
+  ],
+  "band": [
+   1400,
+   1800
+  ],
+  "icpc": "high",
+  "why": "The step from 'greedy that happens to work' to 'greedy I can prove'. An exchange argument shows that any optimal solution can be transformed into the greedy one without getting worse — which both proves correctness and, run backwards, *tells you the sort order*.",
+  "traps": [
+   "Skipping the proof on hard problems. At 1600+, the plausible-looking greedy is frequently wrong.",
+   "Not considering the tiebreak, which the exchange argument often pins down exactly.",
+   "Greedy on a problem with a global constraint coupling choices — that's DP or flow territory.",
+   "Forgetting to stress test. Even a proof you believe deserves 1000 random small cases."
+  ],
+  "template": {
+   "cpp": "/*  Exchange argument, in four steps:\n    1. Assume an optimal solution OPT differs from greedy G.\n    2. Find the first position where they differ.\n    3. Show you can swap OPT toward G without making it worse.\n    4. Repeat -> G is optimal.\n\n    Run it backwards to DERIVE the comparator: ask \"given two adjacent\n    items, which order is better?\" and sort by exactly that.            */\n\n// e.g. minimise sum of completion times -> shortest job first\nsort(jobs.begin(), jobs.end());\n\n// e.g. two-field tradeoff: compare a+b vs b+a style\nsort(v.begin(), v.end(), [](auto &x, auto &y){\n    return x.first * y.second < y.first * x.second;   // ratio, no division\n});",
+   "py": "from functools import cmp_to_key\n\n# ratio comparator without floating point\ndef cmp(x, y):\n    return (x[0] * y[1] > y[0] * x[1]) - (x[0] * y[1] < y[0] * x[1])\n\nv.sort(key=cmp_to_key(cmp))\n\n# prefer a plain key when you can derive one - much faster than cmp_to_key\nv.sort(key=lambda p: p[0] / p[1])       # only if precision is safe"
+  },
+  "pyNote": "`cmp_to_key` works but is slow (a Python call per comparison). Derive a tuple or fraction key when possible; `Fraction` from the stdlib gives exact ratio keys without floating-point risk.",
+  "checkpoint": "You can derive the correct sort comparator from an adjacent-swap argument rather than guessing it."
+ },
+ {
+  "id": "priority-queue",
+  "title": "Heaps & Priority Queues",
+  "tier": 3,
+  "prereqs": [
+   "containers",
+   "greedy-intro"
+  ],
+  "cfTags": [
+   "data structures",
+   "greedy"
+  ],
+  "band": [
+   1300,
+   1700
+  ],
+  "icpc": "high",
+  "why": "When a greedy needs 'the best remaining option' and the set changes as you go, a heap gives it in O(log n). This powers scheduling problems, Dijkstra, k-way merges, and the 'keep the k best so far' pattern.",
+  "traps": [
+   "C++ `priority_queue` is a **max**-heap; Python's `heapq` is a **min**-heap. Both defaults surprise people. Negate values to flip.",
+   "No decrease-key operation. The standard workaround is to push duplicates and skip stale entries on pop.",
+   "Heapifying an existing list is O(n) with `heapify` / the range constructor, but O(n log n) if you push one at a time.",
+   "Comparing tuples in Python where the second element isn't comparable — if two priorities tie, Python compares the next field and can raise TypeError."
+  ],
+  "template": {
+   "cpp": "priority_queue<int> maxpq;\npriority_queue<int, vector<int>, greater<int>> minpq;\npriority_queue<pair<ll,int>, vector<pair<ll,int>>, greater<>> pq;   // (dist, node)\n\n// keep the k largest, O(n log k)\nfor (int x : a) {\n    minpq.push(x);\n    if ((int)minpq.size() > k) minpq.pop();\n}\n\n// lazy deletion: skip stale entries\nwhile (!pq.empty()) {\n    auto [d, u] = pq.top(); pq.pop();\n    if (d > dist[u]) continue;         // stale\n    // process u\n}",
+   "py": "import heapq\n\nh = []\nheapq.heappush(h, x)\nsmallest = heapq.heappop(h)\nheapq.heapify(a)                   # O(n), in place\n\n# max-heap: negate on the way in and out\nheapq.heappush(h, -x)\nlargest = -heapq.heappop(h)\n\n# k largest in O(n log k)\nh = []\nfor x in a:\n    heapq.heappush(h, x)\n    if len(h) > k: heapq.heappop(h)\n\n# tuples: put a tiebreak field in so comparison never reaches a non-comparable\nheapq.heappush(pq, (dist, node))\ntop_k = heapq.nlargest(k, a)       # convenience, C-speed"
+  },
+  "pyNote": "`heapq` operates on a plain list, so `heapq.heapify(a)` is O(n) in place. `nlargest`/`nsmallest` handle the common case in one call. Remember it is min-only — negate for max.",
+  "checkpoint": "You can maintain a running median or the k largest elements of a stream using heaps."
+ },
+ {
+  "id": "intervals",
+  "title": "Interval Problems",
+  "tier": 3,
+  "prereqs": [
+   "sorting-custom",
+   "prefix-sums"
+  ],
+  "cfTags": [
+   "sortings",
+   "greedy",
+   "data structures"
+  ],
+  "band": [
+   1400,
+   1800
+  ],
+  "icpc": "high",
+  "why": "Merging, counting overlaps, and scheduling all reduce to sorting by the right endpoint and sweeping. The sweep-line view — turn each interval into a +1 event at the start and a -1 at the end, then sort events — generalises to almost everything.",
+  "traps": [
+   "Whether endpoints are inclusive or exclusive changes whether touching intervals merge. Read carefully.",
+   "Event ordering at equal coordinates: process starts before ends (or the reverse) depending on whether touching counts as overlap.",
+   "Sorting by start when the problem wants end (activity selection) or vice versa.",
+   "Coordinates up to 10^9 make a difference array impossible — compress first, or use events."
+  ],
+  "template": {
+   "cpp": "// merge overlapping intervals\nsort(iv.begin(), iv.end());\nvector<pair<int,int>> merged;\nfor (auto [s, e] : iv) {\n    if (!merged.empty() && s <= merged.back().second)\n        merged.back().second = max(merged.back().second, e);\n    else merged.push_back({s, e});\n}\n\n// sweep line: maximum simultaneous overlap\nvector<pair<int,int>> ev;\nfor (auto [s, e] : iv) { ev.push_back({s, +1}); ev.push_back({e, -1}); }\nsort(ev.begin(), ev.end());\nint cur = 0, best = 0;\nfor (auto [x, d] : ev) { cur += d; best = max(best, cur); }",
+   "py": "iv.sort()\nmerged = []\nfor s, e in iv:\n    if merged and s <= merged[-1][1]:\n        merged[-1][1] = max(merged[-1][1], e)\n    else:\n        merged.append([s, e])\n\n# sweep line\nev = []\nfor s, e in iv:\n    ev.append((s, 1))\n    ev.append((e, -1))\nev.sort()\ncur = best = 0\nfor x, d in ev:\n    cur += d\n    best = max(best, cur)"
+  },
+  "checkpoint": "You can compute maximum simultaneous overlap with a sweep line and justify your event tiebreak."
+ },
+ {
+  "id": "coordinate-compression",
+  "title": "Coordinate Compression",
+  "tier": 3,
+  "prereqs": [
+   "builtin-algos",
+   "maps-counting"
+  ],
+  "cfTags": [
+   "data structures",
+   "sortings"
+  ],
+  "band": [
+   1400,
+   1800
+  ],
+  "icpc": "high",
+  "why": "Values up to 10^9 but only 10^5 of them? Map them to 0..k-1 preserving order. This is the bridge that lets you use array-indexed structures (Fenwick trees, difference arrays, DP tables) on huge value ranges.",
+  "traps": [
+   "Compressing values but then comparing against uncompressed ones later in the code.",
+   "Forgetting to include query coordinates in the compression, not just the input values.",
+   "Losing the ability to output original values — keep the sorted unique array to map back.",
+   "Using `lower_bound` on an unsorted array. The compression array must be sorted and deduplicated first."
+  ],
+  "template": {
+   "cpp": "vector<int> vals = a;                       // include ALL values you'll ever compare\nfor (auto [l, r] : queries) { vals.push_back(l); vals.push_back(r); }\n\nsort(vals.begin(), vals.end());\nvals.erase(unique(vals.begin(), vals.end()), vals.end());\n\nauto idx = [&](int x) {\n    return (int)(lower_bound(vals.begin(), vals.end(), x) - vals.begin());\n};\n\nfor (int &x : a) x = idx(x);                 // now 0 .. vals.size()-1\nint original = vals[compressed];             // map back",
+   "py": "import bisect\n\nvals = sorted(set(a + [l for l, r in queries] + [r for l, r in queries]))\nidx = {v: i for i, v in enumerate(vals)}     # dict lookup: O(1)\n\na = [idx[x] for x in a]\noriginal = vals[compressed]\n\n# or with bisect when you can't build the dict\ni = bisect.bisect_left(vals, x)"
+  },
+  "pyNote": "A dict built from `enumerate(vals)` gives O(1) compression lookups versus `bisect`'s O(log n), and reads more clearly. Build the dict when you'll do many lookups.",
+  "checkpoint": "You can compress 10^5 coordinates from a 10^9 range and map answers back to originals."
+ }
+]

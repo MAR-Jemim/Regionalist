@@ -1,0 +1,161 @@
+[
+ {
+  "id": "setup-lang",
+  "title": "Toolchain & Language Choice",
+  "tier": 0,
+  "prereqs": [],
+  "cfTags": [],
+  "band": [
+   800,
+   1000
+  ],
+  "icpc": "high",
+  "why": "Before algorithms, remove friction. You want one keystroke from 'edit' to 'ran against sample'. On Codeforces you also get a real choice: C++ is ~30-80x faster than CPython on tight loops, but **PyPy 3-64** closes most of that gap. Submit Python solutions as PyPy unless you rely on a CPython-only library.",
+  "traps": [
+   "Submitting as 'Python 3' instead of 'PyPy 3-64' and getting TLE on a solution that was algorithmically correct.",
+   "Not compiling with -fsanitize=address,undefined locally. It catches out-of-bounds and signed overflow instantly instead of via a wrong answer on test 47.",
+   "Forgetting that Codeforces gives ~2x the time limit to interpreted languages on some problems, but never enough to save an O(n^2) solution."
+  ],
+  "template": {
+   "cpp": "// compile: g++ -std=c++20 -O2 -Wall -Wextra -fsanitize=address,undefined a.cpp -o a\n#include <bits/stdc++.h>\nusing namespace std;\nusing ll = long long;\n\nvoid solve() {\n\n}\n\nint main() {\n    ios::sync_with_stdio(false);\n    cin.tie(nullptr);\n    int t = 1;\n    cin >> t;            // delete if single test case\n    while (t--) solve();\n}",
+   "py": "# submit as PyPy 3-64 on Codeforces\nimport sys\ninput = sys.stdin.readline\n\ndef solve():\n    pass\n\ndef main():\n    t = int(input())     # delete if single test case\n    for _ in range(t):\n        solve()\n\nmain()"
+  },
+  "pyNote": "PyPy's JIT needs a warm-up; very short programs see little benefit, but any loop running >10^5 times gets dramatically faster. PyPy is also slower than CPython at heavy big-integer math, so for pure number-crunching on huge ints, test both.",
+  "checkpoint": "You can go from blank file to 'ran on sample input' in under 10 seconds, without touching the mouse."
+ },
+ {
+  "id": "io-fast",
+  "title": "Fast Input & Output",
+  "tier": 0,
+  "prereqs": [
+   "setup-lang"
+  ],
+  "cfTags": [],
+  "band": [
+   800,
+   1100
+  ],
+  "icpc": "high",
+  "why": "I/O is the most common cause of a correct algorithm getting TLE. A problem with 2*10^5 lines of input will time out with `cin` unsynced or with Python's `input()`. Fix this once in your template and never think about it again.",
+  "traps": [
+   "Mixing `cin` and `scanf` after calling `sync_with_stdio(false)` — the buffers desync and you read garbage.",
+   "In Python, `input()` is roughly 5-10x slower than `sys.stdin.readline`. On 10^5+ lines this alone is the difference between AC and TLE.",
+   "`sys.stdin.readline` keeps the trailing newline. It's harmless for `int()` but breaks string comparisons — use `.strip()` when reading strings.",
+   "Printing inside a loop with `endl` flushes every time. Use `'\\n'`, or build a list and `'\\n'.join(...)` in Python."
+  ],
+  "template": {
+   "cpp": "ios::sync_with_stdio(false);\ncin.tie(nullptr);\n\nint n; cin >> n;\nvector<int> a(n);\nfor (int &x : a) cin >> x;\n\n// batch output: build then flush once\nstring out;\nfor (int x : a) out += to_string(x) + '\\n';\ncout << out;",
+   "py": "import sys\ndata = sys.stdin.buffer.read().split()   # fastest: one read, no per-line cost\nidx = 0\ndef rd():\n    global idx\n    idx += 1\n    return int(data[idx - 1])\n\nn = rd()\na = [rd() for _ in range(n)]\n\n# batch output\nsys.stdout.write('\\n'.join(map(str, a)) + '\\n')"
+  },
+  "pyNote": "`sys.stdin.buffer.read().split()` is the fastest pattern in Python — one syscall, no per-line decoding. Use it whenever input size is large and the format is just whitespace-separated tokens.",
+  "checkpoint": "You can read 2*10^5 integers and print 2*10^5 lines well inside a 1-second limit, in both languages."
+ },
+ {
+  "id": "complexity",
+  "title": "Complexity & Reading Constraints",
+  "tier": 0,
+  "prereqs": [],
+  "cfTags": [],
+  "band": [
+   800,
+   1200
+  ],
+  "icpc": "high",
+  "why": "Constraints are the problem telling you which algorithm it wants. This is the single highest-leverage skill in CP: before writing any code, read `n <= 2*10^5` and conclude 'O(n log n) or better', which eliminates most wrong approaches instantly.",
+  "traps": [
+   "Forgetting the sum-over-testcases clause. 'n <= 10^5' with t test cases is very different from 'the sum of n over all test cases does not exceed 10^5'. The second is a promise you can rely on.",
+   "Treating the constant factor as irrelevant. O(n log^2 n) with a segment tree can lose to O(n sqrt n) with a flat array at n = 10^5.",
+   "Ignoring memory. 10^7 `long long` is 80 MB and will MLE on a 256 MB limit once you add anything else.",
+   "Assuming Python has the same budget. A rough rule: whatever C++ does in 10^8 operations, CPython does in ~10^6-10^7 and PyPy in ~10^7-10^8."
+  ],
+  "template": {
+   "cpp": "/*  Budget: ~10^8 simple ops/sec in C++ (-O2)\n\n    n <= 10..12          O(n!)        permutations\n    n <= 20..25          O(2^n)       subset enumeration, meet-in-middle\n    n <= 100             O(n^3)       Floyd-Warshall, interval DP\n    n <= 1000..5000      O(n^2)       pairwise DP, n^2 LIS\n    n <= 10^5..10^6      O(n log n)   sort, segment tree, binary search\n    n <= 10^7..10^8      O(n)         prefix sums, two pointers, sieve\n    n >= 10^9            O(log n)     math, fast pow, binary search on answer\n*/",
+   "py": "#  Budget: ~10^6-10^7 ops/sec CPython, ~10^7-10^8 PyPy\n#  Shift every C++ tier roughly one step left when writing Python.\n#\n#  n <= 1000            O(n^2)      fine in PyPy, borderline in CPython\n#  n <= 10^5            O(n log n)  fine, but keep the inner work tiny\n#  n <= 10^6            O(n)        use built-ins (sum/map/sorted) over\n#                                   hand-written loops wherever possible\n#\n#  Built-ins run in C, so `sum(a)` massively beats `for x in a: s += x`."
+  },
+  "pyNote": "The practical Python rule: push work into C-level built-ins. `sorted()`, `sum()`, `map()`, `bisect`, and slicing are all near-C speed, while an explicit Python-level loop over 10^6 elements is not.",
+  "checkpoint": "Given any problem statement, you can name the intended complexity from the constraints alone, before reading the problem body."
+ },
+ {
+  "id": "containers",
+  "title": "Core Containers",
+  "tier": 0,
+  "prereqs": [
+   "setup-lang"
+  ],
+  "cfTags": [],
+  "band": [
+   800,
+   1200
+  ],
+  "icpc": "high",
+  "why": "Ninety percent of CP is choosing the right container. Knowing the exact complexity of each operation — and which ones keep elements sorted — decides whether your solution is O(n log n) or accidentally O(n^2).",
+  "traps": [
+   "Using `std::map` when `unordered_map` suffices (log n vs O(1)) — or the reverse, using `unordered_map` in a problem where an adversary hacks your hash to force O(n) collisions.",
+   "Erasing from a `vector` inside a loop: each erase is O(n), making the loop O(n^2). Build a new vector instead.",
+   "In Python, `list.pop(0)` and `list.insert(0, x)` are O(n). Use `collections.deque` for queue behaviour.",
+   "Checking `x in some_list` is O(n). Convert to a `set` first if you query repeatedly."
+  ],
+  "template": {
+   "cpp": "vector<int> v;              // dynamic array: push_back O(1) amortised, [] O(1)\ndeque<int> dq;              // push/pop both ends O(1)\nset<int> s;                 // sorted, unique, insert/find/erase O(log n)\nmultiset<int> ms;           // sorted, duplicates allowed\nmap<int,int> mp;            // sorted by key, O(log n)\nunordered_map<int,int> um;  // average O(1) — hackable on CF\npriority_queue<int> pq;     // max-heap; greater<int> for min-heap\n\n// min-heap\npriority_queue<int, vector<int>, greater<int>> minpq;\n\n// counting\nmap<int,int> cnt;\nfor (int x : v) cnt[x]++;",
+   "py": "from collections import deque, defaultdict, Counter\nimport heapq\nfrom sortedcontainers import SortedList   # NOT available on Codeforces\n\na = []                      # list: append O(1), pop() O(1), pop(0) O(n)\ndq = deque()                # appendleft/popleft O(1)\ns = set()                   # add/in/discard O(1) average\nd = defaultdict(int)        # no KeyError on missing key\ncnt = Counter(a)            # frequency map in one call\n\nh = []                      # heapq is a MIN-heap\nheapq.heappush(h, 5)\nsmallest = heapq.heappop(h)\n# max-heap: push negated values, negate on pop"
+  },
+  "pyNote": "Python has no built-in sorted-set. `sortedcontainers` is not installed on Codeforces, so when you need ordered-set operations you either paste a Fenwick tree or switch to C++ for that problem. This is the most common reason to keep C++ in your back pocket.",
+  "checkpoint": "You can state the complexity of insert, lookup, and delete for every container above without looking it up."
+ },
+ {
+  "id": "builtin-algos",
+  "title": "Built-in Algorithms",
+  "tier": 0,
+  "prereqs": [
+   "containers"
+  ],
+  "cfTags": [
+   "sortings"
+  ],
+  "band": [
+   800,
+   1200
+  ],
+  "icpc": "high",
+  "why": "Hand-writing a sort or a binary search in a contest is wasted time and a bug surface. Both languages ship correct, fast versions. Knowing `lower_bound`/`bisect` in particular unlocks a huge class of problems.",
+  "traps": [
+   "`lower_bound` returns the first element >= x; `upper_bound` returns the first > x. Mixing them up is a classic off-by-one.",
+   "Calling `s.lower_bound(x)` on a `std::set` is O(log n), but `std::lower_bound(s.begin(), s.end(), x)` on the same set is O(n) — iterators aren't random-access. Always use the member function.",
+   "`unique()` only removes *consecutive* duplicates; you must sort first, and it returns an iterator you have to erase up to.",
+   "In Python, `sorted(a, key=...)` is fine but `sorted(a, cmp=...)` no longer exists — use `functools.cmp_to_key` if you truly need a comparator (and expect it to be slow)."
+  ],
+  "template": {
+   "cpp": "sort(a.begin(), a.end());\nsort(a.begin(), a.end(), [](const auto &x, const auto &y){ return x.second < y.second; });\n\n// dedupe\nsort(a.begin(), a.end());\na.erase(unique(a.begin(), a.end()), a.end());\n\n// binary search on a sorted vector\nint i = lower_bound(a.begin(), a.end(), x) - a.begin();  // first >= x\nint j = upper_bound(a.begin(), a.end(), x) - a.begin();  // first  > x\nint occurrences = j - i;\n\nreverse(a.begin(), a.end());\nint mx = *max_element(a.begin(), a.end());\nll total = accumulate(a.begin(), a.end(), 0LL);   // 0LL, not 0!",
+   "py": "import bisect\nfrom itertools import accumulate, permutations, combinations\n\na.sort()\na.sort(key=lambda p: p[1])\na.sort(key=lambda p: (-p[0], p[1]))   # desc by first, asc by second\n\ndedup = sorted(set(a))\n\ni = bisect.bisect_left(a, x)    # first index with a[i] >= x\nj = bisect.bisect_right(a, x)   # first index with a[j]  > x\noccurrences = j - i\n\na.reverse()\nmx = max(a)\ntotal = sum(a)\npref = list(accumulate(a, initial=0))   # pref[i] = sum of first i"
+  },
+  "pyNote": "`accumulate(a, initial=0)` gives you a prefix-sum array in one C-speed call. Also note `accumulate` accepts any binary function, so `accumulate(a, max)` gives running maxima.",
+  "checkpoint": "You can count occurrences of a value in a sorted array using only binary search, in both languages, without an off-by-one."
+ },
+ {
+  "id": "debug-stress",
+  "title": "Debugging & Stress Testing",
+  "tier": 0,
+  "prereqs": [
+   "builtin-algos"
+  ],
+  "cfTags": [],
+  "band": [
+   900,
+   1400
+  ],
+  "icpc": "high",
+  "why": "When your solution fails on test 34 of 92 and you can't see the input, guessing is hopeless. Stress testing finds the smallest failing case automatically: write a slow-but-obviously-correct brute force, generate tiny random inputs, and diff until they disagree. This converts a 40-minute panic into a 3-minute fix.",
+  "traps": [
+   "Generating random tests that are too large. Use n <= 8 and values <= 5 — bugs almost always show up on tiny cases, and tiny cases are readable.",
+   "Leaving debug output in the submitted code. Guard it behind a macro or a flag.",
+   "Not seeding the generator differently each run, so you test the same case a thousand times.",
+   "Trusting a brute force you wrote quickly. If both solutions share the same misreading of the statement, they'll agree and both be wrong."
+  ],
+  "template": {
+   "cpp": "// debug macro — prints to stderr, invisible to the judge\n#ifdef LOCAL\n#define dbg(x) cerr << #x << \" = \" << (x) << '\\n'\n#else\n#define dbg(x)\n#endif\n\n/*  stress.sh\n    for i in $(seq 1 1000); do\n        python3 gen.py $i > in.txt\n        ./fast  < in.txt > out1.txt\n        ./brute < in.txt > out2.txt\n        if ! diff -q out1.txt out2.txt > /dev/null; then\n            echo \"FAILED on:\"; cat in.txt; break\n        fi\n    done\n*/",
+   "py": "# gen.py — deterministic per-seed so a failure is reproducible\nimport random, sys\nrandom.seed(int(sys.argv[1]))\n\nn = random.randint(1, 8)\nprint(n)\nprint(*[random.randint(1, 5) for _ in range(n)])\n\n# debug to stderr — the judge ignores it\ndef dbg(*args):\n    print(*args, file=sys.stderr)"
+  },
+  "pyNote": "Python is an excellent brute-force language even when your real solution is C++ — `itertools.permutations` and `combinations` make exhaustive checking almost free to write.",
+  "checkpoint": "You have a stress-test script saved and have used it at least once to find a real bug in your own code."
+ }
+]
