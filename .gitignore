@@ -1,2 +1,15 @@
+# editors
 .idea/
-*.iml,
+*.iml
+.vscode/
+.DS_Store
+
+# python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# local scratch I/O — these churn on every solve, keep them out of history
+input.txt
+output.txt
